@@ -1,0 +1,40 @@
+
+The simulator acts like a car towards the server, and can have plugins
+installed and run (and uninstalled) in it, as well as be remote
+controlled from Android. The position of the car being simulated is
+shown by a small rectangle in a graphic window.
+
+
+To run the simulator:
+cd simulator
+java -jar target/simulator-1.0.jar
+
+The simulator's PIRTE defines these virtual ports:
+0 publish to MQTT
+3 accelerator motorPower
+4 steering steeringAngle
+5 frontwheel vehicleSpeed
+6 rearwheel vehicleSpeed
+7 voltage voltage
+8 position
+9 LED lamp
+
+The car is drawn as a rectangle with an arrow in the front part.
+The angle of steering is not shown.
+
+
+simulator/configs/system1.xml defines for example the id of the car,
+and the location of the trusted server.
+
+(PIRTE.java)
+
+--nowindow
+
+
+Restrictions:
+Voltage is fake - it returns a constant.
+LED values are not shown graphically, but only on stdout.
+plugins cannot communicate (I think)
+
+The simulator is meant to be able to simulate several cars at once,
+but this does not fully work.

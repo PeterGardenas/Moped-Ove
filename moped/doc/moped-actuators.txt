@@ -1,0 +1,135 @@
+
+
+* steering (VCU, port 4)
+
+-100 (left) to 100 (right)
+
+0 should be straight ahead, but the mechanics may be such that setting
+0 after -100 makes the wheels point straight ahead, while doing so after
+100 makes them stay noticeably to the right.
+
+
+
+
+Minimum turning diameter for the car type used so far: 166 cm.
+This in fact varies between individual cars.
+
+To ensure a stable direction when going forward, the front wheels should
+have some toe-in. Read the instructions for the car.
+
+Due to the physics of the steering mechanism, the steering angle is not
+a unique function of the input to the servo. The diagram
+illustrations/diagrams/steeringhysteresis.png illustrates this.
+
+XXX: configuring the servo in main.c
+XXX: measuring steering: use ang speed
+
+
+
+
+* speed (VCU, port 3)
+
+The value can be set to between -100 and 100. Negative numbers mean
+reversing. At least 0 should be set explicitly. More things may be
+needed, but I don't understand this yet. Suitable pauses are
+important.
+
+To init the ESC after it is turned on, set speed to 0. You should hear
+three beeps.
+
+Currently, the actual reverse speed is lower than the forward speed,
+for the same speed setting. This can apparently be configured
+somewhere in the motor unit.
+
+When going forward, setting the speed negative invokes a brake (electric
+or perhaps magnetic).
+Setting it to zero lets the car roll. In order to reverse, the car must
+be standing still first.
+The electric brake has not been investigated fully, but it appears that for
+it to work, the negative value has to be sent continously. Also, it appears
+not to be active when reversing. The effect is not large for speeds up to
+50 cm/s but quite noticeable at 100 cm/s.
+
+The minimum value magnitude for which the car moves is 7.
+
+The speed of the motor doesn't change for every value sent to the ESC,
+and it isn't even monotonic: increasing the value may lead to a lower
+speed. Whether this is an effect in the ESC or in the motor is unknown.
+By experiment, these have been found to be the useful values to
+send:
+0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 81, 85, 89,
+93, 97, 100
+
+See the diagram illustrations/diagrams/motorspeed-not-monotonic.png.
+It was produced in this way:
+At a cycle time of 200 ms, for each motorspeed from 7 to 100:
+  we drive it until the maximal wheel speed value hasn't changed during 10
+  cycles, then we set it to 0 for 10 cycles.
+
+
+XXX: measuring speed: see speed sensor
+
+Braking distances (without using electric brake)
+1st column: speed in cm/s
+2nd column: braking distance in cm
+106 105
+ 95 92
+ 83 60
+ 75 59
+ 64 46
+ 53 34
+ 43 27
+ 33 14
+ 21  8
+The values above are plotted in illustrations/diagrams/brakingdist.png.
+
+PWM values to speed
+1st column: the value sent to the ESC, divided by 2
+2nd column: the speed of the car, in cm/s
+full battery
+5	32
+10	43
+15	53
+20	64
+25	75
+30	84
+
+medium full battery
+5	21
+10	32
+15	40
+20	52
+25	60
+30	71
+
+The values above are plotted in the diagram
+illustrations/diagrams/motor-speed.png.
+
+* LED (VCU, port 9)
+
+The LEDs are numbered 1 to 3. To light one, set it to 0. To extinguish,
+set it to 1.
+
+LED 1 = red
+LED 2 = right yellow
+LED 3 = left yellow
+
+Send a string like this to the port: "3|1".
+
+XXX: the Led plugin and VCUfromSCU
+
+The ACT LED on the Raspberry Pi board can also be controlled this way,
+by using the LED number -1. The value is then not 0 or 1, but a blinking
+pattern. This can be used on the SCU as well.
+
+The LED blinks in a pattern that is described by a number, which when
+represented as a sequence of hexadecimal digits, 1-f, defines the time
+the LED is on or off, where f is about one second. The first nonzero
+digit represents the LED being on.
+
+On the most recent Raspberry Pi's, the physical ACT LED on the board
+is not controlled by MOPED (it is possible, but needs additional
+driver code), so we use pins 34 (ground) and 32 to light an external
+LED.
+
+XXX put all information in the table in Plugin Manual here.

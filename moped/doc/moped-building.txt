@@ -1,0 +1,221 @@
+Here some configuring is described, then the building, and then
+some testing.
+
+
+Building:
+
+A cross compiler is needed, arm-none-eabi.
+It can be obtained here:
+https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads
+
+You may need to install gawk.
+
+
+make sure that Java is 1.7 or later, both when building and running:
+java -version
+javac -version
+If it isn't, setting JAVA_HOME alone may not work; use
+update-alternatives --config java
+Whether everything works with 1.8, I don't know.
+
+
+sudo apt-get install git
+sudo apt-get install maven
+
+
+git clone https://github.com/sics-sse/moped
+
+
+In server/settings.properties,
+change the value of "serverhost" to use the computer's domain name
+instead, if you want the server to be reachable from outside.
+
+In configs/system1.xml, change
+			<ip>localhost</ip>
+appropriately, if you did the corresponding change for the server
+(in PluginWebServicePublisher.java).
+
+
+In webportal/wordpress/custom/vehicle.php,
+modify
+ 	$webServiceAddress = "http://localhost:9990/moped/pws?wsdl";
+if the server is not running on the same host as the web server.
+
+
+Maybe relevant note, for pom.xml in server:
+org.json is compiled with Java 8 in its latest version,
+			<version>20141113</version>
+so we use 20140107
+
+
+
+Be sure that the "moped" top directory is your current directory.
+
+Modify the setting for CODEBENCH in server/misc/buildall.sh
+Run buildall.sh
+
+If there is any error, the script will abort at that step.
+
+
+If the compilation is interrupted in the middle of bld.sh in squawk,
+there is then no functioning builder, and then d.sh doesn't
+function. If that happens, first build 'builder' explicitly with
+bld.sh.
+
+
+If you are running a 64 bit Linux, you may need to install software to
+make it possible to run 32-bit programs (like
+squawk/tools/linux-x86/preverify). Googling for "run 32 bit on 64 bit linux"
+will bring up something useful.
+
+
+Read moped-mysql.txt.
+
+* Testing the server
+
+cd server
+java -jar target/server.jar
+
+
+
+The server should start, and say "published" when it's ready to receive
+web service calls.
+
+If it says
+
+    java.sql.SQLException: Access denied for user 'fresta'@'localhost'
+or
+    DB ERROR 0
+    Communications link failure
+
+the local mysql wasn't started or the server doesn't have the right
+access.
+
+
+* Testing the simulator
+
+(The server from the step above should still be running.)
+
+cd simulator
+
+java -jar target/simulator-1.0.jar
+    Connected to trusted server
+    Opening a session to localhost/127.0.0.1:9999 from vin:20UYA31581L000000
+    Local session address: /127.0.0.1:60570
+
+and the server says
+    Message received on server...
+    Vehicle 20UYA31581L000000 joins the connection (simulator 1)
+It will say "(simulator 0)" for an actual model car, and its IP address.
+
+A window appears, and a small drawing of a car.
+
+* Testing the remote control
+
+Server and simulator from the steps above should still be running.
+
+If you already built the Android app:
+
+Start the WirelessIno app on your Android. Under the settings, set the
+correct host address of the car (i.e., simulator), and fill in the
+port number 9000 that is suggested. Press Connect and it should say
+Connected. Use the controls to set speed and angle, and see that the
+car moves in the simulator. They revert to zero when let go.
+
+* Testing the web service interface to the server
+
+Fetch a simple SOAP client for Python:
+https://fedorahosted.org/suds/wiki/Documentation
+Install using "python setup.py install"
+
+cd server/misc
+
+Start python, and do
+    from suds.client import Client
+    url='http://localhost:9990/moped/pws?wsdl'
+    client = Client(url)
+    client.options.cache.clear()
+    s = client.service
+
+Test the server:
+    import testmoped
+    testmoped.uploadplus(s, "UltraSonicReader", "1.0")
+{"result":506,"error":false}
+    s.installApp("21UYA31581L000000", 506)
+{"message":"no connection with car 21UYA31581L000000","result":{},"error":true}
+
+
+
+* Installing the software on a car
+
+Get three micro-SD cards with size 4GB or larger, call them TCU, SCU and VCU.
+
+1) Making TCU
+Fetch TCU.img.gz through the Software Installation page on
+moped.sics.se.
+Put the image TCU.img on the TCU card.
+
+Mount the card. It has a Linux file system, and most MOPED-related files
+lie under the user 'pi' (which has been given the password 'pi').
+
+Create a file /home/pi/java/settings.properties with the following contents
+(you can copy it from ecm-linux/settings.properties):
+
+LOCAL_PORT=8888
+VIN=car1
+SERVER=appz-ext.sics.se
+SERVER_PORT=9999
+# port that is used to AUTOSAR
+LINUX_AUTOSAR_PORT=50000
+APP_DIR=apps
+MQTTHOST=test.mosquitto.org
+
+Use the actual name of the computer where you run the server for SERVER.
+Change VIN to something suitable.
+You may want to change the MQTT host.
+
+In /etc/wpa_supplicant/wpa_supplicant.conf, add the name and password
+of the wifi network, in a structure like this:
+network={
+	ssid="network name"
+	psk="password"
+	key_mgmt=WPA-PSK
+	proto=WPA2
+	pairwise=CCMP
+	group=CCMP
+}
+
+The file system doesn't use the full capacity of the SD card, but only
+3 GB. To expand the file system to the maximum size, run
+raspi-config on the Raspberry Pi.
+
+2) Making VCU
+If VCU doesn't have a file system, create one. Copy these files to it:
+autosar/boot/bootcode.bin
+autosar/boot/start.elf
+autosar/SCU/SCU-kernel-16-v7.img
+autosar/VCU/VCU-kernel-16-v7.img
+
+Create a file config.txt on the VCU file system, with one single line:
+kernel=VCU-kernel-16-v7.img
+
+(The number 16 refers to the frequency of the CAN card. Files also
+exist for the frequency 20, but this is no longer used. v7 refers to
+the architecture of the RPi 3; there are also files for v6, which is
+used by RPi 1.)
+
+3) Making SCU
+Do the same as for VCU, except that the line in config.txt should be
+kernel=SCU-kernel-16-v7.img
+
+
+
+See also moped/autosar/readme.txt
+
+Insert the cards in the respective slots on the car.
+Turn the car on.
+
+After a while (about one minute), the server should say that a car has
+connected.
+
+See moped-tests.txt for more comprehesive tests.

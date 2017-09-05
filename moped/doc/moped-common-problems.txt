@@ -1,0 +1,57 @@
+
+At times, you think you are doing the right thing but nothing happens. Here
+are some common situations.
+
+
+A GtkTerm is running and connected to the VCU/SCU, but when the node starts, the
+GtkTerm shows nothing.
+If the cable has been disconnected and then inserted again, GtkTerm must be
+configured again for the right speed.
+
+An SD card adapter has been inserted in the computer, but it is read-only.
+It happens, maybe more easily with much used cards, that the read-only switch
+on the card gets half moved to the read-only position when the card is
+inserted, and that is enough. Slide it back and take care to not let that
+edge of the card rub on the socket when inserting it.
+
+The car starts and the TCU contacts the server, but the VCU (or SCU) doesn't
+do anything.
+It happens (one time in 20?) that the VCU/SCU doesn't boot properly when
+powered on. Check if the heartbeat light is blinking. If not, reboot everything
+or just the VCU/SCU, depending on your needs.
+
+When a plugin is installed on the car, the plugin doesn't start, and other
+plugins running on the same node stop.
+The kernel image on the VCU/SCU must be made from the same build of the
+system's squawk component as is used by the server when the plugin is uploaded.
+Otherwise the so-called hash codes will differ, and the plugin can't run.
+This is reported on the console output of the VCU/SCU. Depending on which object
+needs updating, you may have to copy the current image to the VCU/SCU, and then
+in any case upload the plugin again. Note that the node must be restarted
+as well, since this condition crashes it.
+
+The GUI doesn't let you install plugins, although it used to.
+Sometimes, you are logged out from wordpress. If that happened, log in again.
+
+The car doesn't succeed in contacting the server.
+1) The server is not running
+2) The network that the car is contacting is not up, for example a hot spot
+on a smartphone not started.
+3) There is a problem with routers and permissions etc. Try an ethernet cable.
+
+After doing some action on the TCU and restarting, it seems nothing changed.
+If you restart directly after changing files, the changes may not have been
+written to the card. Always do 'sync' before restarting after altering files.
+
+A plugin can be installed and run on the actual car but not on the
+simulator, or the other way around, although it only uses ports supported
+by both.
+The simulator and the car use different entry points. Make sure the plugin
+has a zero-argument constructor, a one-argument (String []) constructor,
+and a 'main' method.
+
+Steering doesn't work properly: has the extra cable of the battery
+inserted itself in the servo?
+
+If the IMU won't be inited: some pin may be loose - just wiggle them a
+little.

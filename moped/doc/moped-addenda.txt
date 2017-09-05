@@ -1,0 +1,181 @@
+Various notes in more or less raw form, to be improved and moved to the
+right file.
+
+
+
+I added code for reading the value of the GPIO 2 pin (pin 3). This can be
+changed from 1 to 0 with a simple switch which grounds the pin. The code
+is not readable from Java yet.
+
+Sending data from VCU to SCU (in the same way as SCU to VCU already works)
+is in progress, but not ready yet.
+
+
+
+Don't force the front wheels to change steering by hand. Doing so
+generates a current, which may be high enough to damage circuits.
+
+When "ready? 0 xxx", xxx being some number, appears on VCU/SCU serial
+output, it means that the Can reception works, but PIRTE is not
+running.
+
+ACT LED blinking (the first LED on the Raspberry Pi board)
+ (for setting the blinking pattern, see moped-actuators.txt)
+ The normal state is 121f; that is, a rapid on-off-on followed by off for
+ one second.
+
+ When a plugin started installing but failed, it changes to 21f1; that is,
+ a rapid off-on-off followed by on for one second.
+ In this state, an installation can be retried, and running plugins still
+ run.
+
+ When an installation succeeds, the pattern will revert to 121f.
+
+ When the virtual machine crashes (which means that plugins stop and nothing
+ can be installed), the pattern is 121218.
+
+ When the virtual machine detects a condition that makes it exit, for example
+ out of memory, the pattern is 4141. Functionally, this state is equivalent to
+ the one above.
+
+ The node may crash in such a way that the blinking stops - then the LED will
+ be either constantly on or off. It can also crash in such a way that the
+ LED flickers.
+
+ If the pattern is 55, it means that the Java virtual machine never started.
+
+Port 22 or 8 is for reading position information, sent to the VCU from the TCU
+when an external image processing server is running.
+The value is of type 'long', in the form
+(vehiclePositionX << 48)
++ (vehiclePositionY << 32)
++ (vehicleOrientation << 24)
++ (vehiclePositionQualityFactor << 16)
++ vehiclePositionAge;
+X and Y are in cm, orientation is from 0 to 255 in units of 360/256 degrees.
+quality is between 0 and 100, 100 being perfect
+[port 22 is used in PIRTE.java, but so is port 8. Which one does what?
+The current applications don't use either of them, but there are plugins
+which do. Since the navigation code runs on the TCU, ports are not involved
+there.]
+
+
+When setting up the system, change the file server/settings.properties
+so it points out the MOPED directory with the variable 'mopedtop'.
+Also, change ecm-linux/settings.properties so the server will be
+found, and, after copying it to the TCU, set the VIN to something
+unique (especially relevant if you have several cars).
+The simulator has its corresponding settings.properties file.
+
+Instead of restarting SCU and reinstalling UltraSonicReader, just disconnect
+its CAN cable. When putting it back, it will continue working. This may
+be a useful thing to do so that the messages from the SCU don't
+get in the way of a plugin installation.
+
+If you intend to let the car run without cables attached, don't boot
+it with an ethernet cable attached (and then removing it), since the
+network connections to external entities (MQTT and the trusted server)
+will be made using the cable.
+
+plugins/new-plugin.sh
+
+In the front wheels, the reflection reader has sometimes been fastened
+with a piece of plastic-embedded metal wire which can get in the way
+of the light. Pull it into place if so. Check that the VCU reacts for
+each of the five strips.
+
+With Python:
+>>> for y in [(x["appId"],x["name"],x["installationState"],x["applicationState"]) for x in json.loads(s.listInstalledApps())["result"] if x["applicationState"] < "060"]: print y;
+... 
+(u'211', u'Comm1', u'installed', u'030-compiled')
+(u'222', u'VCUfromSCU', u'installed', u'030-compiled')
+(u'220', u'SCUtoVCU', u'installed', u'030-compiled')
+(u'244', u'LEDLighter2', u'installed', u'030-compiled')
+(u'254', u'SpeedBrake', u'installed', u'030-compiled')
+(u'321', u'UltraSonicReader', u'installed', u'030-compiled')
+(u'327', u'LEDLighter', u'installed', u'030-compiled')
+(u'343', u'Slow', u'installed', u'030-compiled')
+(u'348', u'UltraSonicReaderSquare', u'installed', u'030-compiled')
+(u'351', u'Position', u'installed', u'030-compiled')
+(u'360', u'Square', u'installed', u'030-compiled')
+(u'348', u'UltraSonicReaderSquare', u'installed', u'030-compiled')
+(u'375', u'SemiAutomaticReverseParking', u'installed', u'030-compiled')
+(u'376', u'Circle', u'installed', u'030-compiled')
+(u'386', u'CirclePos', u'installed', u'030-compiled')
+(u'387', u'FWPub', u'installed', u'030-compiled')
+(u'394', u'AllVCU', u'installed', u'030-compiled')
+
+----------------------------------------
+Debugging idea: connect the serial output from the SCU to the UART of
+the TCU, and read from its /dev/ttyAMA0.
+
+Connect UART pins on SCU to those on TCU (RX to TX, etc.)
+
+Stopping /etc/agetty on TCU:
+sudo systemctl stop serial-getty@ttyAMA0.service
+sudo bash
+root@raspberrypi:/home/pi# cat < /dev/ttyAMA0
+
+sudo bash
+systemctl stop serial-getty@ttyAMA0.service
+cat < /dev/ttyAMA0
+
+/dev/ttyAMA0 is already at the right speed etc.
+
+It seems to take a bit of CPU from the other things running.
+
+----------------------------------------
+
+navigation
+
+configuration of servo in main.c
+
+eight.py
+edges of the road, turning radius, circle arcs, other things
+
+maps
+open street view
+we added properties
+
+traffic control
+
+traffic rules
+
+simulating physical car, in wm.py
+
+log files
+
+separate file moped-calibration.txt?
+
+ideas used for getting absolute position: RFID (needed an additional
+RPi), dropping water, bumping over a small obstacle, dragging a mouse
+    sudo od /dev/input/mouse0
+    mouse.py
+    dragging the mouse after the car for 12m gave
+    (-2162, 13123), so it was a bit turned
+    13300 pulses from the mouse means 1.1 pulses/mm
+
+
+scheduling in python: sleep(0.00001)
+
+to the checklist of errors:
+does the left odometer report anything?
+if the speeds don't work, restart VCU
+if leftspeed is less than rightspeed when driving straight, or standing
+loose, clean the lens or the reflective patches or adjust the cube
+ a little
+
+steering hysteresis
+
+camera, clean lens
+
+adjust cogwheels
+
+colliding with a water-filled watering can: 9-12 m/s^2.
+
+things done for NGEA cases: 112 server, passenger app etc.
+
+============================================================
+LOG: look before line 10000
+
+look at my paper notes

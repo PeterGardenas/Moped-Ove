@@ -1,0 +1,10 @@
+*.[od]
+*~
+*.class
+*.jar
+*.suite*
+*.sym
+*.zip
+
+*.metadata/*
+*.recommenders/*

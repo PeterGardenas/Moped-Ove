@@ -1,0 +1,84 @@
+
+This is the main documentation file for MOPED. It does not contain
+very much except references to other files.
+
+To understand the rest of this document, you may want to read
+moped-overview.txt, where the architecture is broadly described, and
+special terms introduced. Refer to moped-glossary.txt for special
+abbreviations and terms.
+
+To get a complete MOPED system up and running from scratch, you need to
+perform the following steps:
+
+(You may be able to use an existing server, with GUI, and then you don't
+need to do B-D.)
+
+
+A Fetch the source code from github.
+  git clone https://github.com/sics-sse/moped
+  This will create a directory "moped" in your current directory.
+
+B Set up a mysql server. Wordpress will use one (step D), so if it's
+  convenient, we can use the same one. See moped-mysql.txt.
+
+C Build the MOPED system, and start the server.
+  You need to install maven first for building, if you don't have it.
+  See moped-building.txt.
+
+D Set up a wordpress server with the MOPED GUI files. 
+  It may be able to use the mysql server from step B.
+  See moped-setup-gui.txt.
+
+E Build the remote control app for Android.
+  See moped-android.txt.
+
+F Construct a car, or get acquainted with an existing one. There are
+  building instructions on http://moped.sics.se.
+  See also moped-car.txt.
+
+G Put the appropriate code from C on three SD cards, one for each
+  Raspberry Pi on the car. See moped-building.txt.
+
+A needs to be done first. Then the order is not always important, but
+these ordering requirements exist:
+B->C->D, C->G.
+
+When you have a running system, you may want to do these things:
+
+* Test whether the car functions: see moped-tests.txt.
+
+* Write and run plugins, either in the car, or in the simulator.
+  Some plugins are included.
+  See moped-plugins.txt, moped-simulator.txt, moped-gui.txt.
+
+* Extend or debug the system
+  Nothing written yet.
+
+B, C and D can be done on the same computer, or on different ones. I haven't
+had B and C on different computers, so I didn't learn how to set up a
+secure connection to mysql, but use "localhost".
+
+There are two ways for the user to communicate with the server: using
+the (web) GUI, or calling the server's web services directly, using some
+programming language. For the latter, see moped-server-api.txt.
+
+
+Github has a list of issues, which are suggested changes or problems to
+be fixed. Issues which are not included there (yet) are listed in
+moped-problems.txt.
+
+The file moped-common-problems.txt describes some more or less common
+situation in which the car doesn't do what you think it should, and
+how to fix it.
+
+The diagram illustrations/drawings/doc-map.png aims to be helpful
+for locating documentation about a certain part of the system.
+
+Things that don't fit into any of the text files mentioned above are put
+into moped-misc.txt.
+
+In the directory doc/illustrations, some pictures can be found, which are
+referred to in the other documentation files.
+
+On the MOPED site http://moped.sics.se you can find additional material,
+for example explaining the architecture.

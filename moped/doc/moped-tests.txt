@@ -1,0 +1,203 @@
+Suggestions for how to test the functionality.
+
+This is not a troubleshooting help, only a list of scenarios.
+
+
+* car alone
+
+Make sure there is an appropriate SD card in each RPi.
+
+If you want, connect a screen to the HDMI port on the TCU, to see what
+the Linux on the TCU is doing.
+
+If you're curious about what is happening on the SCU or VCU during
+startup, first connect it with a serial cable to your computer and use
+the GtkTerm program. It says a lot of things, so it may be difficult
+to see whether things are working or not.
+
+Connect the battery. The BEC should have one to four lights lit up on
+one side (preferably three or four; otherwise the battery will soon
+run out).
+
+Turn both switches on (on the BEC and on the ESC). On the other side
+of the BEC, the single light should light up. The fan on the ESC should
+start spinning.
+
+After about 10 s, the light on the camera should turn on.
+
+For both SCU and VCU, if there is a LED on pins 34+32, it should
+flicker and then start blinking regularly. A little later, it should
+blink in another pattern (this means a plugin is being loaded), and
+then go back to the first kind of blinking (see moped-actuators.txt and
+moped-addenda.txt).
+
+There is a little LED near one corner on the CAN boards which may
+light up when there is CAN traffic, but it seems it does not always do
+this.
+
+* with wifi access
+
+If you know you don't have wifi access yet, you can test with an
+ethernet cable instead.
+
+On the default MQTT server (test.mosquitto.org), values should start
+appearing on /sics/moped/value, saying things about "DistPub" (a
+counter, and the distance in cm) at least once a second, and less often
+the battery voltage "adc" (the instantaneous value and a weighted average).
+
+You can log in with ssh on the car: user pi, password pi.
+If you don't know the IP address it got, try the command
+   sudo arp-scan -l --interface=wlan0
+
+Once logged in, you can first let the command
+   can-utils/candump -atd can0
+run for a little while. It should say binary things with the strings
+"DistPub" and "speed" in them. The DistPub data are the basis for the
+MQTT data.
+
+Then, run
+   python3 -i run.py
+
+It should say something like
+
+    VIN car6
+    read byte 0x0
+    read byte 0x0
+    read byte 0x0
+    read byte 0x48
+    setleds 0 7
+    rbias = -13.240000, rxbias = 0.000000, rybias = 0.000000, xbias = -906.520000, ybias = -17.400000, zbias = 16602.200000
+
+and then present a Python prompt. At the same time, the ESC should emit
+three beeps. The servo is set to the zero position, which may mean that
+it moves a little and/or vibrates.
+
+     steer(100)
+The front wheels should turn to the extreme right position.
+
+The python code wants there to be a traffic control server, which
+there isn't at the moment (unless you went ahead and started it), so
+it sets g.limitspeed to 0.0. To set the speed
+manually, we must first disable the speed limit.
+     g.limitspeed = None
+
+     drive(14)
+The car should move forward fairly slowly.
+     drive(0)
+The car stops.
+    drive(-14)
+The car should move backward fairly slowly.
+
+
+Inspect the odometers
+     (g.odometer, g.fodometer)
+You should get back a pair of small integer numbers, almost equal to each
+other, if you didn't go far while turning.
+
+(g.fodometer is badly named - 'f' originally meant float, but actually
+it's the value of the odometer which is not on the right rear wheel.)
+
+
+* with remote control app
+
+Start the app. Enter the car's IP address. Press Connect.
+
+It should say "connected".
+
+You can now move the car with the speed and steering controls.
+
+When you run run.py on the car at the same time, check g.ang, drive a
+full circle turning right and check g.ang again. It should have become
+larger by 360 degrees.
+
+Turning as tightly as possible and going forward, measure the diameter
+of the smallest circle which the car stays within. It should be around
+160 cm or less.
+
+Run the car with steering value 0. If it doesn't go straight ahead, that
+is not an error, but should be compensated for in software for that
+particular car.
+
+Listen to the sound when the car moves. It should not rattle loudly as
+if something was loose, nor indicate that the motor has to overcome
+a too tight connection to the differential.
+
+* with optipos
+
+On a suitable computer, start the optipos server. When a car is active,
+the server should show several transactions a second on standard output.
+
+On the car,
+   tail -f /tmp/marker0
+should show the arrival of position data. If the car is not in an area
+with ceiling markers which the server knows about, the first column
+is zero, and the last two columns are time stamps. Columns two to four
+(x, y and angle) are random.
+
+(Before the optipos server is started, the file also grows, with -1 markers,
+but faster, and with 0.0 in columns two to four.)
+
+Move the car to where the camera will see ceiling markers. Correct
+marker numbers should appear in the file, and correct x, y and
+angle. The focus will probably have to be set right first by turning
+the lens holder and looking at the images.  You can take single
+pictures with the raspistill program, if you first kill the optipos
+client.
+
+When running run.py, you can inspect the position
+     (g.ppx, g.ppy)
+and it should correspond to the one in the file, or stay unchanged if
+the marker quality is too low.
+
+(g.x and g.y also exist, but denote the acceleration.)
+
+Make it move to a point 1m in front and to the left in the car area
+coordinate system (first make it ignore that it's not using the road network):
+     g.maxoffroad = 4.0
+     drive(14); nav2.goto_1(g.ppx - 1.0, g.ppy + 1.0); drive(0)
+
+* with traffic control
+
+Start the traffic control program. If a car is active and run.py is running,
+both should show that a connection is established. After that, the traffic
+control window will reflect the position which the car reports to it.
+See moped-navigation.txt.
+
+You can use the traffic control program with a simulated car. Start the
+traffic control program, and in a separate window, start run.py with
+an argument which is the name of your simulated car:
+
+    cd moped/position/car-control
+    python3 -i run.py simca
+
+Set g.ppx and g.ppy so it appears in the window:
+    g.ppx=1.4
+    g.ppy=15
+
+Let it start and follow the road network:
+    whole4()
+
+* with trusted server
+
+Start the trusted server. If a car is active, it will connect and the
+trusted server will say something like
+    Vehicle car6 joins the connection (simulator 0)
+    from 193.10.67.193 at 2017-06-27 08:45:24
+
+Then you can use the GUI to install plugins on the car.
+
+If you install VCUfromSCU, you can then light LEDs from run.py:
+
+Give the command
+     setleds(0, 0)
+All LEDs should light up.
+     setleds(2, 7)
+The right yellow LED should blink once a second.
+
+* GUI to the trusted server
+
+Not written yet.
+
+* SOAP interface to the trusted server
+
+Not written yet.

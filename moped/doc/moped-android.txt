@@ -1,0 +1,28 @@
+This supposes that you already have a development environment for Android.
+
+WirelessIno is a modification of https://github.com/MiichaelD/BluIno
+
+cd WirelessIno
+To get a build.xml, do
+export PATH=$PATH:~/android/android-sdk-linux/tools:~/android/android-sdk-linux/platform-tools
+android update project --subprojects --path . --target 9
+Then
+rm -r bin
+ant debug
+
+Put this on an Android phone somehow, via USB cable or a local web server.
+
+
+The app doesn't detect loss of connection immediately, but it does if any
+value is changed.
+
+Tapping on the circle at the top sends a message to the car. The car
+puts the message on the CAN bus with destination TCU, so it can be
+read and acted on by the navigation code.
+
+The screen turns around if you turn the phone, as with many apps, but
+it will not do this if the controls are in a non-zero position.
+
+For the latest version of Android, I made a change to the code, so
+that the main thread is still allowed to do I/O, although it has
+become deprecated. The code ought to be reorganized.

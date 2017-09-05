@@ -1,0 +1,105 @@
+
+The Optipos positioning system
+
+The purpose is to let each car know where it is within a designated area
+and in which direction it is facing. The precision is around 1-2dm.
+
+The positioning system consists of these parts:
+
+1) A number of different paper markers of size A4 taped to the
+ceiling, with two circles with three white or black sectors each.
+2) A map file which specifies the coordinates of each marker as well as characteristics such as ceiling height.
+3) a camera on each car, pointing upwards.
+4) an image analysis server (the Optipos server), running on a server host.
+5) a process on each TCU, taking a picture once or twice a second and
+sending it to the Optipos server.
+6) A file with configuration information for each car, namely the angle
+of the camera's field of view and the coordinates of the camera relative to the
+center of the car.
+
+On the car, the image taking process is started at boot time, by the
+boot script /etc/init.d/optipos
+
+
+
+In the repository, there are
+moped/position/OptiposRPiClient.py
+moped/position/Optipos/
+
+
+Setting up:
+* Print out the markers that you need. A marker file is created running the method createMarkerFile in the module OptiposTools, and generates a post script file that can be printed.
+
+* Tape them to the ceiling, so that no point on the ceiling in the
+  interesting area is more than 2m from a marker.
+
+* On a suitable server host, copy the directory Optipos from the repository.
+* Install the python library OpenCV (its module cv2 is used).
+* Measure where the markers are, enter the coordinates in a map file
+  and put it in Maps.
+* For each car, find the TCU's ethernet MAC address and write a config
+  file for the car, with the name being the MAC address and the suffix .json,
+  for example b827eb31395c.json. Put those files in Settings.
+* Start the server thus:
+ cd Optipos
+ python3 OptiposCloudServer.py
+* On each car, put the boot script optipos in /etc/init.d
+  Modify it to use the name of the map file you want (the file is not
+  present on the car, but on the server).
+* Copy OptiposRPiClient.py to a place where /etc/init.d/optipos will find it.
+  Modify the line that starts with "server =" so it uses the address of
+  your server.
+
+Originally, the client would write the coordinates to MQTT after receiving
+them from the server. Now it appends them to a file /tmp/marker0 instead,
+to reduce the delays.
+
+It still does write to MQTT, and if the MQTT server can't be reached,
+this will sabotage the operation. In that case, comment out that code.
+
+The positioning algorithm starts by taking an image using the camera,
+and the image is uploaded on the server for analysis. The analysis
+identifies markers in the image, and by finding the same marker
+identifier on the map, it can derive from the position of the marker
+in the image and the rotation of the image where the car is
+located. The derived position is sent back to the car. A marker
+consists of two circles close to each other, and each circle is
+divided into three fields that can be either black or white. In this
+way, an identity is encoded, as well as a direction. The image
+processing algorithms first identifies all circles of appropriate size
+in the image. Then, it matches pairs of circles at the right distance
+from each other, which will be treated as markers. Finally, it
+identifies the fields in the circles to calculate the
+identifiers. Apart from the position (x, y) and direction of the car,
+a quality metric is also calculated, which indicates how well the
+selected markers match an ideal marker.
+
+The server stores all images, but removes old ones when disk starts to
+fill up. The numbers probably need to be adapted to how full the disk is.
+
+sudo pip3 install picamera
+maybe we need to enable the camera, in raspi-config, and then reboot
+start_x=1 in config.txt
+sudo update-rc.d optipos defaults
+
+Data format:
+The lines in /tmp/marker0 look like this:
+markerno x y angle quality time0 time1
+
+For example:
+6 1.039530 7.715666 2 0.519157 1497596736.476303 1497596736.633731
+
+The times are when the picture was sent to the server and when the
+result came back.
+
+The quality is a number between 0 and 1. In practice, it is between 0.2
+and 0.8. If < 0.4, the risk is large that the position is nonsense.
+
+
+
+Calibration of the camera:
+* Look at the images and turn the camera lens until the focus is good.
+It helps to paint a small marker on the holder of the lens.
+
+* Put the car at a known place and see what coordinates you get. Modify
+the offsets in the config file for the car.
