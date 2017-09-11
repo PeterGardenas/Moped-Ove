@@ -1,0 +1,1 @@
+system1.xml is an example of vehicle configuration.
