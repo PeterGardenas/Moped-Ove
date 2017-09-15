@@ -20,6 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SocketConnector"
+            android:label="Target Server Setting" >
+        </activity>
     </application>
 
 </manifest>
