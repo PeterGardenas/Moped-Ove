@@ -1,16 +1,13 @@
 package se.chalmers.moppe.ovecontrol;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toolbar;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -18,11 +15,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
-public class ControlActivity extends Activity {
+public class ControlActivity extends AppCompatActivity {
     private View mContentView;
 
     private static PrintWriter out = null;
@@ -33,26 +26,30 @@ public class ControlActivity extends Activity {
     private static final int DISCONNECT_INDEX = 0;	// Menu bar: disconnect
     private static final int CONFIG_INDEX = 1	;	// Menu bar: WiFi configuration
 
-    private View mControlsView;
-
-    private boolean mVisible;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_control);
+    }
 
-        mVisible = true;
-        mContentView = findViewById(R.id.fullscreen_content);
+    /*
+	 * Add a disconnect option when connected to a socket.
+	 */
+    protected void onResume() {
+		/* Disable the disconnect option if no connection has been established */
+        updateMenuVisibility();
+        super.onResume();
     }
 
     /*
 	 * Add menu options
 	 */
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
+        System.out.println("Creating menu");
 
 		/* Add menu bars */
         menu.add(0, DISCONNECT_INDEX, DISCONNECT_INDEX, R.string.disconnect);
@@ -101,6 +98,12 @@ public class ControlActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    /*
+	 * Send a message through the socket.
+	 */
+    public static void send(Object message) {
+        out.println(message);
     }
 
     /*
