@@ -1,26 +1,28 @@
 package se.chalmers.moppe.ovecontrol;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toolbar;
+import android.widget.SeekBar;
+import android.widget.VerticalSeekBar;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketAddress;
 
 public class ControlActivity extends AppCompatActivity {
     private View mContentView;
 
-    private static PrintWriter out = null;
     private Menu menu = null;
-    public static Socket socket = null;
+
+    private SeekBar steerSeekBar;
+    private VerticalSeekBar speedSeekBar;
 
 
     private static final int DISCONNECT_INDEX = 0;	// Menu bar: disconnect
@@ -32,6 +34,16 @@ public class ControlActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_control);
+
+        steerSeekBar = (SeekBar) findViewById(R.id.steerSeekBar);
+        speedSeekBar = (VerticalSeekBar) findViewById(R.id.speedSeekBar);
+
+        steerSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(false));
+        speedSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(true));
+        steerSeekBar.setMax(200);
+        speedSeekBar.setMax(200);
+        steerSeekBar.setProgress(100);
+        speedSeekBar.setProgress(100);
     }
 
     /*
@@ -66,18 +78,10 @@ public class ControlActivity extends AppCompatActivity {
 	 */
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == DISCONNECT_INDEX) {
-            try {
-                if (socket != null) {
-                    socket.close();
-                    socket = null;
-
-                    menu.getItem(DISCONNECT_INDEX).setVisible(false); // Hide the disconnect option
-                    //TODO uncomment
-                    //view.invalidate(); // Repaint (to show "not connected" in the main view)
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            SocketHandler.disconnect();
+            menu.getItem(DISCONNECT_INDEX).setVisible(false); // Hide the disconnect option
+            //TODO uncomment
+            //view.invalidate(); // Repaint (to show "not connected" in the main view)
         }
         else if (item.getItemId() == CONFIG_INDEX) {
             Intent i = new Intent(ControlActivity.this, SocketConnector.class);
@@ -88,31 +92,12 @@ public class ControlActivity extends AppCompatActivity {
     }
 
     /*
-	 * Initialize the output stream for the socket.
-	 */
-    public static void init(Socket socket) {
-        ControlActivity.socket = socket;
-        try {
-            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
-                    socket.getOutputStream())), true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    /*
-	 * Send a message through the socket.
-	 */
-    public static void send(Object message) {
-        out.println(message);
-    }
-
-    /*
 	 * Checks if a socket connection has been established and updates
 	 * the visibility of the "disconnect" menu option accordingly.
 	 */
     private void updateMenuVisibility() {
         if (menu != null) {
-            if (socket == null || !socket.isConnected())
+            if (SocketHandler.isConnected())
                 menu.getItem(DISCONNECT_INDEX).setVisible(false);
             else
                 menu.getItem(DISCONNECT_INDEX).setVisible(true);

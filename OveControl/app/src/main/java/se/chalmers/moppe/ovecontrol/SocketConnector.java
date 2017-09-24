@@ -108,7 +108,7 @@ public class SocketConnector extends Activity {
          */
         protected void onPostExecute(String result) {
             if (socket != null && socket.isConnected()) {
-                ControlActivity.init(socket);
+                SocketHandler.init(socket);
                 finish();
             }
             else {
