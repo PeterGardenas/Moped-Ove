@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.VerticalSeekBar;
 
@@ -23,7 +24,9 @@ public class ControlActivity extends AppCompatActivity {
 
     private SeekBar steerSeekBar;
     private VerticalSeekBar speedSeekBar;
+    private RadioButton connectedIndicator;
 
+    private boolean platoonMode;
 
     private static final int DISCONNECT_INDEX = 0;	// Menu bar: disconnect
     private static final int CONFIG_INDEX = 1	;	// Menu bar: WiFi configuration
@@ -37,6 +40,7 @@ public class ControlActivity extends AppCompatActivity {
 
         steerSeekBar = (SeekBar) findViewById(R.id.steerSeekBar);
         speedSeekBar = (VerticalSeekBar) findViewById(R.id.speedSeekBar);
+        connectedIndicator = (RadioButton) findViewById(R.id.connectedIndicator);
 
         steerSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(false));
         speedSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(true));
@@ -44,6 +48,13 @@ public class ControlActivity extends AppCompatActivity {
         speedSeekBar.setMax(200);
         steerSeekBar.setProgress(100);
         speedSeekBar.setProgress(100);
+
+        connectedIndicator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                connectedIndicator.setChecked(SocketHandler.isConnected());
+            }
+        });
     }
 
     /*
