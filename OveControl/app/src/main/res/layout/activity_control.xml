@@ -34,36 +34,37 @@
             android:layout_marginBottom="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="50dp"
-            android:thumb="@drawable/thumb_image"/>
+            android:thumb="@drawable/thumb_image" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_column="11"
-            android:layout_row="0"
-            android:layout_marginTop="50dp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_row="0"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="1">
 
                 <TextView
                     android:id="@+id/connectedText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="91dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Connected" />
 
-                <RadioButton
-                    android:id="@+id/connectedIndicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="textStart" />
+                <ImageView
+                    android:id="@+id/connectedImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="82dp">
+
+                </ImageView>
+
             </LinearLayout>
 
             <LinearLayout

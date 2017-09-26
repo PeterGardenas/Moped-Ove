@@ -5,15 +5,19 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Erik on 2017-09-24.
  */
 
-public abstract class SocketHandler {
+public abstract class SocketHandler{
 
     private static PrintWriter out = null;
     public static Socket socket = null;
+    private static ArrayList<ObserverStatic> observerList = new ArrayList();
 
 
     /*
@@ -50,5 +54,15 @@ public abstract class SocketHandler {
 
     public static boolean isConnected() {
         return socket == null || !socket.isConnected();
+    }
+
+    public static void addObserver(ObserverStatic o){
+        observerList.add(o);
+    }
+
+    private static void notifyObservers(){
+        for( int i = 0; i < observerList.size() -1; i++ ){
+            observerList.get(i).update(isConnected());
+        }
     }
 }

@@ -6,9 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.VerticalSeekBar;
+import android.widget.ViewSwitcher;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -16,16 +22,19 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ControlActivity extends AppCompatActivity {
+public class ControlActivity extends AppCompatActivity implements ObserverStatic{
     private View mContentView;
 
     private Menu menu = null;
 
     private SeekBar steerSeekBar;
     private VerticalSeekBar speedSeekBar;
-    private RadioButton connectedIndicator;
-
+    //private ImageSwitcher connectedImage;
+    private ImageView connectedImage;
+    private TextView connectedText;
     private boolean platoonMode;
 
     private static final int DISCONNECT_INDEX = 0;	// Menu bar: disconnect
@@ -40,21 +49,17 @@ public class ControlActivity extends AppCompatActivity {
 
         steerSeekBar = (SeekBar) findViewById(R.id.steerSeekBar);
         speedSeekBar = (VerticalSeekBar) findViewById(R.id.speedSeekBar);
-        connectedIndicator = (RadioButton) findViewById(R.id.connectedIndicator);
-
+        connectedImage = (ImageView) findViewById(R.id.connectedImage);
+        connectedImage.setImageResource(R.drawable.if_circle_orange_10281);
+        connectedText = (TextView) findViewById(R.id.connectedText);
+        connectedText.setText("Disconnected");
         steerSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(false));
         speedSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(true));
         steerSeekBar.setMax(200);
         speedSeekBar.setMax(200);
         steerSeekBar.setProgress(100);
         speedSeekBar.setProgress(100);
-
-        connectedIndicator.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                connectedIndicator.setChecked(SocketHandler.isConnected());
-            }
-        });
+        SocketHandler.addObserver(this);
     }
 
     /*
@@ -109,9 +114,26 @@ public class ControlActivity extends AppCompatActivity {
     private void updateMenuVisibility() {
         if (menu != null) {
             if (SocketHandler.isConnected())
-                menu.getItem(DISCONNECT_INDEX).setVisible(false);
+               menu.getItem(DISCONNECT_INDEX).setVisible(false);
             else
                 menu.getItem(DISCONNECT_INDEX).setVisible(true);
         }
+    }
+
+    public void updateConnectedImage(Boolean arg){
+        if (arg){
+            connectedImage.setImageResource(R.drawable.if_circle_green_10280);
+            connectedText.setText("Connected");
+
+        }
+        else{
+            connectedImage.setImageResource(R.drawable.if_circle_orange_10281);
+            connectedText.setText("Disconnected");
+        }
+    }
+
+    @Override
+    public void update(Boolean arg) {
+        updateConnectedImage(arg);
     }
 }
