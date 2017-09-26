@@ -33,6 +33,8 @@ public abstract class SocketHandler {
 	 */
     public static void send(Object message) {
         if (socket != null){
+            System.out.println("sending");
+            System.out.println(out);
             out.println(message);
         }
     }
