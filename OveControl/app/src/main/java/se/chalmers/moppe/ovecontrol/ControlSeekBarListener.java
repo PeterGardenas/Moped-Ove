@@ -9,17 +9,31 @@ import android.widget.SeekBar;
 public class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
 
     private boolean vertical;
+    private int count = 0;
+    private int v = 0;
+    private int h = 0;
 
     ControlSeekBarListener(boolean vertical){
         this.vertical = vertical;
     }
 
     @Override
-    public synchronized void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        String orientation = vertical ? "V" : "H";
-        String message = orientation + (i - 100);
-        SocketHandler.send(message);
+
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        if (vertical){
+            v = i - 100;
+        } else {
+            h = i - 100;
+        }
+        String message = "V" + intToString(v) + "H" + intToString(h);
+
         System.out.println(message);
+        if (count > 20){
+            SocketHandler.send(message);
+            count = 0;
+        }
+        count++;
+
     }
 
     @Override
@@ -31,5 +45,23 @@ public class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         seekBar.setProgress(seekBar.getMax() / 2);
+    }
+
+    private String intToString(int x) {
+        String padding = "0";
+        if (x < 0) {
+            padding = "-";
+        }
+
+        x = Math.abs(x);
+        if (x < 100) {
+            padding += "0";
+
+            if (x < 10) {
+                padding += "0";
+            }
+        }
+
+        return padding + x;
     }
 }
