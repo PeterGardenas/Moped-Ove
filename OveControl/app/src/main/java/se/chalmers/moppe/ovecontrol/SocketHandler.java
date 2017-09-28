@@ -31,6 +31,7 @@ public abstract class SocketHandler{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        notifyObservers();
     }
     /*
 	 * Send a message through the socket.
@@ -50,10 +51,11 @@ public abstract class SocketHandler{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        notifyObservers();
     }
 
     public static boolean isConnected() {
-        return socket == null || !socket.isConnected();
+        return socket != null && socket.isConnected();
     }
 
     public static void addObserver(ObserverStatic o){
@@ -61,8 +63,9 @@ public abstract class SocketHandler{
     }
 
     private static void notifyObservers(){
-        for( int i = 0; i < observerList.size() -1; i++ ){
-            observerList.get(i).update(isConnected());
+        for (ObserverStatic observer : observerList){
+            System.out.println("Updateing" + isConnected());
+            observer.update(isConnected());
         }
     }
 }

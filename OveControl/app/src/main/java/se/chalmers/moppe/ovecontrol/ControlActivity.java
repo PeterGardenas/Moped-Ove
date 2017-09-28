@@ -114,9 +114,9 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
     private void updateMenuVisibility() {
         if (menu != null) {
             if (SocketHandler.isConnected())
-               menu.getItem(DISCONNECT_INDEX).setVisible(false);
-            else
                 menu.getItem(DISCONNECT_INDEX).setVisible(true);
+            else
+               menu.getItem(DISCONNECT_INDEX).setVisible(false);
         }
     }
 
