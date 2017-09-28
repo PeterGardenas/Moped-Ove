@@ -15,7 +15,7 @@ public class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
     }
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+    public synchronized void onProgressChanged(SeekBar seekBar, int i, boolean b) {
         String orientation = vertical ? "V" : "H";
         String message = orientation + (i - 100);
         SocketHandler.send(message);
