@@ -13,4 +13,7 @@
     <string name="default_host_port">9000</string>
     <string name="wifiConfig">WiFi configuration</string>
     <string name="disconnect">Disconnect</string>
+    <string name="platooning">Platooning</string>
+    <string name="acc">ACC</string>
+    <string name="connected">Connected</string>
 </resources>

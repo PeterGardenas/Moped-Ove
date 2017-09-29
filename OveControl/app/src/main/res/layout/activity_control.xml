@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#b6b6b6"
-    android:id="@+id/fullscreen_content"
+    android:id="@+id/main_content"
     tools:context="se.chalmers.moppe.ovecontrol.ControlActivity">
 
     <SeekBar
@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_weight="1"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
@@ -32,15 +31,15 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="50dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="50dp"
             android:thumb="@drawable/thumb_image" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_column="11"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginTop="50dp"
             android:layout_row="0"
             android:orientation="vertical">
@@ -56,12 +55,12 @@
                     android:id="@+id/connectedText"
                     android:layout_width="91dp"
                     android:layout_height="wrap_content"
-                    android:text="Connected" />
+                    android:text="@string/connected" />
 
                 <ImageView
                     android:id="@+id/connectedImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="82dp">
+                    android:layout_width="30dp"
+                    android:layout_height="30dp">
 
                 </ImageView>
 
@@ -71,25 +70,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_gravity="top"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/platooningText"
                     android:layout_width="89dp"
                     android:layout_height="wrap_content"
-                    android:layout_column="1"
-                    android:layout_row="0"
-                    android:layout_weight="1"
-                    android:text="Platooning" />
+                    android:text="@string/platooning" />
 
                 <ToggleButton
                     android:id="@+id/toggleButtonPlatoon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_column="16"
-                    android:layout_row="0"
-                    android:layout_weight="1"
-                    android:text="ToggleButton" />
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/accText"
+                    android:layout_width="89dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/acc" />
+
+                <ToggleButton
+                    android:id="@+id/toggleButtonAcc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
