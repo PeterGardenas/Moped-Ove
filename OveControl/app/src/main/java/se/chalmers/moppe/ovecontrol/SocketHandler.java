@@ -36,11 +36,14 @@ public abstract class SocketHandler{
     /*
 	 * Send a message through the socket.
 	 */
-    public static void send(Object message) {
+    public static void send(final Object message) {
         if (socket != null){
-            System.out.println("sending");
-            System.out.println(out);
-            out.println(message);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    out.println(message);
+                }
+            }).start();
         }
     }
 

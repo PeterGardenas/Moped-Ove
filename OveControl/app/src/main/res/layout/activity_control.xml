@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="#b6b6b6"
     android:id="@+id/fullscreen_content"
     tools:context="se.chalmers.moppe.ovecontrol.ControlActivity">
 

@@ -51,7 +51,6 @@ public class VerticalSeekBar extends android.support.v7.widget.AppCompatSeekBar 
                 setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
                 onSizeChanged(getWidth(), getHeight(), 0, 0);
                 break;
-
             case MotionEvent.ACTION_CANCEL:
                 break;
         }

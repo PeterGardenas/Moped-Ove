@@ -26,8 +26,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class ControlActivity extends AppCompatActivity implements ObserverStatic{
-    private View mContentView;
-
     private Menu menu = null;
 
     private SeekBar steerSeekBar;
@@ -35,7 +33,6 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
     //private ImageSwitcher connectedImage;
     private ImageView connectedImage;
     private TextView connectedText;
-    private boolean platoonMode;
 
     private static final int DISCONNECT_INDEX = 0;	// Menu bar: disconnect
     private static final int CONFIG_INDEX = 1	;	// Menu bar: WiFi configuration

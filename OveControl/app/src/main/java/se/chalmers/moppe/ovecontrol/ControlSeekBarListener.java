@@ -9,31 +9,14 @@ import android.widget.SeekBar;
 public class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
 
     private boolean vertical;
-    private int count = 0;
     private int v = 0;
     private int h = 0;
 
     ControlSeekBarListener(boolean vertical){
         this.vertical = vertical;
     }
-
-    @Override
-
-    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        if (vertical){
-            v = i - 100;
-        } else {
-            h = i - 100;
-        }
-        String message = "V" + intToString(v) + "H" + intToString(h);
-
-        System.out.println(message);
-        if (count > 20){
-            SocketHandler.send(message);
-            count = 0;
-        }
-        count++;
-
+    ControlSeekBarListener(){
+        this.vertical = false;
     }
 
     @Override
@@ -41,12 +24,33 @@ public class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
 
     }
 
-    //Return control to middle after release
+    //Return control to middle after release, doesn't work for the vertical seekBar for some reason
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         seekBar.setProgress(seekBar.getMax() / 2);
+        newPos(seekBar.getProgress());
+    }
+    @Override
+
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        newPos(i);
     }
 
+    private void newPos(int i) {
+        if (vertical){
+            v = i - 100;
+        } else {
+            h = i - 100;
+        }
+        SocketHandler.send(getMessage());
+    }
+
+    private String getMessage() {
+        return "V" + intToString(v) + "H" + intToString(h);
+    }
+
+
+    //Makes all numbers 3 characters long
     private String intToString(int x) {
         String padding = "0";
         if (x < 0) {
