@@ -5,25 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 import android.widget.VerticalSeekBar;
-import android.widget.ViewSwitcher;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.util.Observable;
-import java.util.Observer;
 
 public class ControlActivity extends AppCompatActivity implements ObserverStatic{
     private Menu menu = null;
@@ -47,9 +33,16 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
         steerSeekBar = (SeekBar) findViewById(R.id.steerSeekBar);
         speedSeekBar = (VerticalSeekBar) findViewById(R.id.speedSeekBar);
         connectedImage = (ImageView) findViewById(R.id.connectedImage);
-        connectedImage.setImageResource(R.drawable.if_circle_orange_10281);
         connectedText = (TextView) findViewById(R.id.connectedText);
+        ToggleButton toggleButtonPlatoon = (ToggleButton) findViewById(R.id.toggleButtonPlatoon);
+        ToggleButton toggleButtonAcc = (ToggleButton) findViewById(R.id.toggleButtonAcc);
+
+
+        connectedImage.setImageResource(R.drawable.if_circle_orange_10281);
         connectedText.setText("Disconnected");
+        toggleButtonPlatoon.setOnCheckedChangeListener(new ToggleOnChangeListener("P"));
+        toggleButtonAcc.setOnCheckedChangeListener(new ToggleOnChangeListener("A"));
+
         steerSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(false));
         speedSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(true));
         steerSeekBar.setMax(200);
