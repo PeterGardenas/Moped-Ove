@@ -28,22 +28,24 @@
  */
 
 /* Forward declarations. */
-static void            Assert_that_Z(boolean);
-static boolean         collectGarbage(Address, Address, boolean);
-static Address         copyObjectGraph(Address, Address, Address, Address);
-static int             MethodHeader_minfoValue1_L(Address);
 static Offset          Address_diff_A(Address, Address);
 static Address         Address_zero();
-static int             MethodHeader_minfoValue2_L(Address);
-static int             NativeUnsafe_getByte_LI(Address, int);
+static boolean         collectGarbage(Address, Address, boolean);
+static Address         copyObjectGraph(Address, Address, Address, Address);
+static int             GC_getTotalCount();
+static boolean         GC_isTracing_I(int);
+static jlong           GarbageCollector_now(Address);
 static Address         Address_add_I(Address, int);
 static boolean         Address_lo_A(Address, Address);
 static jlong           CheneyCollector_freeMemory_A(Address, Address);
 static jlong           CheneyCollector_totalMemory(Address);
 static Address         GC_getKlass_L(Address);
-static int             GC_getTotalCount();
-static boolean         GC_isTracing_I(int);
-static jlong           GarbageCollector_now(Address);
+static Address         Address_fromObject_L(Address);
+static boolean         Address_ne_A(Address, Address);
+static Address         Address_roundUpToWord(Address);
+static Address         Address_toObject(Address);
+static void            Assert_that_Z(boolean);
+static void            Assert_that_ZL(boolean, Address);
 static void            CheneyCollector_memoryProtect_AA(Address, Address);
 static void            CheneyCollector_toggleSpaces(Address);
 static void            CheneyCollector_traceHeap_LA(Address, Address, Address);
@@ -58,32 +60,16 @@ static void            GarbageCollector_traceHeapEnd(Address);
 static void            GarbageCollector_traceHeapObject_AALI(Address, Address, Address, Address, int);
 static void            GarbageCollector_traceHeapSegment_LAA(Address, Address, Address, Address);
 static void            GarbageCollector_traceHeapSegment_LAI(Address, Address, Address, int);
-static void            GarbageCollector_traceHeapStart_LJJ(Address, Address, jlong, jlong);
-static void            GarbageCollector_traceVariable_LA(Address, Address, Address);
-static void            GarbageCollector_traceVariable_LI(Address, Address, int);
-static Address         Klass_getComponentType_L(Address);
-static int             Klass_getDataSize_L(Address);
-static int             Klass_getInstanceSize_L(Address);
-static Address         Klass_getInternalName_L(Address);
-static int             Klass_getSquawkArrayComponentDataSize_L(Address);
-static int             Klass_getSystemID_L(Address);
-static boolean         Klass_isSquawkArray_L(Address);
 static Address         Address_addOffset_O(Address, Offset);
 static Address         Address_and_U(Address, UWord);
 static boolean         Address_eq_A(Address, Address);
-static Address         Address_fromObject_L(Address);
-static boolean         Address_hi_A(Address, Address);
 static boolean         Address_hieq_A(Address, Address);
 static boolean         Address_isZero(Address);
 static boolean         Address_loeq_A(Address, Address);
-static boolean         Address_ne_A(Address, Address);
 static Address         Address_or_U(Address, UWord);
-static Address         Address_roundUpToWord(Address);
 static Address         Address_sub_I(Address, int);
-static Address         Address_toObject(Address);
 static UWord           Address_toUWord(Address);
 static void            Assert_always_ZLI(boolean, Address, int);
-static void            Assert_that_ZL(boolean, Address);
 static void            BitSet_ensureCapacity_I(Address, int);
 static void            BitSet_grow_II(Address, int, int);
 static void            BitSet_set_I(Address, int);
@@ -114,23 +100,33 @@ static void            CheneyCollector_updateStackChunk_A(Address, Address);
 static void            GC_encodeLengthWordError();
 static UWord           GC_encodeLengthWord_I(int);
 static int             GC_getArrayLength_L(Address);
-static boolean         GC_inRamHosted_L(Address);
-static boolean         GC_inRam_L(Address);
 static Address         GC_oopToBlock_LA(Address, Address);
 static void            GC_setAllocationParameters_AAAA(Address, Address, Address, Address);
 static void            GC_setHeaderClass_AL(Address, Address);
 static void            GC_setHeaderLength_AI(Address, int);
 static void            GarbageCollector_addWeakReference_L(Address, Address);
+static void            GarbageCollector_traceHeapStart_LJJ(Address, Address, jlong, jlong);
+static void            GarbageCollector_traceVariable_LA(Address, Address, Address);
+static void            GarbageCollector_traceVariable_LI(Address, Address, int);
 static int             GeneralDecoder_nextByte(Address);
 static int             GeneralDecoder_readUnsignedInt(Address);
 static Address         Isolate_getBootstrapSuite(Address);
+static Address         Klass_getComponentType(Address);
+static Address         Klass_getComponentType_L(Address);
+static boolean         Address_hi_A(Address, Address);
+static boolean         GC_inRamHosted_L(Address);
+static boolean         GC_inRam_L(Address);
 static Address         Isolate_getClassStateForInterpreter_L(Address, Address);
 static int             Klass_findSlot_LI(Address, Address, int);
-static Address         Klass_getComponentType(Address);
+static int             Klass_getDataSize_L(Address);
+static int             Klass_getInstanceSize_L(Address);
 static Address         Klass_getInternalName(Address);
+static Address         Klass_getInternalName_L(Address);
 static int             Klass_getModifiers(Address);
 static int             Klass_getRefStaticFieldsSize_L(Address);
+static int             Klass_getSquawkArrayComponentDataSize_L(Address);
 static int             Klass_getState(Address);
+static int             Klass_getSystemID_L(Address);
 static boolean         Klass_isAbstract(Address);
 static boolean         Klass_isArray(Address);
 static boolean         Klass_isAssignableFrom0_L(Address, Address);
@@ -138,6 +134,7 @@ static boolean         Klass_isAssignableFrom_L(Address, Address);
 static boolean         Klass_isImplementorOf_L(Address, Address);
 static boolean         Klass_isInstanceWordReference_LI(Address, int);
 static boolean         Klass_isInterface(Address);
+static boolean         Klass_isSquawkArray_L(Address);
 static boolean         Klass_isSubtypeOf_L(Address, Address);
 static boolean         Klass_isSubtypeOf_LL(Address, Address);
 static int             MethodHeader_decodeExceptionTableSize_L(Address);
@@ -148,6 +145,8 @@ static int             MethodHeader_decodeTypeTableOffset_L(Address);
 static int             MethodHeader_decodeTypeTableSize_L(Address);
 static int             MethodHeader_getOffsetToLastMinfoByte0_LII(Address, int, int);
 static int             MethodHeader_getOffsetToLastMinfoByte_L(Address);
+static int             MethodHeader_minfoValue1_L(Address);
+static int             MethodHeader_minfoValue2_L(Address);
 static int             MethodHeader_minfoValue3_L(Address);
 static int             MethodHeader_minfoValue4_L(Address);
 static int             MethodHeader_minfoValue_LI(Address, int);
@@ -160,6 +159,7 @@ static boolean         Modifier_isSynthetic_I(int);
 static unsigned short  NativeUnsafe_charAt_LI(Address, int);
 static Address         NativeUnsafe_getAddress_LI(Address, int);
 static UWord           NativeUnsafe_getAsUWord_LI(Address, int);
+static int             NativeUnsafe_getByte_LI(Address, int);
 static Address         NativeUnsafe_getObject_LI(Address, int);
 static int             NativeUnsafe_getUByte_LI(Address, int);
 static UWord           NativeUnsafe_getUWord_LI(Address, int);
@@ -342,54 +342,6 @@ void astore_l(Address oop, int index, jlong value) {
     setLong(oop, index, value);
 }
 
-
-#define  Assert_that_Z( cond) if (!(cond)) { fprintf(stderr, "Assertion failed: %s, at %s:%d\n", #cond, __FILE__, __LINE__); fatalVMError(""); }
-
-
-INLINE int NativeUnsafe_getUByte_LI(Address base, int offset) {
-    return getUByte(base, offset);
-}
-
-
-NOINLINE int MethodHeader_minfoValue1_L(Address oop) {
-    int p;
-    int val;
-    p = -13 - 1;
-    
-    
-    val = NativeUnsafe_getUByte_LI(oop, p--);
-    if (val > 127) {
-        val = val & 127;
-        val = sll(val, 8);
-        val = val | (NativeUnsafe_getUByte_LI(oop, p));
-    }
-    
-    return val;
-}
-
-INLINE int NativeUnsafe_getByte_LI(Address base, int offset) {
-    return getByte(base, offset);
-}
-
-
-NOINLINE int MethodHeader_minfoValue2_L(Address oop) {
-    int p;
-    int val;
-    p = -13 - 1;
-    
-    
-    if (NativeUnsafe_getByte_LI(oop, p--) < 0) {
-        p--;
-    }
-    val = NativeUnsafe_getUByte_LI(oop, p--);
-    if (val > 127) {
-        val = val & 127;
-        val = sll(val, 8);
-        val = val | NativeUnsafe_getUByte_LI(oop, p);
-    }
-    
-    return val;
-}
 
 INLINE Offset Address_diff_A(Address this, Address address2) {
     return Address_diff(this, address2);
@@ -599,6 +551,9 @@ INLINE int GC_getArrayLengthNoCheck_L(Address array) {
 INLINE int GC_roundUpToWord_I(int value) {
     return (value + (4 - 1)) & ~(4 - 1);
 }
+
+#define  Assert_that_Z( cond) if (!(cond)) { fprintf(stderr, "Assertion failed: %s, at %s:%d\n", #cond, __FILE__, __LINE__); fatalVMError(""); }
+
 
 INLINE boolean Modifier_isArray_I(int mod) {
     return (mod & 2097152) != 0;
@@ -978,6 +933,11 @@ INLINE Address Address_sub_I(Address this, int offset) {
 }
 
 
+INLINE int NativeUnsafe_getUByte_LI(Address base, int offset) {
+    return getUByte(base, offset);
+}
+
+
 INLINE int MethodHeader_decodeLocalCount_L(Address oop) {
     int b0;
     b0 = NativeUnsafe_getUByte_LI(oop, -13);
@@ -988,6 +948,30 @@ INLINE int MethodHeader_decodeLocalCount_L(Address oop) {
     } else {
         return MethodHeader_minfoValue2_L(oop);
     }
+}
+
+INLINE int NativeUnsafe_getByte_LI(Address base, int offset) {
+    return getByte(base, offset);
+}
+
+
+NOINLINE int MethodHeader_minfoValue2_L(Address oop) {
+    int p;
+    int val;
+    p = -13 - 1;
+    
+    
+    if (NativeUnsafe_getByte_LI(oop, p--) < 0) {
+        p--;
+    }
+    val = NativeUnsafe_getUByte_LI(oop, p--);
+    if (val > 127) {
+        val = val & 127;
+        val = sll(val, 8);
+        val = val | NativeUnsafe_getUByte_LI(oop, p);
+    }
+    
+    return val;
 }
 
 INLINE int MethodHeader_decodeParameterCount_L(Address oop) {
@@ -2189,13 +2173,6 @@ static Address copyObjectGraph(Address this, Address object, Address cb, Address
     return graphCopy;
 }
 
-static int VMBufferDecoder_nextByte(Address this) {
-    int b;
-    b = NativeUnsafe_getByte_LI(com_sun_squawk_VMBufferDecoder_oop(this), com_sun_squawk_VMBufferDecoder_offset(this));
-    set_com_sun_squawk_VMBufferDecoder_offset(this, (com_sun_squawk_VMBufferDecoder_offset(this) + 1));
-    return b;
-}
-
 INLINE boolean VM_instanceof(Address obj, Address klass) {
     
     return Klass_isAssignableFrom_L(nullPointerCheck(klass), GC_getKlass_L(obj));
@@ -2281,6 +2258,29 @@ INLINE int VM_arrayOopStoreCheck(Address array, int index, Address value) {
         com_sun_squawk_VM_reportedIndex = index;
         return 1;
     }
+}
+
+NOINLINE int MethodHeader_minfoValue1_L(Address oop) {
+    int p;
+    int val;
+    p = -13 - 1;
+    
+    
+    val = NativeUnsafe_getUByte_LI(oop, p--);
+    if (val > 127) {
+        val = val & 127;
+        val = sll(val, 8);
+        val = val | (NativeUnsafe_getUByte_LI(oop, p));
+    }
+    
+    return val;
+}
+
+static int VMBufferDecoder_nextByte(Address this) {
+    int b;
+    b = NativeUnsafe_getByte_LI(com_sun_squawk_VMBufferDecoder_oop(this), com_sun_squawk_VMBufferDecoder_offset(this));
+    set_com_sun_squawk_VMBufferDecoder_offset(this, (com_sun_squawk_VMBufferDecoder_offset(this) + 1));
+    return b;
 }
 
 INLINE int VM_findSlot(Address obj, Address iklass, int islot) {
@@ -2459,12 +2459,11 @@ NOINLINE int VM_lookup_s(int key, Address array) {
 }
 
 Address *ALL_LITERALS[4];
-Address LITERALS_FOR_com_sun_squawk_VM[2] = {
-    NULL, NULL};
 Address LITERALS_FOR_com_sun_squawk_GarbageCollector[13] = {
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 
     NULL, NULL, NULL};
-Address LITERALS_FOR_com_sun_squawk_GC[1] = {NULL};
+Address LITERALS_FOR_com_sun_squawk_VM[2] = {
+    NULL, NULL};
 Address LITERALS_FOR_com_sun_squawk_CheneyCollector[72] = {
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 
@@ -2474,6 +2473,7 @@ Address LITERALS_FOR_com_sun_squawk_CheneyCollector[72] = {
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 
     NULL, NULL};
+Address LITERALS_FOR_com_sun_squawk_GC[1] = {NULL};
 
 Address findCStringInObjects(Address objects, int length, const char *s) {
     int i = 0;
@@ -2498,10 +2498,10 @@ Address getObjectForCStringLiteral(int key, int klassIndex, const char *cstr) {
 
     if (!initialized) {
         initialized = true;
-        ALL_LITERALS[0] =  LITERALS_FOR_com_sun_squawk_VM;
         ALL_LITERALS[1] =  LITERALS_FOR_com_sun_squawk_GarbageCollector;
-        ALL_LITERALS[3] =  LITERALS_FOR_com_sun_squawk_GC;
+        ALL_LITERALS[0] =  LITERALS_FOR_com_sun_squawk_VM;
         ALL_LITERALS[2] =  LITERALS_FOR_com_sun_squawk_CheneyCollector;
+        ALL_LITERALS[3] =  LITERALS_FOR_com_sun_squawk_GC;
     }
 
     literals = ALL_LITERALS[classKey];

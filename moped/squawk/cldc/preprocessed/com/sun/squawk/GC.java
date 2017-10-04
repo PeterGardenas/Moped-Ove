@@ -892,9 +892,11 @@ public class GC implements GlobalStaticFields {
         if (oop == null) {
             Assert.always(VM.isThreadingInitialized(), "GC.java", 893); // "insufficient memory to start VM"
             if (gcEnabled) {
+		//VM.println("allocate 2 " + size + " " + arrayLength);
                 VM.collectGarbage(false);
                 oop = allocatePrim(size, klass, arrayLength);
                 if (oop == null) {
+		    //VM.println("allocate 3 " + size + " " + arrayLength);
                     // try harder!
                     VM.collectGarbage(true);
                     oop = allocatePrim(size, klass, arrayLength);
@@ -943,7 +945,7 @@ public class GC implements GlobalStaticFields {
         VM.invalidateClassStateCache();
 
         // Set the collector re-entry guard.
-        Assert.always(!collecting, "GC.java", 946);
+        Assert.always(!collecting, "GC.java", 948);
         collecting = true;
 
         // Disable allocation and check that it was enabled.
@@ -964,6 +966,8 @@ public class GC implements GlobalStaticFields {
         // Enable allocation again.
         setAllocationEnabled(true);
 
+	// Arndt: if I enable the below block, it says "[Full GC" and then
+	// nothing more
         if (isTracing(TRACE_BASIC)) {
             long afterFree = freeMemory();
             if (fullCollection) {
@@ -999,7 +1003,7 @@ public class GC implements GlobalStaticFields {
         }
 
         // Check that the class state cache is still clear.
-        Assert.always(VM.invalidateClassStateCache(), "GC.java", 1002);
+        Assert.always(VM.invalidateClassStateCache(), "GC.java", 1006);
     }
 
     /**
@@ -1268,6 +1272,7 @@ public class GC implements GlobalStaticFields {
      * @return a pointer to the new stack or null if the allocation fails
      */
     static Object newStack(int length, VMThread owner) {
+	//VM.println("newStack " + length);
         int size = roundUpToWord(HDR.arrayHeaderSize + (length * HDR.BYTES_PER_WORD));
         Object stack = allocatePrim(size, Klass.LOCAL_ARRAY, length);
         if (stack != null) {
@@ -1321,7 +1326,7 @@ public class GC implements GlobalStaticFields {
         NativeUnsafe.setAddress(dst, SC.owner, NativeUnsafe.getAddress(src, SC.owner));
         NativeUnsafe.setAddress(dst, SC.lastFP, NativeUnsafe.getAddress(src, SC.lastFP));
         NativeUnsafe.setUWord(dst, SC.lastBCI, NativeUnsafe.getUWord(src, SC.lastBCI));
-        Assert.always(NativeUnsafe.getAddress(src, SC.guard).isZero(), "GC.java", 1324);
+        Assert.always(NativeUnsafe.getAddress(src, SC.guard).isZero(), "GC.java", 1329);
 
         Address srcEnd = src.add(srcSize);
         int srcUsedSize = srcEnd.diff(srcLastFP).toInt();
@@ -2099,7 +2104,7 @@ public class GC implements GlobalStaticFields {
                 for (int j = 0; j < classCount; j++) {
                     Klass k = s.getKlass(j);
                     if (k != null && k.isInstantiable()) {
-                        Assert.always(table.get(s.getKlass(j)) == null, "GC.java", 2102);
+                        Assert.always(table.get(s.getKlass(j)) == null, "GC.java", 2107);
                         table.put(s.getKlass(j), new ClassStat());
                     }
                 }

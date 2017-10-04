@@ -51,8 +51,8 @@ typedef UWord* UWordAddress;
          * @param right the second value
          * @return true if 'left' is lower than 'right' in an unsigned comparison
          */
-#define  lo(left_0, right_1) (  \
-             (UWord)(left_0) < (UWord)(right_1)  \
+#define  lo(left_489, right_490) (  \
+             (UWord)(left_489) < (UWord)(right_490)  \
         )
 
         /**
@@ -62,8 +62,8 @@ typedef UWord* UWordAddress;
          * @param right the second value
          * @return true if 'left' is lower than or equal to 'right' in an unsigned comparison
          */
-#define  loeq(left_2, right_3) (  \
-             (UWord)(left_2) <= (UWord)(right_3)  \
+#define  loeq(left_491, right_492) (  \
+             (UWord)(left_491) <= (UWord)(right_492)  \
         )
 
         /**
@@ -73,8 +73,8 @@ typedef UWord* UWordAddress;
          * @param right the second value
          * @return true if 'left' is higher than 'right' in an unsigned comparison
          */
-#define  hi(left_4, right_5) (  \
-             (UWord)(left_4) > (UWord)(right_5)  \
+#define  hi(left_493, right_494) (  \
+             (UWord)(left_493) > (UWord)(right_494)  \
         )
 
         /**
@@ -84,8 +84,8 @@ typedef UWord* UWordAddress;
          * @param right the second value
          * @return true if 'left' is higher than or equal to 'right' in an unsigned comparison
          */
-#define  hieq(left_6, right_7) (  \
-             (UWord)(left_6) >= (UWord)(right_7)  \
+#define  hieq(left_495, right_496) (  \
+             (UWord)(left_495) >= (UWord)(right_496)  \
         )
 
         /**
@@ -95,8 +95,8 @@ typedef UWord* UWordAddress;
          * @param right the second value
          * @return true if 'left' is lower than 'right' in a signed comparison
          */
-#define  lt(left_8, right_9) (  \
-             (Offset)(left_8) < (Offset)(right_9)  \
+#define  lt(left_497, right_498) (  \
+             (Offset)(left_497) < (Offset)(right_498)  \
         )
 
         /**
@@ -106,8 +106,8 @@ typedef UWord* UWordAddress;
          * @param right the second value
          * @return true if 'left' is lower than or equal to 'right' in a signed comparison
          */
-#define  le(left_10, right_11) (  \
-             (Offset)(left_10) <= (Offset)(right_11)  \
+#define  le(left_499, right_500) (  \
+             (Offset)(left_499) <= (Offset)(right_500)  \
         )
 
         /**
@@ -117,8 +117,8 @@ typedef UWord* UWordAddress;
          * @param right the second value
          * @return true if 'left' is higher than 'right' in a signed comparison
          */
-#define  gt(left_12, right_13) (  \
-             (Offset)(left_12) > (Offset)(right_13)  \
+#define  gt(left_501, right_502) (  \
+             (Offset)(left_501) > (Offset)(right_502)  \
         )
 
         /**
@@ -128,8 +128,8 @@ typedef UWord* UWordAddress;
          * @param right the second value
          * @return true if 'left' is higher than or equal to 'right' in a signed comparison
          */
-#define  ge(left_14, right_15) (  \
-             (Offset)(left_14) >= (Offset)(right_15)  \
+#define  ge(left_503, right_504) (  \
+             (Offset)(left_503) >= (Offset)(right_504)  \
         )
 
 
@@ -140,8 +140,8 @@ typedef UWord* UWordAddress;
          * @param offset   the signed offset (in bytes) to add
          * @return the result of adding 'offset' to 'address'
          */
-#define  Address_add(address_16, offset_17) (  \
-             (Address)((UWord)(address_16) + (Offset)(offset_17))  \
+#define  Address_add(address_505, offset_506) (  \
+             (Address)((UWord)(address_505) + (Offset)(offset_506))  \
         )
 
         /**
@@ -151,8 +151,8 @@ typedef UWord* UWordAddress;
          * @param offset   the signed offset (in bytes) to subtract
          * @return the result of subtracting 'offset' from 'address'
          */
-#define  Address_sub(address_18, offset_19) (  \
-             (Address)((UWord)(address_18) - (Offset)(offset_19))  \
+#define  Address_sub(address_507, offset_508) (  \
+             (Address)((UWord)(address_507) - (Offset)(offset_508))  \
         )
 
         /**
@@ -162,6 +162,6 @@ typedef UWord* UWordAddress;
          * @param address2  the second address
          * @return the signed distance (in bytes) between 'address1' and 'address2'
          */
-#define  Address_diff(address1_20, address2_21) (  \
-             (Offset)(address1_20) - (Offset)(address2_21)  \
+#define  Address_diff(address1_509, address2_510) (  \
+             (Offset)(address1_509) - (Offset)(address2_510)  \
         )

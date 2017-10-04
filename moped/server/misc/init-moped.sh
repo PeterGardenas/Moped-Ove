@@ -13,7 +13,7 @@
 
 SQL="mysql -uroot -proot"
 
-USERDUMP=~/moped/wp_users.dump
+USERDUMP=~/Desktop/wp_users.sql.rtf
 
 USERID=33
 
@@ -48,19 +48,19 @@ import base64
 
 x=base64.b64encode(readfile("../../simulator/configs/system1.xml"))
 x = s.addVehicleConfig("MOPED", x)
-print x
+print(x)
 
 x = s.addVehicle("minMOPED", "20UYA31581L000000", "MOPED")
-print x
+print(x)
 
 x = s.addUserVehicleAssociation($USERID, "20UYA31581L000000", True)
-print x
+print(x)
 
 app = testmoped.uploadplus(s, "DistPub", "1.0")
 print app
 
 x = s.installApp("20UYA31581L000000", app)
-print x
+print(x)
 
 
 EOF

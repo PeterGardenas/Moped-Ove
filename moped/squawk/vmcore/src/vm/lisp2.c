@@ -86,8 +86,8 @@ INLINE int getBitmapCardinality() {
          * @param n  an index into the bitmap
          * @return the index of the bitmap word containing bit <code>n</code>
          */
-#define  getBitmapWordIndex(n_22) (  \
-             (n_22) >> HDR_LOG2_BITS_PER_WORD  \
+#define  getBitmapWordIndex(n_0) (  \
+             (n_0) >> HDR_LOG2_BITS_PER_WORD  \
         )
 
         /**
@@ -96,8 +96,8 @@ INLINE int getBitmapCardinality() {
          * @param n  an index into the bitmap
          * @return the position of bit <code>n</code> in the bitmap word containing it
          */
-#define  getBitmapBit(n_23) (  \
-             (int)((n_23) & BIT_INDEX_MASK)  \
+#define  getBitmapBit(n_1) (  \
+             (int)((n_1) & BIT_INDEX_MASK)  \
         )
 
         /**
@@ -106,8 +106,8 @@ INLINE int getBitmapCardinality() {
          * @param n  an index into the bitmap
          * @return a mask that can be used to extract bit <code>n</code> from the bitmap word containing it
          */
-#define  getBitmapMask(n_24) (  \
-             (UWord)1 << getBitmapBit((n_24))  \
+#define  getBitmapMask(n_2) (  \
+             (UWord)1 << getBitmapBit((n_2))  \
         )
 
         /**
@@ -116,8 +116,8 @@ INLINE int getBitmapCardinality() {
          * @param n   the bit index for which the corresponding bitmap word is required
          * @return    the address of the bitmap word that contains the <code>n</code>th bit
          */
-#define  getAddressOfBitmapWordForNthBit(n_25) (  \
-             Address_add(bitmapBase, getBitmapWordIndex((n_25)) << HDR_LOG2_BYTES_PER_WORD)  \
+#define  getAddressOfBitmapWordForNthBit(n_3) (  \
+             Address_add(bitmapBase, getBitmapWordIndex((n_3)) << HDR_LOG2_BYTES_PER_WORD)  \
         )
 
         /**
@@ -126,9 +126,9 @@ INLINE int getBitmapCardinality() {
          * @param n  the bit index to test
          * @return true if bit <code>n</code> corresponds with a word in the bitmap
          */
-INLINE boolean isNthBitInRange(UWord n_26) {
-/*fprintf(stderr, format("isNthBitInRange:\n  base\t= %A\n  bmap\t= %A\n  n\t= %A\n  bmw\t= %A\n"), bitmapBase, bitmap, (n_26), getAddressOfBitmapWordForNthBit((n_26)));*/
-            return hieq(getAddressOfBitmapWordForNthBit((n_26)), bitmap) && lo(getAddressOfBitmapWordForNthBit((n_26)), bitmapEnd);
+INLINE boolean isNthBitInRange(UWord n_4) {
+/*fprintf(stderr, format("isNthBitInRange:\n  base\t= %A\n  bmap\t= %A\n  n\t= %A\n  bmw\t= %A\n"), bitmapBase, bitmap, (n_4), getAddressOfBitmapWordForNthBit((n_4)));*/
+            return hieq(getAddressOfBitmapWordForNthBit((n_4)), bitmap) && lo(getAddressOfBitmapWordForNthBit((n_4)), bitmapEnd);
         }
 
         /**
@@ -136,10 +136,10 @@ INLINE boolean isNthBitInRange(UWord n_26) {
          *
          * @param n       the index of the bit to be set
          */
-#define  setNthBit(n_27) { UWord  n_28 = n_27;  \
-            UWord index = getBitmapWordIndex((n_28)); \
-            UWord mask = getBitmapMask((n_28)); \
-            assume(isNthBitInRange((n_28))); \
+#define  setNthBit(n_5) { UWord  n_6 = n_5;  \
+            UWord index = getBitmapWordIndex((n_6)); \
+            UWord mask = getBitmapMask((n_6)); \
+            assume(isNthBitInRange((n_6))); \
             setUWord(bitmapBase, index, getUWord(bitmapBase, index) | mask); \
         }
 
@@ -148,10 +148,10 @@ INLINE boolean isNthBitInRange(UWord n_26) {
          *
          * @param n       the index of the bit to be set
          */
-#define  clearNthBit(n_29) { UWord  n_30 = n_29;  \
-            UWord index = getBitmapWordIndex((n_30)); \
-            UWord mask = ~getBitmapMask((n_30)); \
-            assume(isNthBitInRange((n_30))); \
+#define  clearNthBit(n_7) { UWord  n_8 = n_7;  \
+            UWord index = getBitmapWordIndex((n_8)); \
+            UWord mask = ~getBitmapMask((n_8)); \
+            assume(isNthBitInRange((n_8))); \
             setUWord(bitmapBase, index, getUWord(bitmapBase, index) & mask); \
         }
 
@@ -162,9 +162,9 @@ INLINE boolean isNthBitInRange(UWord n_26) {
          * @param n       the index of the bit to be tested
          * @return true if bit <code>n</code> is set
          */
-INLINE boolean testNthBit(UWord n_31) {
-/*fprintf(stderr, format("testNthBit - n = %A bitmap = %A bitmapWordAddress = %A bitmapWord = %A\n"), (n_31), bitmap, Address_add(bitmapBase, getBitmapWordIndex((n_31))), getUWord(bitmapBase, getBitmapWordIndex((n_31))));*/
-            return (getUWord(bitmapBase, getBitmapWordIndex((n_31))) & getBitmapMask((n_31))) != 0;
+INLINE boolean testNthBit(UWord n_9) {
+/*fprintf(stderr, format("testNthBit - n = %A bitmap = %A bitmapWordAddress = %A bitmapWord = %A\n"), (n_9), bitmap, Address_add(bitmapBase, getBitmapWordIndex((n_9))), getUWord(bitmapBase, getBitmapWordIndex((n_9))));*/
+            return (getUWord(bitmapBase, getBitmapWordIndex((n_9))) & getBitmapMask((n_9))) != 0;
         }
 
         /**
@@ -173,14 +173,14 @@ INLINE boolean testNthBit(UWord n_31) {
          * @param n       the index of the bit to be tested
          * @return true if bit <code>n</code> was set before this call
          */
-INLINE boolean testAndSetNthBit(UWord n_32) {
+INLINE boolean testAndSetNthBit(UWord n_10) {
             UWord oldval;
-            assume(isNthBitInRange((n_32)));
-            oldval = getUWord(bitmapBase, getBitmapWordIndex((n_32)));
-            if ((oldval & getBitmapMask((n_32))) != 0) {
+            assume(isNthBitInRange((n_10)));
+            oldval = getUWord(bitmapBase, getBitmapWordIndex((n_10)));
+            if ((oldval & getBitmapMask((n_10))) != 0) {
                 return true;
             } else {
-                setUWord(bitmapBase, getBitmapWordIndex((n_32)), oldval | getBitmapMask((n_32)));
+                setUWord(bitmapBase, getBitmapWordIndex((n_10)), oldval | getBitmapMask((n_10)));
                 return false;
             }
         }
@@ -195,8 +195,8 @@ INLINE boolean testAndSetNthBit(UWord n_32) {
          * @param ea  the address to convert
          * @return the index of the bit in the bitmap for <code>ea</code>
          */
-#define  asBitIndex(ea_33) (  \
-             (((UWord)(ea_33)) >> HDR_LOG2_BYTES_PER_WORD)  \
+#define  asBitIndex(ea_11) (  \
+             (((UWord)(ea_11)) >> HDR_LOG2_BYTES_PER_WORD)  \
         )
 
         /**
@@ -205,8 +205,8 @@ INLINE boolean testAndSetNthBit(UWord n_32) {
          * @param ea   the address for which the corresponding bitmap word is required
          * @return     the address of the bitmap word that contains the bit for <code>ea</code>
          */
-#define  getAddressOfBitmapWordFor(ea_34) (  \
-             getAddressOfBitmapWordForNthBit(asBitIndex((ea_34)))  \
+#define  getAddressOfBitmapWordFor(ea_12) (  \
+             getAddressOfBitmapWordForNthBit(asBitIndex((ea_12)))  \
         )
 
         /**
@@ -215,8 +215,8 @@ INLINE boolean testAndSetNthBit(UWord n_32) {
          * @param bitmapWordPtr  the address of a word in the bitmap
          * @return the address corresponding to the first bit in the word at <code>bitmapWordPtr</code>
          */
-#define  getAddressForBitmapWord(bitmapWordPtr_35) (  \
-             (Address)(((UWord)Address_diff((bitmapWordPtr_35), bitmapBase) << HDR_LOG2_BITS_PER_BYTE) << HDR_LOG2_BYTES_PER_WORD)  \
+#define  getAddressForBitmapWord(bitmapWordPtr_13) (  \
+             (Address)(((UWord)Address_diff((bitmapWordPtr_13), bitmapBase) << HDR_LOG2_BITS_PER_BYTE) << HDR_LOG2_BYTES_PER_WORD)  \
         )
 
         /**
@@ -225,8 +225,8 @@ INLINE boolean testAndSetNthBit(UWord n_32) {
          * @param ea      the effective address for which the corresponding bit to be tested
          * @return true if the bit for <code>ea</code> is set
          */
-#define  testBitFor(ea_36) (  \
-             testNthBit(asBitIndex((ea_36)))  \
+#define  testBitFor(ea_14) (  \
+             testNthBit(asBitIndex((ea_14)))  \
         )
 
         /**
@@ -235,15 +235,15 @@ INLINE boolean testAndSetNthBit(UWord n_32) {
          * @param ea      the effective address for which the corresponding bit is to be set
          */
 
-#define  setBitFor(ea_37) { Address  ea_38 = ea_37;  \
+#define  setBitFor(ea_15) { Address  ea_16 = ea_15;  \
  \
  \
  \
-/*fprintf(stderr, format("setBitFor - ea = %A *ea = %A\n"), (ea_38), *((UWord*)(ea_38)));*/ \
-/*if ((UWord)(ea_38) == BAD_ADDRESS) fprintf(stderr, format("setBitFor - ea = %A *ea = %A\n"), (ea_38), *((UWord*)(ea_38)));*/ \
-/*if (*((UWord*)(ea_38)) == 109609828) fatalVMError("bad set bit");*/ \
-            setNthBit(asBitIndex((ea_38))); \
-            assume(testBitFor((ea_38))); \
+/*fprintf(stderr, format("setBitFor - ea = %A *ea = %A\n"), (ea_16), *((UWord*)(ea_16)));*/ \
+/*if ((UWord)(ea_16) == BAD_ADDRESS) fprintf(stderr, format("setBitFor - ea = %A *ea = %A\n"), (ea_16), *((UWord*)(ea_16)));*/ \
+/*if (*((UWord*)(ea_16)) == 109609828) fatalVMError("bad set bit");*/ \
+            setNthBit(asBitIndex((ea_16))); \
+            assume(testBitFor((ea_16))); \
 /*fprintf(stderr, format("setBitFor - cardinality = %d\n"), getBitmapCardinality());*/ \
 /*printMarkedAddresses();*/ \
         }
@@ -253,8 +253,8 @@ INLINE boolean testAndSetNthBit(UWord n_32) {
          *
          * @param ea      the effective address for which the corresponding bit is to be set
          */
-#define  clearBitFor(ea_39) { Address  ea_40 = ea_39;  \
-            clearNthBit(asBitIndex((ea_40))); \
+#define  clearBitFor(ea_17) { Address  ea_18 = ea_17;  \
+            clearNthBit(asBitIndex((ea_18))); \
         }
 
         /**
@@ -263,9 +263,9 @@ INLINE boolean testAndSetNthBit(UWord n_32) {
          * @param ea      the effective address for which the corresponding bit to be tested
          * @return true if the bit for <code>ea</code> was set before this call
          */
-INLINE boolean testAndSetBitFor(Address ea_41) {
-/*fprintf(stderr, format("testAndSetBitFor - ea = %A\n"), (ea_41));*/
-            return testAndSetNthBit(asBitIndex((ea_41)));
+INLINE boolean testAndSetBitFor(Address ea_19) {
+/*fprintf(stderr, format("testAndSetBitFor - ea = %A\n"), (ea_19));*/
+            return testAndSetNthBit(asBitIndex((ea_19)));
         }
 
         /**

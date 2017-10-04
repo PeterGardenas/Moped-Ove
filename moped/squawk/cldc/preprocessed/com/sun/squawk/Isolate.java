@@ -1498,11 +1498,12 @@ public final class Isolate implements Runnable {
      *
      * @throws IllegalStateException if the isolate has already been started
      */
-    public void start() {
+    public Thread start() {
         transitioningState = ALIVE;
         String isoname = new StringBuffer(mainClassName).append(" - main").toString();
         Thread t = new CrossIsolateThread(this, isoname);
         t.start();
+	return t;
     }
 
     /**
@@ -1573,16 +1574,19 @@ public final class Isolate implements Runnable {
      * parent suite URI or class path.
      */
     private void updateLeafSuite(boolean prepass) {
+	VM.println("updateLeafSuite 1");
         if (!prepass) {
             if (false) Assert.that(VM.getCurrentIsolate() == this);
         }
 
 
 //        if (parentSuiteSourceURI != null) {
-//            Suite parent = Suite.getSuite(parentSuiteSourceURI);
+//	    VM.println("updateLeafSuite 2");
+//            Suite parent = Suite.getSuite(parentSuiteSourceURI, true, true);
 //            Assert.that(parent != null);
 //            leafSuite = parent;
 //        } else {
+//	    VM.println("updateLeafSuite 3");
 //            leafSuite = bootstrapSuite;
 //        }
 
@@ -1591,7 +1595,8 @@ public final class Isolate implements Runnable {
 //
 
           if (parentSuiteSourceURI != null || classPath != null) {       
-              Suite parent = (parentSuiteSourceURI == null ? bootstrapSuite : Suite.getSuite(parentSuiteSourceURI));
+  	    VM.println("updateLeafSuite 4");
+              Suite parent = (parentSuiteSourceURI == null ? bootstrapSuite : Suite.getSuite(parentSuiteSourceURI, true, true));
               if (false) Assert.that(parent != null);
   
               // Don't create a suite for loading new classes if the class path is null
@@ -1916,7 +1921,7 @@ public final class Isolate implements Runnable {
             hibernate(EXITED, doExitHooks);
         } catch (IOException e) {
             e.printStackTrace();
-            if (Assert.SHOULD_NOT_REACH_HERE_ALWAYS_ENABLED) Assert.shouldNotReachHere("Isolate.java", 1919);
+            if (Assert.SHOULD_NOT_REACH_HERE_ALWAYS_ENABLED) Assert.shouldNotReachHere("Isolate.java", 1924);
         }
     }
 

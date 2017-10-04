@@ -2087,6 +2087,14 @@ public class VM implements GlobalStaticFields {
      *                        Miscellaneous functions                        *
     \*-----------------------------------------------------------------------*/
 
+    public static int datahash(byte[] data) {
+	int sum = 0;
+	for (int i = 0; i < data.length; i++) {
+	    sum ^= data[i] << ((i%4)*8);
+	}
+	return sum;
+    }
+
     public static native void finalize(Object o);
     
     /** 
@@ -2094,6 +2102,8 @@ public class VM implements GlobalStaticFields {
      * file loading protocol (and a file system) on a bare metal platform.
      */
 	public static void registerPluginObjectMemory(String name, byte[] data) {
+	    VM.println("registering data hash = " + datahash(data));
+
     	if (pluginObjectMemories == null)
     		pluginObjectMemories = new Hashtable();
     	
@@ -2579,7 +2589,7 @@ public class VM implements GlobalStaticFields {
      */
     static ObjectMemorySerializer.ControlBlock copyObjectGraph(Object object) throws HostedPragma {
 
-        if (Assert.SHOULD_NOT_REACH_HERE_ALWAYS_ENABLED) Assert.shouldNotReachHere("VM.java", 2582);
+        if (Assert.SHOULD_NOT_REACH_HERE_ALWAYS_ENABLED) Assert.shouldNotReachHere("VM.java", 2592);
         return null;
 
 ////        Assert.always(GC.inRam(object));
@@ -2666,7 +2676,7 @@ public class VM implements GlobalStaticFields {
      */
     public static void haltVM(int code) {
         execSyncIO(ChannelConstants.INTERNAL_STOPVM, code);
-        if (Assert.SHOULD_NOT_REACH_HERE_ALWAYS_ENABLED) Assert.shouldNotReachHere("VM.java", 2669);
+        if (Assert.SHOULD_NOT_REACH_HERE_ALWAYS_ENABLED) Assert.shouldNotReachHere("VM.java", 2679);
     }
 
     /**
@@ -3009,7 +3019,7 @@ public class VM implements GlobalStaticFields {
                 max = MAXMOVE / 2;
                 break;
             default:
-                if (Assert.SHOULD_NOT_REACH_HERE_ALWAYS_ENABLED) Assert.shouldNotReachHere("VM.java", 3012);
+                if (Assert.SHOULD_NOT_REACH_HERE_ALWAYS_ENABLED) Assert.shouldNotReachHere("VM.java", 3022);
         }
         
         if (false) Assert.that(src != null && GC.getKlass(src).isArray());
@@ -4514,7 +4524,9 @@ public class VM implements GlobalStaticFields {
      */
     public static Hashtable getManifestPropertiesOfSuite(String uri) {
      	Hashtable properties = new Hashtable();
+	VM.println("getManifestPropertiesOfSuite 1 " + uri);
     	Suite suite = Suite.getSuite(uri);
+	VM.println("getManifestPropertiesOfSuite 2");
     	Enumeration additions = suite.getManifestPropertyNames();
     	while (additions.hasMoreElements()) {
 			String propertyName = (String)additions.nextElement();
