@@ -21,14 +21,15 @@ public class Line {
 	
 	public boolean hasConnection(Line otherLine) {
 		if (Math.abs(this.yValue - otherLine.getYValue()) == 1) {
-			return temp(otherLine.getXStartValue(), otherLine.getEndValue());
+			return checkConnection(otherLine.getXStartValue(), otherLine.getEndValue());
 		} else if (otherLine.getYValue() == this.yValue) {
-			return temp(otherLine.getXStartValue() - 1, otherLine.getEndValue() + 1);
+			return checkConnection(otherLine.getXStartValue() - 1, otherLine.getEndValue() + 1);
 		}
 		return false;
 	}
 	
-	private boolean temp (int x1, int x2) {
+	//Sees if the lines connects at any point.
+	private boolean checkConnection(int x1, int x2) {
 		return (xStartValue <= x1 &&  xEndValue >= x1) ||  (xStartValue <= x2 &&  xEndValue >= x2) ||
 				(x1 <= xStartValue &&  x2 >= xStartValue) ||  (x1 <= xEndValue &&  x2 >= xEndValue);
 		
@@ -46,6 +47,7 @@ public class Line {
 		return this.xEndValue;
 	}
 	
+	//Merges a line if there is a connection.
 	public boolean mergeIfPossible(Line other) {
 		if (hasConnection(other)) {
 			this.xEndValue = xEndValue > other.xEndValue ? xEndValue : other.xEndValue;

@@ -8,18 +8,18 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /* 
- * A shape is a group of pixels of the same color with direct or indirect connection to each other.
- * A shape is builed by lines.
+ * A shape is a group of pixels of the same colour with direct or indirect connection to each other.
+ * The pixels are grouped together as lines.
  */
 
 public class Shape {
 	//The circle is never exact. Settings is neccsary to find circles.
-	private static double maxHightWidthDifference = 0.1;
-	private static double minRadius = 15;
-	private static double maxRadius = 1000;
-	private static double expectedFullCircle = 0.95;
-	private static double checkPoints = 100;
-	private static double maxWeightInCircleDifference = 0.05;
+	private static final double MAX_HIGHT_WIDTH_DIFFERENCE = 0.1;
+	private static final double MIN_RADIUS = 15;
+	private static final double MAX_RADIUS = 1000;
+	private static final double EXPECTED_FULL_CIRCLE = 0.95;
+	private static final double CHECK_POINTS = 100;
+	private static final double MAX_WEIGHT_IN_CIRCLE_DIFFERENCE = 0.05;
 
 	
     private HashMap<Integer, List<Line>> lines = new HashMap<>();
@@ -28,6 +28,7 @@ public class Shape {
     private double endX;
     private double startY;
     private double endY;
+    private boolean match = false;
 
     public Shape(Line line) {
         lines.put(line.getYValue(), new LinkedList<>());
@@ -37,6 +38,7 @@ public class Shape {
         this.endY = this.startY = line.getYValue();
     }
 
+    //Adds a line to shapes and sets new start and end values. 
     public void addLine(Line line) {
         if (lines.get(line.getYValue()) == null) lines.put(line.getYValue(), new LinkedList<>());
         if (line.getYValue() > this.endY) this.endY = line.getYValue();
@@ -85,14 +87,14 @@ public class Shape {
 
 
     public boolean isCircle(Graphics g) {
-        if (Math.abs(endX - startX) / (endY - startY) - 1 > maxHightWidthDifference) return false;
-        if ((endX - startX) < minRadius || (endY - startY) < minRadius) return false;
-        if ((endX - startX) > maxRadius || (endY - startY) > maxRadius) return false;
-        if (Math.abs(weightInCircle() - 1) > maxWeightInCircleDifference) return false;
-        double radius = Math.sqrt((startX - endX) / 2 * (startY - endY) / 2) * expectedFullCircle;
+        if (Math.abs(endX - startX) / (endY - startY) - 1 > MAX_HIGHT_WIDTH_DIFFERENCE) return false;
+        if ((endX - startX) < MIN_RADIUS || (endY - startY) < MIN_RADIUS) return false;
+        if ((endX - startX) > MAX_RADIUS || (endY - startY) > MAX_RADIUS) return false;
+        if (Math.abs(weightInCircle() - 1) > MAX_WEIGHT_IN_CIRCLE_DIFFERENCE) return false;
+        double radius = Math.sqrt((startX - endX) / 2 * (startY - endY) / 2) * EXPECTED_FULL_CIRCLE;
         double middleX = (endX + startX) / 2;
         double middleY = (endY + startY) / 2;
-        for (int i = 0; i < checkPoints; i++) {
+        for (int i = 0; i < CHECK_POINTS; i++) {
             int x = (int) (middleX + radius * Math.cos(2 * Math.PI / 100 * i));
             int y = (int) (middleY + radius * Math.sin(2 * Math.PI / 100 * i));
             if (!cordinates.containsKey(x + ":" + y)) return false;
@@ -105,16 +107,17 @@ public class Shape {
     }
 
     public boolean isEllipse(Graphics g) {
-    	if ((endX - startX) < minRadius || (endY - startY) < minRadius) return false;
-        if ((endX - startX) > maxRadius || (endY - startY) > maxRadius) return false;
+    	if ((endX - startX) < MIN_RADIUS || (endY - startY) < MIN_RADIUS) return false;
+        if ((endX - startX) > MAX_RADIUS || (endY - startY) > MAX_RADIUS) return false;
         if (Math.abs(endX - startX) >= endY - startY) return false;
-        if (Math.abs(weightInCircle() - 1) > maxWeightInCircleDifference) return false;
+        if (Math.abs(weightInCircle() - 1) > MAX_WEIGHT_IN_CIRCLE_DIFFERENCE) return false;
         return true;
     }
 
     /* 
-     * Compares a ellipse the calculated radius with the actual amount of pixels.
-     * Divides the two values with each other to see if Shapes has the correct size.
+     * Compares a ellipse the calculated radius with the actual amount of pixels of the shape.
+     * Divides the two values with each other to see if Shapes has the correct size. Eg, a square would get a
+     * higher value but a hollow circle a smaller value.
      */
     private double weightInCircle() {
         cordinates = new HashMap<>();
@@ -166,7 +169,6 @@ public class Shape {
         return (endX + startX) / 2;
     }
 
-	// TODO Auto-generated method stub
 	//Negative values if circle is to the left of image center, positive if circle is to the right
     public double distanceFromCenter(int imageWidth) {
         double centerX = imageWidth / 2;
@@ -174,5 +176,13 @@ public class Shape {
         System.out.println("Distance from center: " + distance);
         return distance;
     }
+
+	public void setMatch(boolean b) {
+		
+	}
+
+	public boolean wasThereAMatch() {
+		return match;
+	}
 	
 }

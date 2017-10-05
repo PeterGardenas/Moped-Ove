@@ -21,7 +21,6 @@ public class ImageDetector extends JPanel {
 	private long startTime = System.currentTimeMillis();
 	
 	public ImageDetector(String fileName) {
-
 		loadImage(fileName);
 		System.out.println("It took: " + (System.currentTimeMillis() - ServerTest.messageRecived));
 		createArrayLists();
@@ -44,6 +43,7 @@ public class ImageDetector extends JPanel {
         }
     }
 
+	
     private void createColorLines() {
         for (int i = 0; i < image.getWidth(); i++) {
             boolean wasPreviousCorrectColor = false;
@@ -68,12 +68,24 @@ public class ImageDetector extends JPanel {
 
     }
 	
+    /* Algorithms to merge lines into shapes.
+     * 1. Start with the first row of the image by setting each line as a shape.
+     * 2. Check the row bellow by looking for connections between the lines and the pre-existing shapes.
+     * A couple of scenarios is possible:
+     * 		a) No matches, the line becomes a Shape.
+     * 		b) One match, add the line to the matched shape.
+     * 		c) Several matches, merge the matching shapes and line.
+     * 3. Push all shapes with no new connections to finishedShapes.
+     * 4. Repeat to step 2 until all rows are done.
+     * 
+     */
 	private void mergeLinesToShapes() {
-        int matchesThisLine;
         List<Shape> activeShapes = new LinkedList<>();
 
         for (int i = 0; i < coleredLines.size(); i++) {
-        	matchesThisLine = 0;
+        	for (int z = 0; z < activeShapes.size(); z++) {
+        		activeShapes.get(i).setMatch(false);
+        	}
             for (int y = 0; y < coleredLines.get(i).size(); y++) {
                 Line line = coleredLines.get(i).get(y);
 
@@ -81,7 +93,7 @@ public class ImageDetector extends JPanel {
                 for (int z = 0; z < activeShapes.size(); z++) {
                     if (activeShapes.get(z).hasConnection(line)) {
                         matches.add(z);
-                        matchesThisLine++;
+                        activeShapes.get(z).setMatch(true);
                     }
                 }
 
@@ -106,12 +118,14 @@ public class ImageDetector extends JPanel {
 
 
             }
-            if (!activeShapes.isEmpty() && matchesThisLine == 0) {
-				while (!activeShapes.isEmpty()) {
-					finalShapes.add(activeShapes.get(0));
-					activeShapes.remove(0);
-				}
-			}
+            
+            for (int z = 0; z < activeShapes.size(); z++) {
+            	if (!activeShapes.get(i).wasThereAMatch()) {
+            		finalShapes.add(activeShapes.get(z));
+					activeShapes.remove(z);
+            		z--;
+            	}
+        	}
         }
 
         while (!activeShapes.isEmpty()) {
@@ -140,9 +154,10 @@ public class ImageDetector extends JPanel {
 		int green = (clr & 0x0000ff00) >> 8;
 		int blue = clr & 0x000000ff;   
 		return red > 100 && green > 100 && blue < 50;
-	        //return (Math.abs(red - 240) + Math.abs(green - 240) + blue) < 260;
-	    }
+	  //return (Math.abs(red - 240) + Math.abs(green - 240) + blue) < 260;
+	}
 	
+	//A debugging tool, draws the shape.
 	public void draw() {
         JFrame frame = new JFrame("Test");
         int width = image.getWidth();
@@ -154,6 +169,7 @@ public class ImageDetector extends JPanel {
         frame.add(this);
     }
 	
+	//Called by the draw method.
 	public void paint(Graphics g) {
         for (int i = 0; i < finalShapes.size(); i++) {
 
@@ -167,15 +183,16 @@ public class ImageDetector extends JPanel {
         }
     }
 	
-	public List<Shape> getFinalShapes() {
-		return finalShapes;
-	}
-	
+	//Prints the offset of all circles.
 	private void circleDistanceFromCenter(List<Shape> finalShapes) {
         for (int i = 0; i < finalShapes.size(); i++) {
             if (finalShapes.get(i).isCircle(null)) {
-            	finalShapes.get(i).distanceFromCenter(image.getWidth());
+            	System.out.println(finalShapes.get(i).distanceFromCenter(image.getWidth()));
             }
         }
     }
+	
+	public List<Shape> getFinalShapes() {
+		return finalShapes;
+	}
 }
