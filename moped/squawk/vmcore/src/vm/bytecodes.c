@@ -96,14 +96,14 @@ static Address         Isolate_getClassStateForInterpreter_L(Address, Address);
 
          * @return its class state or null if not found
          */
-#define  addClassState(klass_238, state_240) { Address  klass_239 = klass_238;  Address  state_241 = state_240;  \
+#define  addClassState(klass_216, state_218) { Address  klass_217 = klass_216;  Address  state_219 = state_218;  \
             int i; \
             for (i = CLASS_CACHE_SIZE-1 ; i > 0  ; --i) { \
                 cachedClass[i]      = cachedClass[i-1]; \
                 cachedClassState[i] = cachedClassState[i-1]; \
             } \
-            cachedClass[0]      = (klass_239); \
-            cachedClassState[0] = (state_241); \
+            cachedClass[0]      = (klass_217); \
+            cachedClassState[0] = (state_219); \
         }
 
         /**
@@ -138,9 +138,9 @@ static Address         Isolate_getClassStateForInterpreter_L(Address, Address);
          * @param klass the klass
          * @return true if it does.
          */
-INLINE boolean needsInitializing(Address klass_242) {
-            if (com_sun_squawk_Klass_modifiers((klass_242)) & com_sun_squawk_Modifier_KLASS_MUSTCLINIT) {
-                return VM_getClassStateREAL((klass_242)) == null;
+INLINE boolean needsInitializing(Address klass_220) {
+            if (com_sun_squawk_Klass_modifiers((klass_220)) & com_sun_squawk_Modifier_KLASS_MUSTCLINIT) {
+                return VM_getClassStateREAL((klass_220)) == null;
             }
             return false;
         }
@@ -285,10 +285,10 @@ INLINE boolean invalidateClassStateCache() {
         /**
          * Pushes an int value onto the runtime stack.
          */
-#define  pushInt(value_243) { int  value_244 = value_243;  \
+#define  pushInt(value_221) { int  value_222 = value_221;  \
  \
             checkPush(); \
-            setUWordTyped(--sp, 0, AddressType_INT, (UWord)(value_244)); \
+            setUWordTyped(--sp, 0, AddressType_INT, (UWord)(value_222)); \
  \
  \
  \
@@ -309,18 +309,18 @@ INLINE boolean invalidateClassStateCache() {
         /**
          * Pushes an address onto the runtime stack -- always downwards.
          */
-#define  downPushAddress(value_245) { Address  value_246 = value_245;  \
+#define  downPushAddress(value_223) { Address  value_224 = value_223;  \
             checkPush(); \
-            setObject(--sp, 0, (value_246)); \
+            setObject(--sp, 0, (value_224)); \
         }
 
         /**
          * Pushes an address onto the runtime stack.
          */
-#define  pushAddress(value_247) { Address  value_248 = value_247;  \
+#define  pushAddress(value_225) { Address  value_226 = value_225;  \
  \
             checkPush(); \
-            setObject(--sp, 0, (value_248)); \
+            setObject(--sp, 0, (value_226)); \
  \
  \
  \
@@ -349,11 +349,11 @@ INLINE boolean invalidateClassStateCache() {
          * Pushes a jlong value onto the runtime stack.
          */
 #if SQUAWK_64
-#define  pushLong(value_249) { jlong  value_250 = value_249;  \
+#define  pushLong(value_227) { jlong  value_228 = value_227;  \
  \
             checkPush(); \
-            setLong(--sp, 0, (value_250)); \
-            assumeInterp((value_250) == getLong(sp, 0)); \
+            setLong(--sp, 0, (value_228)); \
+            assumeInterp((value_228) == getLong(sp, 0)); \
  \
  \
  \
@@ -361,12 +361,12 @@ INLINE boolean invalidateClassStateCache() {
  \
         }
 #else
-#define  pushLong(value_251) { jlong  value_252 = value_251;  \
+#define  pushLong(value_229) { jlong  value_230 = value_229;  \
  \
             checkPush(); \
             --sp; \
-            setLongAtWord(--sp, 0, (value_252)); \
-            assumeInterp((value_252) == getLongAtWord(sp, 0)); \
+            setLongAtWord(--sp, 0, (value_230)); \
+            assumeInterp((value_230) == getLongAtWord(sp, 0)); \
  \
  \
  \
@@ -411,10 +411,10 @@ INLINE boolean invalidateClassStateCache() {
         /**
          * Pushes a UWord to the runtime stack.
          */
-#define  pushWord(value_253) { UWord  value_254 = value_253;  \
+#define  pushWord(value_231) { UWord  value_232 = value_231;  \
  \
             checkPush(); \
-            setUWord(--sp, 0, (value_254)); \
+            setUWord(--sp, 0, (value_232)); \
  \
  \
  \
@@ -425,10 +425,10 @@ INLINE boolean invalidateClassStateCache() {
         /**
          * Pushes a UWord onto the runtime stack, recording the type of the value pushed.
          */
-#define  pushAsType(value_255, type_257) { UWord  value_256 = value_255;  char  type_258 = type_257;  \
+#define  pushAsType(value_233, type_235) { UWord  value_234 = value_233;  char  type_236 = type_235;  \
  \
             checkPush(); \
-            setUWordTyped(--sp, 0, (type_258), (value_256)); \
+            setUWordTyped(--sp, 0, (type_236), (value_234)); \
  \
  \
  \
@@ -438,9 +438,9 @@ INLINE boolean invalidateClassStateCache() {
         /**
          * Pops a UWord from the runtime stack, checking that its type matches a given type.
          */
-#define  popAsType(type_259) (  \
+#define  popAsType(type_237) (  \
  \
-             getUWordTyped(sp++, 0, (type_259))  \
+             getUWordTyped(sp++, 0, (type_237))  \
  \
  \
  \
@@ -486,9 +486,9 @@ INLINE boolean invalidateClassStateCache() {
          * Or the (parameter<<8) into the value of the next bytecode and then
          * dispatch to the wide version of the opcode.
          */
-#define  do_wide_n(n_260) { int  n_261 = n_260;  \
+#define  do_wide_n(n_238) { int  n_239 = n_238;  \
             opcode = fetchUByte() + OPC_Properties_WIDE_DELTA; \
-            iparm  = fetchUByte() | ((n_261)<<8); \
+            iparm  = fetchUByte() | ((n_239)<<8); \
             goto next; \
         }
 
@@ -520,9 +520,9 @@ INLINE boolean invalidateClassStateCache() {
          * Or the (parameter<<8) in to the value of the next bytecode and then
          * dispatch to the wide version of the opcode.
          */
-#define  do_escape_wide_n(n_262) { int  n_263 = n_262;  \
+#define  do_escape_wide_n(n_240) { int  n_241 = n_240;  \
             opcode = fetchUByte() + 256 + OPC_Properties_ESCAPE_WIDE_DELTA; \
-            iparm  = fetchUByte() | ((n_263)<<8); \
+            iparm  = fetchUByte() | ((n_241)<<8); \
             goto next; \
         }
 
@@ -561,8 +561,8 @@ INLINE boolean invalidateClassStateCache() {
          * @param n int index to the local variable
          * @return the value
          */
-#define  peekLocal(n_264) (  \
-             getUWordTyped(fp, FP_local0 - (n_264), AddressType_ANY)  \
+#define  peekLocal(n_242) (  \
+             getUWordTyped(fp, FP_local0 - (n_242), AddressType_ANY)  \
         )
 
         /**
@@ -571,8 +571,8 @@ INLINE boolean invalidateClassStateCache() {
          * @param n int index to the local variable
          * @return the value
          */
-#define  getLocal(n_265) (  \
-             getUWordTyped(fp, FP_local0 - (n_265), getMutationType())  \
+#define  getLocal(n_243) (  \
+             getUWordTyped(fp, FP_local0 - (n_243), getMutationType())  \
         )
 
         /**
@@ -581,8 +581,8 @@ INLINE boolean invalidateClassStateCache() {
          * @param n int index to the local variable
          * @param value the value to set
          */
-#define  setLocal(n_266, value_268) { int  n_267 = n_266;  UWord  value_269 = value_268;  \
-            setUWordTyped(fp, FP_local0 - (n_267), getMutationType(), (value_269)); \
+#define  setLocal(n_244, value_246) { int  n_245 = n_244;  UWord  value_247 = value_246;  \
+            setUWordTyped(fp, FP_local0 - (n_245), getMutationType(), (value_247)); \
         }
 
         /**
@@ -591,8 +591,8 @@ INLINE boolean invalidateClassStateCache() {
          * @param n int index to the local variable
          * @return the value
          */
-#define  getLocalLong(n_270) (  \
-             getLongAtWord(fp, FP_local0 - (n_270))  \
+#define  getLocalLong(n_248) (  \
+             getLongAtWord(fp, FP_local0 - (n_248))  \
         )
 
         /**
@@ -601,8 +601,8 @@ INLINE boolean invalidateClassStateCache() {
          * @param n int index to the local variable
          * @param value the value to set
          */
-#define  setLocalLong(n_271, value_273) { int  n_272 = n_271;  jlong  value_274 = value_273;  \
-            setLongAtWord(fp, FP_local0 - (n_272), (value_274)); \
+#define  setLocalLong(n_249, value_251) { int  n_250 = n_249;  jlong  value_252 = value_251;  \
+            setLongAtWord(fp, FP_local0 - (n_250), (value_252)); \
         }
 
         /**
@@ -611,8 +611,8 @@ INLINE boolean invalidateClassStateCache() {
          * @param n int index to the local variable
          * @return the value
          */
-#define  getParmTyped(n_275, type_276) (  \
-             getUWordTyped(fp, FP_parm0 + (n_275), (type_276))  \
+#define  getParmTyped(n_253, type_254) (  \
+             getUWordTyped(fp, FP_parm0 + (n_253), (type_254))  \
         )
 
         /**
@@ -621,8 +621,8 @@ INLINE boolean invalidateClassStateCache() {
          * @param n int index to the local variable
          * @return the value
          */
-#define  getParm(n_277) (  \
-             getParmTyped((n_277), getMutationType())  \
+#define  getParm(n_255) (  \
+             getParmTyped((n_255), getMutationType())  \
         )
 
         /**
@@ -631,8 +631,8 @@ INLINE boolean invalidateClassStateCache() {
          * @param n int index to the local variable
          * @param value the value to set
          */
-#define  setParm(n_278, value_280) { int  n_279 = n_278;  UWord  value_281 = value_280;  \
-            setUWordTyped(fp, FP_parm0 + (n_279), getMutationType(), (value_281)); \
+#define  setParm(n_256, value_258) { int  n_257 = n_256;  UWord  value_259 = value_258;  \
+            setUWordTyped(fp, FP_parm0 + (n_257), getMutationType(), (value_259)); \
         }
 
         /**
@@ -641,8 +641,8 @@ INLINE boolean invalidateClassStateCache() {
          * @param n int index to the local variable
          * @return the value
          */
-#define  getParmLong(n_282) (  \
-             getLongAtWord(fp, FP_parm0 + (n_282))  \
+#define  getParmLong(n_260) (  \
+             getLongAtWord(fp, FP_parm0 + (n_260))  \
  \
         )
 
@@ -652,26 +652,26 @@ INLINE boolean invalidateClassStateCache() {
          * @param n int index to the local variable
          * @param value the value to set
          */
-#define  setParmLong(n_283, value_285) { int  n_284 = n_283;  jlong  value_286 = value_285;  \
-            setLongAtWord(fp, FP_parm0 + (n_284), (value_286)); \
+#define  setParmLong(n_261, value_263) { int  n_262 = n_261;  jlong  value_264 = value_263;  \
+            setLongAtWord(fp, FP_parm0 + (n_262), (value_264)); \
         }
 
 #if ASSUME
-#define  boundsAssume(oop_287, index_289) { Address  oop_288 = oop_287;  int  index_290 = index_289;  \
-            assume((oop_288)); \
+#define  boundsAssume(oop_265, index_267) { Address  oop_266 = oop_265;  int  index_268 = index_267;  \
+            assume((oop_266)); \
             /* use the unsigned bounds check trick: */ \
-            assume((unsigned int) (index_290) < (unsigned int)getArrayLength((oop_288))); \
+            assume((unsigned int) (index_268) < (unsigned int)getArrayLength((oop_266))); \
         }
 #else
-#define  boundsAssume(oop_291, index_293) { Address  oop_292 = oop_291;  int  index_294 = index_293;  \
+#define  boundsAssume(oop_269, index_271) { Address  oop_270 = oop_269;  int  index_272 = index_271;  \
         }
 #endif /* ASSUME */
 
 
-#define  boundsAssumeAlways(oop_295, index_297) { Address  oop_296 = oop_295;  int  index_298 = index_297;  \
-            assumeAlways((oop_296)); \
+#define  boundsAssumeAlways(oop_273, index_275) { Address  oop_274 = oop_273;  int  index_276 = index_275;  \
+            assumeAlways((oop_274)); \
             /* use the unsigned bounds check trick: */ \
-            assumeAlways((unsigned int) (index_298) < (unsigned int)getArrayLength((oop_296))); \
+            assumeAlways((unsigned int) (index_276) < (unsigned int)getArrayLength((oop_274))); \
         }
 
         /*-----------------------------------------------------------------------*\
@@ -698,8 +698,8 @@ INLINE boolean invalidateClassStateCache() {
          * @param  index the index of the object
          * @return the object
          */
-#define  getKlassObject(index_299) (  \
-             ((Address *)com_sun_squawk_Klass_objects(getCP()))[(index_299)]  \
+#define  getKlassObject(index_277) (  \
+             ((Address *)com_sun_squawk_Klass_objects(getCP()))[(index_277)]  \
         )
 
         /**
@@ -708,9 +708,9 @@ INLINE boolean invalidateClassStateCache() {
          * @param  oop the pointer to the array.
          * @return the length
          */
-INLINE int getArrayLength(Address oop_300) {
-            assume((int)(getUWord((oop_300), HDR_length) >> 2) >= 0);
-            return (int)(getUWord((oop_300), HDR_length) >> 2);
+INLINE int getArrayLength(Address oop_278) {
+            assume((int)(getUWord((oop_278), HDR_length) >> 2) >= 0);
+            return (int)(getUWord((oop_278), HDR_length) >> 2);
         }
 
         /**
@@ -719,13 +719,13 @@ INLINE int getArrayLength(Address oop_300) {
          * @param  index the index of the method
          * @return the method
          */
-INLINE Address getStaticMethod(Address cls_301, int index_302) {
+INLINE Address getStaticMethod(Address cls_279, int index_280) {
             Address stable;
-            assume((cls_301));
-            stable = com_sun_squawk_Klass_staticMethods((cls_301));
+            assume((cls_279));
+            stable = com_sun_squawk_Klass_staticMethods((cls_279));
             assume(stable);
-        assume((unsigned int)(index_302) < (unsigned int)getArrayLength(stable));
-            return ((Address *)stable)[(index_302)];
+        assume((unsigned int)(index_280) < (unsigned int)getArrayLength(stable));
+            return ((Address *)stable)[(index_280)];
         }
 
         /**
@@ -734,12 +734,12 @@ INLINE Address getStaticMethod(Address cls_301, int index_302) {
          * @param index the index of the method
          * @return the method
          */
-INLINE Address getVirtualMethod(Address cls_303, int index_304) {
+INLINE Address getVirtualMethod(Address cls_281, int index_282) {
             Address vtable;
-            assume((cls_303));
-            vtable = com_sun_squawk_Klass_virtualMethods((cls_303));
-        assume((unsigned int)(index_304) < (unsigned int)getArrayLength(vtable));
-            return ((Address *)vtable)[(index_304)];
+            assume((cls_281));
+            vtable = com_sun_squawk_Klass_virtualMethods((cls_281));
+        assume((unsigned int)(index_282) < (unsigned int)getArrayLength(vtable));
+            return ((Address *)vtable)[(index_282)];
         }
 
         /**
@@ -749,12 +749,12 @@ INLINE Address getVirtualMethod(Address cls_303, int index_304) {
          * @param size the length
          * @return false if length was too large
          */
-INLINE boolean setArrayLength(Address oop_305, int size_306) {
-    assume((size_306) >= 0);
-            if ((size_306) > 0x3FFFFFF) {
+INLINE boolean setArrayLength(Address oop_283, int size_284) {
+    assume((size_284) >= 0);
+            if ((size_284) > 0x3FFFFFF) {
                 return false;
             }
-            setUWord((oop_305), HDR_length, ((size_306) << HDR_headerTagBits) | HDR_arrayHeaderTag);
+            setUWord((oop_283), HDR_length, ((size_284) << HDR_headerTagBits) | HDR_arrayHeaderTag);
             return true;
         }
 
@@ -765,14 +765,14 @@ INLINE boolean setArrayLength(Address oop_305, int size_306) {
          * @return the Klass ot the ObjectAssociation
          */
 #if ASSUME
-INLINE Address getClassOrAssociation(Address oop_307) {
+INLINE Address getClassOrAssociation(Address oop_285) {
             /* Catches an attempt to dereference a forwarding pointer */
-            assume(com_sun_squawk_GC_collecting || ((UWord)getObject((oop_307), HDR_klass) & HDR_headerTagMask) == 0);
-            return getObject((oop_307), HDR_klass);
+            assume(com_sun_squawk_GC_collecting || ((UWord)getObject((oop_285), HDR_klass) & HDR_headerTagMask) == 0);
+            return getObject((oop_285), HDR_klass);
         }
 #else
-#define  getClassOrAssociation(oop_308) (  \
-             getObject((oop_308), HDR_klass)  \
+#define  getClassOrAssociation(oop_286) (  \
+             getObject((oop_286), HDR_klass)  \
         )
 #endif
          /**
@@ -782,8 +782,8 @@ INLINE Address getClassOrAssociation(Address oop_307) {
          * @param the Klass or the ObjectAssociation
          * @return the Klass, or the klass refered to by the association
          */
-#define  associationToKlass(oop_309) (  \
-             com_sun_squawk_Klass_self((oop_309))  \
+#define  associationToKlass(oop_287) (  \
+             com_sun_squawk_Klass_self((oop_287))  \
         )
 
         /**
@@ -792,8 +792,8 @@ INLINE Address getClassOrAssociation(Address oop_307) {
          * @param  oop the pointer to the object.
          * @return the class
          */
-#define  getClass(oop_310) (  \
-             com_sun_squawk_Klass_self(getClassOrAssociation((oop_310)))  \
+#define  getClass(oop_288) (  \
+             com_sun_squawk_Klass_self(getClassOrAssociation((oop_288)))  \
         )
 
         /*
@@ -808,8 +808,8 @@ INLINE Address getClassOrAssociation(Address oop_307) {
          * @param mp the method pointer
          * @return the value
          */
-#define  getb0(mp_311) (  \
-             getUByte((mp_311), HDR_methodInfoStart)  \
+#define  getb0(mp_289) (  \
+             getUByte((mp_289), HDR_methodInfoStart)  \
         )
 
         /**
@@ -818,8 +818,8 @@ INLINE Address getClassOrAssociation(Address oop_307) {
          * @param mp the method pointer
          * @return the value
          */
-#define  getb1(mp_312) (  \
-             getUByte((mp_312), HDR_methodInfoStart - 1)  \
+#define  getb1(mp_290) (  \
+             getUByte((mp_290), HDR_methodInfoStart - 1)  \
         )
 
         /**
@@ -829,8 +829,8 @@ INLINE Address getClassOrAssociation(Address oop_307) {
          * @param b1 the second byte
          * @return the value
          */
-#define  decodeStackCount(b0_313, b1_314) (  \
-             (b1_314) & 0x1F  \
+#define  decodeStackCount(b0_291, b1_292) (  \
+             (b1_292) & 0x1F  \
         )
 
         /**
@@ -840,8 +840,8 @@ INLINE Address getClassOrAssociation(Address oop_307) {
          * @param b1 the second byte
          * @return the value
          */
-#define  decodeLocalCount(b0_315, b1_316) (  \
-             ((((b0_315) << 8) | (b1_316)) >> 5) & 0x1F  \
+#define  decodeLocalCount(b0_293, b1_294) (  \
+             ((((b0_293) << 8) | (b1_294)) >> 5) & 0x1F  \
         )
 
         /**
@@ -850,8 +850,8 @@ INLINE Address getClassOrAssociation(Address oop_307) {
          * @param b0 the first byte
          * @return the value
          */
-#define  decodeParmCount(b0_317) (  \
-             (b0_317) >> 2  \
+#define  decodeParmCount(b0_295) (  \
+             (b0_295) >> 2  \
         )
 
         /**
@@ -860,13 +860,13 @@ INLINE Address getClassOrAssociation(Address oop_307) {
          * @param mp the method pointer
          * @return the count
          */
-INLINE int getStackCount(Address mp_318) {
-            int b0 = getb0((mp_318));
+INLINE int getStackCount(Address mp_296) {
+            int b0 = getb0((mp_296));
             if (b0 < 128) {
-                int b1 = getb1((mp_318));
+                int b1 = getb1((mp_296));
                 return decodeStackCount(b0, b1);
             } else {
-                return MethodHeader_minfoValue1_L((mp_318));
+                return MethodHeader_minfoValue1_L((mp_296));
             }
         }
 
@@ -876,13 +876,13 @@ INLINE int getStackCount(Address mp_318) {
          * @param mp the method pointer
          * @return the count
          */
-INLINE int getLocalCount(Address mp_319) {
-            int b0 = getb0((mp_319));
+INLINE int getLocalCount(Address mp_297) {
+            int b0 = getb0((mp_297));
             if (b0 < 128) {
-                int b1 = getb1((mp_319));
+                int b1 = getb1((mp_297));
                 return decodeLocalCount(b0, b1);
             } else {
-                return MethodHeader_minfoValue2_L((mp_319));
+                return MethodHeader_minfoValue2_L((mp_297));
             }
         }
 
@@ -892,12 +892,12 @@ INLINE int getLocalCount(Address mp_319) {
          * @param mp the method pointer
          * @return the count
          */
-INLINE int getParmCount(Address mp_320) {
-            int b0 = getb0((mp_320));
+INLINE int getParmCount(Address mp_298) {
+            int b0 = getb0((mp_298));
             if (b0 < 128) {
                 return decodeParmCount(b0);
             } else {
-                return MethodHeader_minfoValue3_L((mp_320));
+                return MethodHeader_minfoValue3_L((mp_298));
             }
         }
 
@@ -907,13 +907,13 @@ INLINE int getParmCount(Address mp_320) {
          * @param np the pointer to the method
          * @return the length in bytes
          */
-INLINE int getOffsetToLastMinfoByte(Address mp_321) {
+INLINE int getOffsetToLastMinfoByte(Address mp_299) {
             int p = HDR_methodInfoStart;
-            int b0 = getUByte((mp_321), p--);
+            int b0 = getUByte((mp_299), p--);
             if (b0 < 128) {
                 return p;
             } else {
-                return MethodHeader_getOffsetToLastMinfoByte0_LII((mp_321), p, b0);
+                return MethodHeader_getOffsetToLastMinfoByte0_LII((mp_299), p, b0);
             }
         }
 
@@ -945,8 +945,8 @@ INLINE int getOffsetToLastMinfoByte(Address mp_321) {
          *
          * @param delta the number of words to adjust by
          */
-#define  resetStackPointerFromDelta(delta_322) { int  delta_323 = delta_322;  \
-            sp = fp - (delta_323) + 1; /* + 1 so sp points one word before first stack word */ \
+#define  resetStackPointerFromDelta(delta_300) { int  delta_301 = delta_300;  \
+            sp = fp - (delta_301) + 1; /* + 1 so sp points one word before first stack word */ \
         }
 
         /**
@@ -1098,14 +1098,14 @@ INLINE int getOffsetToLastMinfoByte(Address mp_321) {
          *
          * @param mth the address of the method to be invoked
          */
-#define  callNoReset(mth_324) { Address  mth_325 = mth_324;  \
-            assumeInterp((mth_325) != 0); \
-assumeInterp(((UWord)getObject((mth_325), HDR_klass) & HDR_headerTagMask) == 0); \
-            assumeInterp(com_sun_squawk_Klass_id(getClass((mth_325))) == CID_BYTECODE_ARRAY); \
-            assumeInterp(inCode((mth_325))); \
+#define  callNoReset(mth_302) { Address  mth_303 = mth_302;  \
+            assumeInterp((mth_303) != 0); \
+assumeInterp(((UWord)getObject((mth_303), HDR_klass) & HDR_headerTagMask) == 0); \
+            assumeInterp(com_sun_squawk_Klass_id(getClass((mth_303))) == CID_BYTECODE_ARRAY); \
+            assumeInterp(inCode((mth_303))); \
             checkReferenceSlots(); \
             downPushAddress(ip); \
-            ip = (mth_325); \
+            ip = (mth_303); \
         }
 
         /**
@@ -1113,9 +1113,9 @@ assumeInterp(((UWord)getObject((mth_325), HDR_klass) & HDR_headerTagMask) == 0);
          *
          * @param mth the address of the method to be invoked
          */
-#define  call(mth_326) { Address  mth_327 = mth_326;  \
+#define  call(mth_304) { Address  mth_305 = mth_304;  \
             resetStackPointerIfNotRevParms(); \
-            callNoReset((mth_327)); \
+            callNoReset((mth_305)); \
         }
 
        /*
@@ -1240,11 +1240,11 @@ assumeInterp(((UWord)getObject((mth_325), HDR_klass) & HDR_headerTagMask) == 0);
          *
          * @param code the service operation code
          */
-#define  threadSwitch(code_328) { int  code_329 = code_328;  \
+#define  threadSwitch(code_306) { int  code_307 = code_306;  \
             /* \
              * Set the service operation code. \
              */ \
-            com_sun_squawk_ServiceOperation_code = (code_329); \
+            com_sun_squawk_ServiceOperation_code = (code_307); \
  \
             goto threadswitchstart; \
  \
@@ -1255,27 +1255,27 @@ assumeInterp(((UWord)getObject((mth_325), HDR_klass) & HDR_headerTagMask) == 0);
         /**
          * Switch to the service thread.
          */
-#define  threadSwitchFor(code_330) { int  code_331 = code_330;  \
+#define  threadSwitchFor(code_308) { int  code_309 = code_308;  \
             assumeInterp(!runningOnServiceThread); \
             com_sun_squawk_VMThread_otherThread = com_sun_squawk_VMThread_serviceThread; \
-            threadSwitch((code_331)); \
+            threadSwitch((code_309)); \
         }
 
         /**
          * Execute a service operation for channel I/O.
          */
-#define  executeCIO(context_332, op_334, channel_336, i1_338, i2_340, i3_342, i4_344, i5_346, i6_348, o1_350, o2_352) { int  context_333 = context_332;  int  op_335 = op_334;  int  channel_337 = channel_336;  int  i1_339 = i1_338;  int  i2_341 = i2_340;  int  i3_343 = i3_342;  int  i4_345 = i4_344;  int  i5_347 = i5_346;  int  i6_349 = i6_348;  Address  o1_351 = o1_350;  Address  o2_353 = o2_352;  \
-            com_sun_squawk_ServiceOperation_context = (context_333); \
-            com_sun_squawk_ServiceOperation_op      = (op_335); \
-            com_sun_squawk_ServiceOperation_channel = (channel_337); \
-            com_sun_squawk_ServiceOperation_i1      = (i1_339); \
-            com_sun_squawk_ServiceOperation_i2      = (i2_341); \
-            com_sun_squawk_ServiceOperation_i3      = (i3_343); \
-            com_sun_squawk_ServiceOperation_i4      = (i4_345); \
-            com_sun_squawk_ServiceOperation_i5      = (i5_347); \
-            com_sun_squawk_ServiceOperation_i6      = (i6_349); \
-            com_sun_squawk_ServiceOperation_o1      = (o1_351); \
-            com_sun_squawk_ServiceOperation_o2      = (o2_353); \
+#define  executeCIO(context_310, op_312, channel_314, i1_316, i2_318, i3_320, i4_322, i5_324, i6_326, o1_328, o2_330) { int  context_311 = context_310;  int  op_313 = op_312;  int  channel_315 = channel_314;  int  i1_317 = i1_316;  int  i2_319 = i2_318;  int  i3_321 = i3_320;  int  i4_323 = i4_322;  int  i5_325 = i5_324;  int  i6_327 = i6_326;  Address  o1_329 = o1_328;  Address  o2_331 = o2_330;  \
+            com_sun_squawk_ServiceOperation_context = (context_311); \
+            com_sun_squawk_ServiceOperation_op      = (op_313); \
+            com_sun_squawk_ServiceOperation_channel = (channel_315); \
+            com_sun_squawk_ServiceOperation_i1      = (i1_317); \
+            com_sun_squawk_ServiceOperation_i2      = (i2_319); \
+            com_sun_squawk_ServiceOperation_i3      = (i3_321); \
+            com_sun_squawk_ServiceOperation_i4      = (i4_323); \
+            com_sun_squawk_ServiceOperation_i5      = (i5_325); \
+            com_sun_squawk_ServiceOperation_i6      = (i6_327); \
+            com_sun_squawk_ServiceOperation_o1      = (o1_329); \
+            com_sun_squawk_ServiceOperation_o2      = (o2_331); \
             if (runningOnServiceThread) { \
                 void cioExecute(void); \
                 cioExecute(); \
@@ -1291,22 +1291,22 @@ assumeInterp(((UWord)getObject((mth_325), HDR_klass) & HDR_headerTagMask) == 0);
 #if SDA_DEBUGGER
 #define SDA_DEBUG_PRINT false
 
-INLINE Address frameOffsetAsPointer(Address stack_354, Offset fpOffset_355) {
-            return Address_sub(Address_add((stack_354), getArrayLength((stack_354)) * HDR_BYTES_PER_WORD), (fpOffset_355));
+INLINE Address frameOffsetAsPointer(Address stack_332, Offset fpOffset_333) {
+            return Address_sub(Address_add((stack_332), getArrayLength((stack_332)) * HDR_BYTES_PER_WORD), (fpOffset_333));
         }
 
-INLINE Offset framePointerAsOffset(Address stack_356, Address fpPointer_357) {
-            return Address_diff(Address_add((stack_356), getArrayLength((stack_356)) * HDR_BYTES_PER_WORD), (fpPointer_357));
+INLINE Offset framePointerAsOffset(Address stack_334, Address fpPointer_335) {
+            return Address_diff(Address_add((stack_334), getArrayLength((stack_334)) * HDR_BYTES_PER_WORD), (fpPointer_335));
         }
 
-#define  sda_checkStepPrim(actual_ip_358, actual_fp_360, actual_sp_362) { ByteAddress  actual_ip_359 = actual_ip_358;  UWordAddress  actual_fp_361 = actual_fp_360;  UWordAddress  actual_sp_363 = actual_sp_362;  \
+#define  sda_checkStepPrim(actual_ip_336, actual_fp_338, actual_sp_340) { ByteAddress  actual_ip_337 = actual_ip_336;  UWordAddress  actual_fp_339 = actual_fp_338;  UWordAddress  actual_sp_341 = actual_sp_340;  \
             Address thread = com_sun_squawk_VMThread_currentThread; \
             Address step = com_sun_squawk_VMThread_step(thread); \
-            Offset currentFO = framePointerAsOffset(ss, (actual_fp_361)); \
+            Offset currentFO = framePointerAsOffset(ss, (actual_fp_339)); \
             Address startFP = frameOffsetAsPointer(ss, com_sun_squawk_Debugger_SingleStep_startFO(step)); \
             int state = com_sun_squawk_Debugger_SingleStep_state(step); \
  \
-            if (!inSystemFrame(startFP, (Address)(actual_fp_361))) { \
+            if (!inSystemFrame(startFP, (Address)(actual_fp_339))) { \
                 switch (state) { \
                     case com_sun_squawk_Debugger_SingleStep_DEFERRED: { \
                         /* A couple of optimizations for determining when we should go from DEFERRED to REQUESTED. \
@@ -1327,7 +1327,7 @@ INLINE Offset framePointerAsOffset(Address stack_356, Address fpPointer_357) {
                         } else if (currentFO < reportedFO) { \
                             Address reportedFP = frameOffsetAsPointer(ss, reportedFO); \
                             Address reportedMP = getObject(reportedFP, FP_method); \
-                            Address currentMP = getObject((actual_fp_361), FP_method); \
+                            Address currentMP = getObject((actual_fp_339), FP_method); \
 assumeInterp(((UWord)getObject(reportedMP, HDR_klass) & HDR_headerTagMask) == 0); \
 assumeInterp(((UWord)getObject(currentMP, HDR_klass) & HDR_headerTagMask) == 0); \
                             { \
@@ -1346,11 +1346,11 @@ assumeInterp(((UWord)getObject(currentMP, HDR_klass) & HDR_headerTagMask) == 0);
                         /* intentionally falls through to case com_sun_squawk_Debugger_SingleStep_REQUESTED */ \
                     } \
                     case com_sun_squawk_Debugger_SingleStep_REQUESTED: { \
-                        Address mp = getObject((actual_fp_361), FP_method); \
-                        boolean stepped = sda_handleSingleStep((actual_ip_359), (actual_fp_361), (actual_sp_363), mp, step); \
+                        Address mp = getObject((actual_fp_339), FP_method); \
+                        boolean stepped = sda_handleSingleStep((actual_ip_337), (actual_fp_339), (actual_sp_341), mp, step); \
                         /* Report the step event */ \
                         if (stepped) { \
-                            Offset currentBCI = Address_diff((actual_ip_359), mp); \
+                            Offset currentBCI = Address_diff((actual_ip_337), mp); \
                             /*fprintf(stderr, format("Signaling STEP event hit @ currentFO: %A, currentBCI: %A\n"), currentFO, currentBCI);*/ \
                             /* We set the state here - otherwise the this method will check for step events when the handler is running */ \
                             set_com_sun_squawk_Debugger_SingleStep_state(step, com_sun_squawk_Debugger_SingleStep_HIT); \
@@ -1373,7 +1373,7 @@ assumeInterp(((UWord)getObject(currentMP, HDR_klass) & HDR_headerTagMask) == 0);
         /**
          * Checks for stepping events.
          */
-#define  sda_checkStep(actual_ip_364, actual_fp_366, actual_sp_368) { ByteAddress  actual_ip_365 = actual_ip_364;  UWordAddress  actual_fp_367 = actual_fp_366;  UWordAddress  actual_sp_369 = actual_sp_368;  \
+#define  sda_checkStep(actual_ip_342, actual_fp_344, actual_sp_346) { ByteAddress  actual_ip_343 = actual_ip_342;  UWordAddress  actual_fp_345 = actual_fp_344;  UWordAddress  actual_sp_347 = actual_sp_346;  \
             Address thread = com_sun_squawk_VMThread_currentThread; \
             Address step = com_sun_squawk_VMThread_step(thread); \
             int state; \
@@ -1384,9 +1384,9 @@ assumeInterp(((UWord)getObject(currentMP, HDR_klass) & HDR_headerTagMask) == 0);
              *      3) opcode != EXTEND, EXTEND0, EXTEND_WIDE, CLASS_CLINIT, BBTARGET_APP, BBTARGET_SYS \
              */ \
             if (step != null && (state = com_sun_squawk_Debugger_SingleStep_state(step)) != com_sun_squawk_Debugger_SingleStep_HIT && \
-                sda_isOperandStackEmpty((actual_fp_367), (actual_sp_369))) \
+                sda_isOperandStackEmpty((actual_fp_345), (actual_sp_347))) \
             { \
-                int thisOpcode = getUByteTyped((actual_ip_365), 0, AddressType_BYTECODE); \
+                int thisOpcode = getUByteTyped((actual_ip_343), 0, AddressType_BYTECODE); \
                 switch (thisOpcode) { \
                     case OPC_EXTEND: \
                     case OPC_EXTEND0: \
@@ -1395,7 +1395,7 @@ assumeInterp(((UWord)getObject(currentMP, HDR_klass) & HDR_headerTagMask) == 0);
                     case OPC_BBTARGET_APP: \
                     case OPC_BBTARGET_SYS: break; \
                     default: \
-                        sda_checkStepPrim((actual_ip_365), (actual_fp_367), (actual_sp_369)); \
+                        sda_checkStepPrim((actual_ip_343), (actual_fp_345), (actual_sp_347)); \
                         break; \
                 } \
             } \
@@ -1535,7 +1535,7 @@ boolean sda_handleSingleStep(ByteAddress actual_ip, UWordAddress actual_fp, UWor
          * Determines if the interpreter is at a breakpoint or end of a step and calls
          * into the appropriate Java routine if it is.
          */
-#define  sda_checkBreakOrStep(actual_ip_370, actual_fp_372, actual_sp_374) { ByteAddress  actual_ip_371 = actual_ip_370;  UWordAddress  actual_fp_373 = actual_fp_372;  UWordAddress  actual_sp_375 = actual_sp_374;  \
+#define  sda_checkBreakOrStep(actual_ip_348, actual_fp_350, actual_sp_352) { ByteAddress  actual_ip_349 = actual_ip_348;  UWordAddress  actual_fp_351 = actual_fp_350;  UWordAddress  actual_sp_353 = actual_sp_352;  \
             if (unlikely(sda_bp_set_or_stepping)) { \
                 Address thread = com_sun_squawk_VMThread_currentThread; \
                 Address hbp = com_sun_squawk_VMThread_hitBreakpoint(thread); \
@@ -1545,17 +1545,17 @@ boolean sda_handleSingleStep(ByteAddress actual_ip, UWordAddress actual_fp, UWor
                     if (sda_breakpoints[0] != NULL) { \
                         int i = 0; \
                         while ((bp_ip = sda_breakpoints[i++]) != null) { \
-                            if (bp_ip == (actual_ip_371)) { \
+                            if (bp_ip == (actual_ip_349)) { \
                                 /* \
                                  * Call breakpoint reporting method - and leave stack as if current method called. \
                                  * com_sun_squawk_VM_reportBreakpoint()0 \
                                  */ \
-                                Address mp      = getObject((actual_fp_373), FP_method); \
-                                Offset currentBCI = Address_diff((actual_ip_371), mp); \
-                                Offset currentFO = framePointerAsOffset(ss, (actual_fp_373)); \
-                                /*fprintf(stderr, format("Hit breakpoint #%d: in method: %A, currentBCI: %O ip: %A currentFO: %O fp: %A\n"),  i, mp, currentBCI, (actual_ip_371), currentFO, (actual_fp_373));*/ \
+                                Address mp      = getObject((actual_fp_351), FP_method); \
+                                Offset currentBCI = Address_diff((actual_ip_349), mp); \
+                                Offset currentFO = framePointerAsOffset(ss, (actual_fp_351)); \
+                                /*fprintf(stderr, format("Hit breakpoint #%d: in method: %A, currentBCI: %O ip: %A currentFO: %O fp: %A\n"),  i, mp, currentBCI, (actual_ip_349), currentFO, (actual_fp_351));*/ \
  \
-                                if (!sda_isOperandStackEmpty((actual_fp_373), (actual_sp_375))) { \
+                                if (!sda_isOperandStackEmpty((actual_fp_351), (actual_sp_353))) { \
                                     fatalInterpreterError("Tried to report a breakpoint when operand stack was not empty.\n"); \
                                 } \
  \
@@ -1568,7 +1568,7 @@ boolean sda_handleSingleStep(ByteAddress actual_ip, UWordAddress actual_fp, UWor
                         } \
                     } \
                     if (!atBreakpoint) { \
-                        sda_checkStep((actual_ip_371), (actual_fp_373), (actual_sp_375)); \
+                        sda_checkStep((actual_ip_349), (actual_fp_351), (actual_sp_353)); \
                     } \
                 } else if (com_sun_squawk_HitBreakpoint_state(hbp) == com_sun_squawk_HitBreakpoint_BP_REPORTED) { \
                     /* \
@@ -1576,9 +1576,9 @@ boolean sda_handleSingleStep(ByteAddress actual_ip, UWordAddress actual_fp, UWor
                      * is equal to the thread's saved frame and BCI, then we are done reporting the \
                      * breakpoint, and we clean up reporting, and execute the next instruction normally. \
                      */ \
-                    if (framePointerAsOffset(ss, (actual_fp_373)) == com_sun_squawk_HitBreakpoint_hitOrThrowFO(hbp)) { \
-                        Address mp      = getObject((actual_fp_373), FP_method); \
-                        Offset currentBCI = Address_diff((actual_ip_371), mp); \
+                    if (framePointerAsOffset(ss, (actual_fp_351)) == com_sun_squawk_HitBreakpoint_hitOrThrowFO(hbp)) { \
+                        Address mp      = getObject((actual_fp_351), FP_method); \
+                        Offset currentBCI = Address_diff((actual_ip_349), mp); \
                         if (currentBCI == com_sun_squawk_HitBreakpoint_hitOrThrowBCI(hbp)) { \
                             set_com_sun_squawk_VMThread_hitBreakpoint(thread, null); \
                             /*fprintf(stderr, format("Done reporting breakpoint in method: %A, offset: %O\n"), mp, currentBCI);*/ \
@@ -1601,8 +1601,8 @@ boolean sda_handleSingleStep(ByteAddress actual_ip, UWordAddress actual_fp, UWor
          *
          * @param n the integer value
          */
-#define  do_const_n(n_376) { Offset  n_377 = n_376;  \
-            pushInt((n_377)); \
+#define  do_const_n(n_354) { Offset  n_355 = n_354;  \
+            pushInt((n_355)); \
         }
 
         /**
@@ -1716,8 +1716,8 @@ boolean sda_handleSingleStep(ByteAddress actual_ip, UWordAddress actual_fp, UWor
          *
          * @param n the index into the class object table
          */
-#define  do_object_n(n_378) { int  n_379 = n_378;  \
-            pushAddress(getKlassObject((n_379))); \
+#define  do_object_n(n_356) { int  n_357 = n_356;  \
+            pushAddress(getKlassObject((n_357))); \
         }
 
         /**
@@ -1745,8 +1745,8 @@ boolean sda_handleSingleStep(ByteAddress actual_ip, UWordAddress actual_fp, UWor
          *
          * @param n the index to local
          */
-#define  do_load_n(n_380) { int  n_381 = n_380;  \
-            pushAsType(getLocal((n_381)), getMutationType()); \
+#define  do_load_n(n_358) { int  n_359 = n_358;  \
+            pushAsType(getLocal((n_359)), getMutationType()); \
         }
 
         /**
@@ -1769,8 +1769,8 @@ boolean sda_handleSingleStep(ByteAddress actual_ip, UWordAddress actual_fp, UWor
          *
          * @param n the index to local
          */
-#define  do_store_n(n_382) { int  n_383 = n_382;  \
-            setLocal((n_383), popAsType(getMutationType())); \
+#define  do_store_n(n_360) { int  n_361 = n_360;  \
+            setLocal((n_361), popAsType(getMutationType())); \
         }
 
         /**
@@ -1862,8 +1862,8 @@ boolean sda_handleSingleStep(ByteAddress actual_ip, UWordAddress actual_fp, UWor
          *
          * @param n the index to local
          */
-#define  do_loadparm_n(n_384) { int  n_385 = n_384;  \
-            pushAsType(getParm((n_385)), getMutationType()); \
+#define  do_loadparm_n(n_362) { int  n_363 = n_362;  \
+            pushAsType(getParm((n_363)), getMutationType()); \
         }
 
         /**
@@ -1884,8 +1884,8 @@ boolean sda_handleSingleStep(ByteAddress actual_ip, UWordAddress actual_fp, UWor
          * Java Stack: ..., VALUE -> ...
          * <p>
          */
-#define  do_storeparm_n(n_386) { int  n_387 = n_386;  \
-            setParm((n_387), popAsType(getMutationType())); \
+#define  do_storeparm_n(n_364) { int  n_365 = n_364;  \
+            setParm((n_365), popAsType(getMutationType())); \
         }
 
         /**
@@ -2054,9 +2054,9 @@ INLINE void bbtarget_trace() {
          *
          * @param zero  specifies if the right hand operand is 0 or is on the stack
          */
-#define  rhs_o(zero_388) (   (zero_388) ? 0 : popAddress()  )
-#define      rhs_i(zero_389) (   (zero_389) ? 0 : popInt()      )
-#define    rhs_l(zero_390) (   (zero_390) ? 0 : popLong()     )
+#define  rhs_o(zero_366) (   (zero_366) ? 0 : popAddress()  )
+#define      rhs_i(zero_367) (   (zero_367) ? 0 : popInt()      )
+#define    rhs_l(zero_368) (   (zero_368) ? 0 : popLong()     )
 
         /**
          * Conditional branch based on a comparison between object values.
@@ -2069,8 +2069,8 @@ INLINE void bbtarget_trace() {
          *
          * @param zero  if true, then RIGHT_VALUE is given the value 0 (and thus not popped from the stack)
          */
-#define  do_if_eq_o(zero_391) { boolean  zero_392 = zero_391;  Address rhs = rhs_o((zero_392)); if (popAddress() == rhs) do_goto(); }
-#define  do_if_ne_o(zero_393) { boolean  zero_394 = zero_393;  Address rhs = rhs_o((zero_394)); if (popAddress() != rhs) do_goto(); }
+#define  do_if_eq_o(zero_369) { boolean  zero_370 = zero_369;  Address rhs = rhs_o((zero_370)); if (popAddress() == rhs) do_goto(); }
+#define  do_if_ne_o(zero_371) { boolean  zero_372 = zero_371;  Address rhs = rhs_o((zero_372)); if (popAddress() != rhs) do_goto(); }
 
         /**
          * Conditional branch based on a comparison between int values.
@@ -2083,12 +2083,12 @@ INLINE void bbtarget_trace() {
          *
          * @param zero  if true, then RIGHT_VALUE is given the value 0 (and thus not popped from the stack)
          */
-#define  do_if_eq_i(zero_395) { boolean  zero_396 = zero_395;  int rhs = rhs_i((zero_396)); if (popInt() == rhs) do_goto(); }
-#define  do_if_ne_i(zero_397) { boolean  zero_398 = zero_397;  int rhs = rhs_i((zero_398)); if (popInt() != rhs) do_goto(); }
-#define  do_if_lt_i(zero_399) { boolean  zero_400 = zero_399;  int rhs = rhs_i((zero_400)); if (popInt() <  rhs) do_goto(); }
-#define  do_if_le_i(zero_401) { boolean  zero_402 = zero_401;  int rhs = rhs_i((zero_402)); if (popInt() <= rhs) do_goto(); }
-#define  do_if_gt_i(zero_403) { boolean  zero_404 = zero_403;  int rhs = rhs_i((zero_404)); if (popInt() >  rhs) do_goto(); }
-#define  do_if_ge_i(zero_405) { boolean  zero_406 = zero_405;  int rhs = rhs_i((zero_406)); if (popInt() >= rhs) do_goto(); }
+#define  do_if_eq_i(zero_373) { boolean  zero_374 = zero_373;  int rhs = rhs_i((zero_374)); if (popInt() == rhs) do_goto(); }
+#define  do_if_ne_i(zero_375) { boolean  zero_376 = zero_375;  int rhs = rhs_i((zero_376)); if (popInt() != rhs) do_goto(); }
+#define  do_if_lt_i(zero_377) { boolean  zero_378 = zero_377;  int rhs = rhs_i((zero_378)); if (popInt() <  rhs) do_goto(); }
+#define  do_if_le_i(zero_379) { boolean  zero_380 = zero_379;  int rhs = rhs_i((zero_380)); if (popInt() <= rhs) do_goto(); }
+#define  do_if_gt_i(zero_381) { boolean  zero_382 = zero_381;  int rhs = rhs_i((zero_382)); if (popInt() >  rhs) do_goto(); }
+#define  do_if_ge_i(zero_383) { boolean  zero_384 = zero_383;  int rhs = rhs_i((zero_384)); if (popInt() >= rhs) do_goto(); }
 
         /**
          * Conditional branch based on a comparison between long values.
@@ -2101,18 +2101,18 @@ INLINE void bbtarget_trace() {
          *
          * @param zero  if true, then RIGHT_VALUE is given the value 0 (and thus not popped from the stack)
          */
-#define  do_if_eq_l(zero_407) { boolean  zero_408 = zero_407;  jlong rhs = rhs_l((zero_408)); if (popLong() == rhs) do_goto(); }
-#define  do_if_ne_l(zero_409) { boolean  zero_410 = zero_409;  jlong rhs = rhs_l((zero_410)); if (popLong() != rhs) do_goto(); }
-#define  do_if_lt_l(zero_411) { boolean  zero_412 = zero_411;  jlong rhs = rhs_l((zero_412)); if (popLong() <  rhs) do_goto(); }
-#define  do_if_le_l(zero_413) { boolean  zero_414 = zero_413;  jlong rhs = rhs_l((zero_414)); if (popLong() <= rhs) do_goto(); }
-#define  do_if_gt_l(zero_415) { boolean  zero_416 = zero_415;  jlong rhs = rhs_l((zero_416)); if (popLong() >  rhs) do_goto(); }
-#define  do_if_ge_l(zero_417) { boolean  zero_418 = zero_417;  jlong rhs = rhs_l((zero_418)); if (popLong() >= rhs) do_goto(); }
+#define  do_if_eq_l(zero_385) { boolean  zero_386 = zero_385;  jlong rhs = rhs_l((zero_386)); if (popLong() == rhs) do_goto(); }
+#define  do_if_ne_l(zero_387) { boolean  zero_388 = zero_387;  jlong rhs = rhs_l((zero_388)); if (popLong() != rhs) do_goto(); }
+#define  do_if_lt_l(zero_389) { boolean  zero_390 = zero_389;  jlong rhs = rhs_l((zero_390)); if (popLong() <  rhs) do_goto(); }
+#define  do_if_le_l(zero_391) { boolean  zero_392 = zero_391;  jlong rhs = rhs_l((zero_392)); if (popLong() <= rhs) do_goto(); }
+#define  do_if_gt_l(zero_393) { boolean  zero_394 = zero_393;  jlong rhs = rhs_l((zero_394)); if (popLong() >  rhs) do_goto(); }
+#define  do_if_ge_l(zero_395) { boolean  zero_396 = zero_395;  jlong rhs = rhs_l((zero_396)); if (popLong() >= rhs) do_goto(); }
 
         /**
          * Gets a table switch parameter.
          */
-#define  getSwitchEntry(size_419) { int  size_420 = size_419;  \
-            if ((size_420) == 2) { \
+#define  getSwitchEntry(size_397) { int  size_398 = size_397;  \
+            if ((size_398) == 2) { \
                 fetchShort(); \
             } else { \
                 fetchInt(); \
@@ -2128,7 +2128,7 @@ INLINE void bbtarget_trace() {
          *
          * @param  size  the size (in bytes) of an entry in the jump table
          */
-#define  do_tableswitch(size_421) { int  size_422 = size_421;  \
+#define  do_tableswitch(size_399) { int  size_400 = size_399;  \
             int fparm; \
             int key; \
             int low; \
@@ -2140,18 +2140,18 @@ INLINE void bbtarget_trace() {
             /* \
              * Skip the padding. \
              */ \
-            while ((((UWord)ip) % (size_422)) != 0) { \
+            while ((((UWord)ip) % (size_400)) != 0) { \
                 fetchByte(); \
             } \
  \
             /* \
              * Read the low and high bound and the default case. \
              */ \
-            getSwitchEntry((size_422)); \
+            getSwitchEntry((size_400)); \
             low   = fparm; \
-            getSwitchEntry((size_422)); \
+            getSwitchEntry((size_400)); \
             high  = fparm; \
-            getSwitchEntry((size_422)); \
+            getSwitchEntry((size_400)); \
             iparm = fparm; \
  \
             /* \
@@ -2163,7 +2163,7 @@ INLINE void bbtarget_trace() {
              * Calculate the new IP. \
              */ \
             if (key >= low && key <= high) { \
-                if ((size_422) == 4) { \
+                if ((size_400) == 4) { \
                     iparm = getIntTyped(ip, key-low, AddressType_ANY); \
                 } else { \
                     iparm = getShortTyped(ip, key-low, AddressType_ANY); \
@@ -2188,8 +2188,8 @@ INLINE void bbtarget_trace() {
          *                the current class or is on the stack
          * @return the class whose static field is being accessed
          */
-#define  getStaticFieldClass(inCP_423) (  \
-             (inCP_423) ? getCP() : popAddress()  \
+#define  getStaticFieldClass(inCP_401) (  \
+             (inCP_401) ? getCP() : popAddress()  \
         )
 
         /**
@@ -2202,8 +2202,8 @@ INLINE void bbtarget_trace() {
          * @param inCP    specifies if the class whose field to be accessed is
          *                the current class or is on the stack
          */
-#define  do_getstatic_i(inCP_424) { boolean  inCP_425 = inCP_424;  \
-            Address klass = getStaticFieldClass((inCP_425)); \
+#define  do_getstatic_i(inCP_402) { boolean  inCP_403 = inCP_402;  \
+            Address klass = getStaticFieldClass((inCP_403)); \
             Address state = VM_getClassStateREAL(klass); \
             if (state != null) { \
                 checkReferenceSlots(); \
@@ -2226,8 +2226,8 @@ INLINE void bbtarget_trace() {
          * @param inCP    specifies if the class whose field to be accessed is
          *                the current class or is on the stack
          */
-#define  do_getstatic_l(inCP_426) { boolean  inCP_427 = inCP_426;  \
-            Address klass = getStaticFieldClass((inCP_427)); \
+#define  do_getstatic_l(inCP_404) { boolean  inCP_405 = inCP_404;  \
+            Address klass = getStaticFieldClass((inCP_405)); \
             Address state = VM_getClassStateREAL(klass); \
             if (state != null) { \
                 checkReferenceSlots(); \
@@ -2250,8 +2250,8 @@ INLINE void bbtarget_trace() {
          * @param inCP    specifies if the class whose field to be accessed is
          *                the current class or is on the stack
          */
-#define  do_getstatic_o(inCP_428) { boolean  inCP_429 = inCP_428;  \
-            Address klass = getStaticFieldClass((inCP_429)); \
+#define  do_getstatic_o(inCP_406) { boolean  inCP_407 = inCP_406;  \
+            Address klass = getStaticFieldClass((inCP_407)); \
             Address state = VM_getClassStateREAL(klass); \
             if (state != null) { \
                 checkReferenceSlots(); \
@@ -2275,8 +2275,8 @@ INLINE void bbtarget_trace() {
          * @param inCP    specifies if the class whose field to be accessed is
          *                the current class or is on the stack
          */
-#define  do_getstatic_f(inCP_430) { boolean  inCP_431 = inCP_430;  \
-            do_getstatic_i((inCP_431)); \
+#define  do_getstatic_f(inCP_408) { boolean  inCP_409 = inCP_408;  \
+            do_getstatic_i((inCP_409)); \
         }
 
         /**
@@ -2289,8 +2289,8 @@ INLINE void bbtarget_trace() {
          * @param inCP    specifies if the class whose field to be accessed is
          *                the current class or is on the stack
          */
-#define  do_getstatic_d(inCP_432) { boolean  inCP_433 = inCP_432;  \
-            do_getstatic_l((inCP_433)); \
+#define  do_getstatic_d(inCP_410) { boolean  inCP_411 = inCP_410;  \
+            do_getstatic_l((inCP_411)); \
         }
 
 
@@ -2308,8 +2308,8 @@ INLINE void bbtarget_trace() {
          * @param inCP    specifies if the class whose field to be accessed is
          *                the current class or is on the stack
          */
-#define  do_putstatic_i(inCP_434) { boolean  inCP_435 = inCP_434;  \
-            Address klass = getStaticFieldClass((inCP_435)); \
+#define  do_putstatic_i(inCP_412) { boolean  inCP_413 = inCP_412;  \
+            Address klass = getStaticFieldClass((inCP_413)); \
             Address state = VM_getClassStateREAL(klass); \
             if (state != null) { \
                 checkReferenceSlots(); \
@@ -2332,8 +2332,8 @@ INLINE void bbtarget_trace() {
          * @param inCP    specifies if the class whose field to be accessed is
          *                the current class or is on the stack
          */
-#define  do_putstatic_l(inCP_436) { boolean  inCP_437 = inCP_436;  \
-            Address klass = getStaticFieldClass((inCP_437)); \
+#define  do_putstatic_l(inCP_414) { boolean  inCP_415 = inCP_414;  \
+            Address klass = getStaticFieldClass((inCP_415)); \
             Address state = VM_getClassStateREAL(klass); \
             if (state != null) { \
                 checkReferenceSlots(); \
@@ -2356,8 +2356,8 @@ INLINE void bbtarget_trace() {
          * @param inCP    specifies if the class whose field to be accessed is
          *                the current class or is on the stack
          */
-#define  do_putstatic_o(inCP_438) { boolean  inCP_439 = inCP_438;  \
-            Address klass = getStaticFieldClass((inCP_439)); \
+#define  do_putstatic_o(inCP_416) { boolean  inCP_417 = inCP_416;  \
+            Address klass = getStaticFieldClass((inCP_417)); \
             Address state = VM_getClassStateREAL(klass); \
             if (state != null) { \
                 checkReferenceSlots(); \
@@ -2381,8 +2381,8 @@ INLINE void bbtarget_trace() {
          * @param inCP    specifies if the class whose field to be accessed is
          *                the current class or is on the stack
          */
-#define  do_putstatic_f(inCP_440) { boolean  inCP_441 = inCP_440;  \
-            do_putstatic_i((inCP_441)); \
+#define  do_putstatic_f(inCP_418) { boolean  inCP_419 = inCP_418;  \
+            do_putstatic_i((inCP_419)); \
         }
 
         /**
@@ -2395,8 +2395,8 @@ INLINE void bbtarget_trace() {
          * @param inCP    specifies if the class whose field to be accessed is
          *                the current class or is on the stack
          */
-#define  do_putstatic_d(inCP_442) { boolean  inCP_443 = inCP_442;  \
-            do_putstatic_l((inCP_443)); \
+#define  do_putstatic_d(inCP_420) { boolean  inCP_421 = inCP_420;  \
+            do_putstatic_l((inCP_421)); \
         }
 
 
@@ -2410,11 +2410,11 @@ INLINE void bbtarget_trace() {
          * @param oop the pointer
          * @param checkSlots true if slot checking should be performed
          */
-#define  nullCheckPrim(oop_444, checkSlots_446) { Address  oop_445 = oop_444;  boolean  checkSlots_447 = checkSlots_446;  \
-            if ((checkSlots_447)) { \
+#define  nullCheckPrim(oop_422, checkSlots_424) { Address  oop_423 = oop_422;  boolean  checkSlots_425 = checkSlots_424;  \
+            if ((checkSlots_425)) { \
                 checkReferenceSlots(); \
             } \
-            if ((oop_445) == 0) { \
+            if ((oop_423) == 0) { \
  \
 /*              --- TEST: fatalInterpreterError("NPE, time to freak out!");*/ \
                 goto throw_nullPointerException; \
@@ -2431,8 +2431,8 @@ INLINE void bbtarget_trace() {
          *
          * @param oop the pointer
          */
-#define  nullCheck(oop_448) { Address  oop_449 = oop_448;  \
-            nullCheckPrim((oop_449), true); \
+#define  nullCheck(oop_426) { Address  oop_427 = oop_426;  \
+            nullCheckPrim((oop_427), true); \
         }
 
         /**
@@ -2441,16 +2441,16 @@ INLINE void bbtarget_trace() {
          * @param oop the array
          * @param index the index to check
          */
-#define  boundsCheck(oop_450, index_452) { Address  oop_451 = oop_450;  int  index_453 = index_452;  \
+#define  boundsCheck(oop_428, index_430) { Address  oop_429 = oop_428;  int  index_431 = index_430;  \
             int lth; \
-            nullCheck((oop_451)); \
-            lth = (int)getArrayLength((oop_451)); \
+            nullCheck((oop_429)); \
+            lth = (int)getArrayLength((oop_429)); \
             /* use the unsigned bounds check trick: */ \
-            if ((unsigned int) (index_453) >= (unsigned int)lth) { \
-                /*  ((index_453) < 0 || (index_453) >= lth) */ \
+            if ((unsigned int) (index_431) >= (unsigned int)lth) { \
+                /*  ((index_431) < 0 || (index_431) >= lth) */ \
  \
-                com_sun_squawk_VM_reportedIndex = (index_453); \
-                com_sun_squawk_VM_reportedArray = (oop_451); \
+                com_sun_squawk_VM_reportedIndex = (index_431); \
+                com_sun_squawk_VM_reportedArray = (oop_429); \
                 goto throw_arrayIndexOutOfBoundsException; \
  \
  \
@@ -2467,8 +2467,8 @@ INLINE void bbtarget_trace() {
          *                in parameter 0 or is on the stack
          * @return the object
          */
-#define  getInstanceFieldOop(oopIn0_454) (  \
-             (oopIn0_454) ? (Address)getParmTyped(0, AddressType_REF) : popAddress()  \
+#define  getInstanceFieldOop(oopIn0_432) (  \
+             (oopIn0_432) ? (Address)getParmTyped(0, AddressType_REF) : popAddress()  \
         )
 
         /*-----------------------------------------------------------------------*\
@@ -2482,14 +2482,14 @@ INLINE void bbtarget_trace() {
          * @param oop   the object containing the field
          * @param flag  return immediately if false
          */
-#define  getfield_ref_or_uword(oop_455, flag_457) { Address  oop_456 = oop_455;  boolean  flag_458 = flag_457;  \
-            if (TYPEMAP && (flag_458)) { \
+#define  getfield_ref_or_uword(oop_433, flag_435) { Address  oop_434 = oop_433;  boolean  flag_436 = flag_435;  \
+            if (TYPEMAP && (flag_436)) { \
                 if (getMutationType() == AddressType_REF) { \
-                    pushAddress(getObject((oop_456), iparm)); \
+                    pushAddress(getObject((oop_434), iparm)); \
                     nextbytecode(); /* completes instruction execution */ \
                 } \
                 if (getMutationType() == AddressType_UWORD) { \
-                    pushWord(getUWord((oop_456), iparm)); \
+                    pushWord(getUWord((oop_434), iparm)); \
                     nextbytecode(); /* completes instruction execution */ \
                 } \
             } \
@@ -2511,8 +2511,8 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_getfield_b(oopIn0_459) { boolean  oopIn0_460 = oopIn0_459;  \
-            Address oop = getInstanceFieldOop((oopIn0_460)); \
+#define  do_getfield_b(oopIn0_437) { boolean  oopIn0_438 = oopIn0_437;  \
+            Address oop = getInstanceFieldOop((oopIn0_438)); \
             nullCheckPrim(oop, true); \
             pushInt(getByte(oop, iparm)); \
         }
@@ -2529,8 +2529,8 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_getfield_s(oopIn0_461) { boolean  oopIn0_462 = oopIn0_461;  \
-            Address oop = getInstanceFieldOop((oopIn0_462)); \
+#define  do_getfield_s(oopIn0_439) { boolean  oopIn0_440 = oopIn0_439;  \
+            Address oop = getInstanceFieldOop((oopIn0_440)); \
             nullCheckPrim(oop, true); \
             pushInt(getShort(oop, iparm)); \
         }
@@ -2547,8 +2547,8 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_getfield_c(oopIn0_463) { boolean  oopIn0_464 = oopIn0_463;  \
-            Address oop = getInstanceFieldOop((oopIn0_464)); \
+#define  do_getfield_c(oopIn0_441) { boolean  oopIn0_442 = oopIn0_441;  \
+            Address oop = getInstanceFieldOop((oopIn0_442)); \
             nullCheckPrim(oop, true); \
             pushInt(getUShort(oop, iparm)); \
         }
@@ -2565,8 +2565,8 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_getfield_i(oopIn0_465) { boolean  oopIn0_466 = oopIn0_465;  \
-            Address oop = getInstanceFieldOop((oopIn0_466)); \
+#define  do_getfield_i(oopIn0_443) { boolean  oopIn0_444 = oopIn0_443;  \
+            Address oop = getInstanceFieldOop((oopIn0_444)); \
             nullCheckPrim(oop, true); \
             getfield_ref_or_uword(oop, !SQUAWK_64); \
             pushInt(getInt(oop, iparm)); \
@@ -2584,8 +2584,8 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_getfield_o(oopIn0_467) { boolean  oopIn0_468 = oopIn0_467;  \
-            Address oop = getInstanceFieldOop((oopIn0_468)); \
+#define  do_getfield_o(oopIn0_445) { boolean  oopIn0_446 = oopIn0_445;  \
+            Address oop = getInstanceFieldOop((oopIn0_446)); \
             nullCheckPrim(oop, true); \
             pushAddress(getObject(oop, iparm)); \
         }
@@ -2602,8 +2602,8 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_getfield_l(oopIn0_469) { boolean  oopIn0_470 = oopIn0_469;  \
-            Address oop = getInstanceFieldOop((oopIn0_470)); \
+#define  do_getfield_l(oopIn0_447) { boolean  oopIn0_448 = oopIn0_447;  \
+            Address oop = getInstanceFieldOop((oopIn0_448)); \
             nullCheckPrim(oop, true); \
             getfield_ref_or_uword(oop, SQUAWK_64); \
             pushLong(getLongAtWord(oop, iparm)); \
@@ -2622,8 +2622,8 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_getfield_f(oopIn0_471) { boolean  oopIn0_472 = oopIn0_471;  \
-            Address oop = getInstanceFieldOop((oopIn0_472)); \
+#define  do_getfield_f(oopIn0_449) { boolean  oopIn0_450 = oopIn0_449;  \
+            Address oop = getInstanceFieldOop((oopIn0_450)); \
             nullCheckPrim(oop, true); \
             pushInt(getInt(oop, iparm)); \
         }
@@ -2640,8 +2640,8 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_getfield_d(oopIn0_473) { boolean  oopIn0_474 = oopIn0_473;  \
-            Address oop = getInstanceFieldOop((oopIn0_474)); \
+#define  do_getfield_d(oopIn0_451) { boolean  oopIn0_452 = oopIn0_451;  \
+            Address oop = getInstanceFieldOop((oopIn0_452)); \
             nullCheckPrim(oop, true); \
             pushLong(getLongAtWord(oop, iparm)); \
         }
@@ -2658,18 +2658,18 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  putfield_ref_or_uword(oopIn0_475, flag_477) { boolean  oopIn0_476 = oopIn0_475;  boolean  flag_478 = flag_477;  \
-            if (TYPEMAP && (flag_478)) { \
+#define  putfield_ref_or_uword(oopIn0_453, flag_455) { boolean  oopIn0_454 = oopIn0_453;  boolean  flag_456 = flag_455;  \
+            if (TYPEMAP && (flag_456)) { \
                 if (getMutationType() == AddressType_REF) { \
                     Address value = popAddress(); \
-                    Address oop = getInstanceFieldOop((oopIn0_476)); \
-                    nullCheckPrim(oop, !(oopIn0_476)); \
+                    Address oop = getInstanceFieldOop((oopIn0_454)); \
+                    nullCheckPrim(oop, !(oopIn0_454)); \
                     setObject(oop, iparm, value); \
                     nextbytecode(); \
                 } else if (getMutationType() == AddressType_UWORD) { \
                     UWord value = popWord(); \
-                    Address oop = getInstanceFieldOop((oopIn0_476)); \
-                    nullCheckPrim(oop, !(oopIn0_476)); \
+                    Address oop = getInstanceFieldOop((oopIn0_454)); \
+                    nullCheckPrim(oop, !(oopIn0_454)); \
                     setUWord(oop, iparm, value); \
                     nextbytecode(); \
                 } \
@@ -2688,10 +2688,10 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_putfield_b(oopIn0_479) { boolean  oopIn0_480 = oopIn0_479;  \
+#define  do_putfield_b(oopIn0_457) { boolean  oopIn0_458 = oopIn0_457;  \
             int value = popInt(); \
-            Address oop = getInstanceFieldOop((oopIn0_480)); \
-            nullCheckPrim(oop, !(oopIn0_480)); \
+            Address oop = getInstanceFieldOop((oopIn0_458)); \
+            nullCheckPrim(oop, !(oopIn0_458)); \
             setByte(oop, iparm, value); \
         }
 
@@ -2707,10 +2707,10 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_putfield_s(oopIn0_481) { boolean  oopIn0_482 = oopIn0_481;  \
+#define  do_putfield_s(oopIn0_459) { boolean  oopIn0_460 = oopIn0_459;  \
             int value = popInt(); \
-            Address oop = getInstanceFieldOop((oopIn0_482)); \
-            nullCheckPrim(oop, !(oopIn0_482)); \
+            Address oop = getInstanceFieldOop((oopIn0_460)); \
+            nullCheckPrim(oop, !(oopIn0_460)); \
             setShort(oop, iparm, value); \
         }
 
@@ -2726,12 +2726,12 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_putfield_i(oopIn0_483) { boolean  oopIn0_484 = oopIn0_483;  \
-            putfield_ref_or_uword((oopIn0_484), !SQUAWK_64); \
+#define  do_putfield_i(oopIn0_461) { boolean  oopIn0_462 = oopIn0_461;  \
+            putfield_ref_or_uword((oopIn0_462), !SQUAWK_64); \
             { \
                 int value = popInt(); \
-                Address oop = getInstanceFieldOop((oopIn0_484)); \
-                nullCheckPrim(oop, !(oopIn0_484)); \
+                Address oop = getInstanceFieldOop((oopIn0_462)); \
+                nullCheckPrim(oop, !(oopIn0_462)); \
                 setInt(oop, iparm, value); \
             } \
         }
@@ -2748,10 +2748,10 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_putfield_o(oopIn0_485) { boolean  oopIn0_486 = oopIn0_485;  \
+#define  do_putfield_o(oopIn0_463) { boolean  oopIn0_464 = oopIn0_463;  \
             Address value = popAddress(); \
-            Address oop = getInstanceFieldOop((oopIn0_486)); \
-            nullCheckPrim(oop, !(oopIn0_486)); \
+            Address oop = getInstanceFieldOop((oopIn0_464)); \
+            nullCheckPrim(oop, !(oopIn0_464)); \
             setObjectAndUpdateWriteBarrier(oop, iparm, value); \
         }
 
@@ -2767,12 +2767,12 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_putfield_l(oopIn0_487) { boolean  oopIn0_488 = oopIn0_487;  \
-            putfield_ref_or_uword((oopIn0_488), SQUAWK_64); \
+#define  do_putfield_l(oopIn0_465) { boolean  oopIn0_466 = oopIn0_465;  \
+            putfield_ref_or_uword((oopIn0_466), SQUAWK_64); \
             { \
                 jlong value = popLong(); \
-                Address oop = getInstanceFieldOop((oopIn0_488)); \
-                nullCheckPrim(oop, !(oopIn0_488)); \
+                Address oop = getInstanceFieldOop((oopIn0_466)); \
+                nullCheckPrim(oop, !(oopIn0_466)); \
                 setLongAtWord(oop, iparm, value); \
             } \
         }
@@ -2790,10 +2790,10 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_putfield_f(oopIn0_489) { boolean  oopIn0_490 = oopIn0_489;  \
+#define  do_putfield_f(oopIn0_467) { boolean  oopIn0_468 = oopIn0_467;  \
             int value = popInt(); \
-            Address oop = getInstanceFieldOop((oopIn0_490)); \
-            nullCheckPrim(oop, !(oopIn0_490)); \
+            Address oop = getInstanceFieldOop((oopIn0_468)); \
+            nullCheckPrim(oop, !(oopIn0_468)); \
             setInt(oop, iparm, value); \
         }
 
@@ -2809,10 +2809,10 @@ INLINE void bbtarget_trace() {
          * @param oopIn0  specifies if the object whose field to be loaded is
          *                in parameter 0 or is on the stack
          */
-#define  do_putfield_d(oopIn0_491) { boolean  oopIn0_492 = oopIn0_491;  \
+#define  do_putfield_d(oopIn0_469) { boolean  oopIn0_470 = oopIn0_469;  \
             jlong value = popLong(); \
-            Address oop = getInstanceFieldOop((oopIn0_492)); \
-            nullCheckPrim(oop, !(oopIn0_492)); \
+            Address oop = getInstanceFieldOop((oopIn0_470)); \
+            nullCheckPrim(oop, !(oopIn0_470)); \
             setLongAtWord(oop, iparm, value); \
         }
 
@@ -2829,14 +2829,14 @@ INLINE void bbtarget_trace() {
          * @param oop    the address of the array
          * @param flag   return immediately if false
          */
-#define  aload_ref_or_uword(index_493, oop_495, flag_497) { int  index_494 = index_493;  Address  oop_496 = oop_495;  boolean  flag_498 = flag_497;  \
-            if (TYPEMAP && (flag_498)) { \
+#define  aload_ref_or_uword(index_471, oop_473, flag_475) { int  index_472 = index_471;  Address  oop_474 = oop_473;  boolean  flag_476 = flag_475;  \
+            if (TYPEMAP && (flag_476)) { \
                 if (getMutationType() == AddressType_REF) { \
-                    pushAddress(getObject((oop_496), (index_494))); \
+                    pushAddress(getObject((oop_474), (index_472))); \
                     nextbytecode(); \
                 } \
                 if (getMutationType() == AddressType_UWORD) { \
-                    pushWord(getUWord((oop_496), (index_494))); \
+                    pushWord(getUWord((oop_474), (index_472))); \
                     nextbytecode(); \
                 } \
             } \
@@ -3180,10 +3180,10 @@ INLINE void bbtarget_trace() {
         }
 
 
-INLINE void incExtends(int slots_500) {
+INLINE void incExtends(int slots_478) {
 #if TRACE
             total_extends++;
-            total_slots += (slots_500);
+            total_slots += (slots_478);
 #endif
         }
 
@@ -3195,8 +3195,8 @@ INLINE void incExtends(int slots_500) {
          * Java Stack: _ -> _
          * <p>
          */
-#define  extendStack(mp_501, slotsToClear_503) { Address  mp_502 = mp_501;  int  slotsToClear_504 = slotsToClear_503;  \
-            Address mp = (mp_502); \
+#define  extendStack(mp_479, slotsToClear_481) { Address  mp_480 = mp_479;  int  slotsToClear_482 = slotsToClear_481;  \
+            Address mp = (mp_480); \
             int nlocals, nstack; \
             assumeInterp(com_sun_squawk_VM_extendsEnabled); \
 assumeInterp(inCode(mp)); \
@@ -3206,8 +3206,8 @@ assumeInterp(inCode(mp)); \
             assumeInterp(getMP() == mp); \
             nlocals = getLocalCount(mp); \
             nstack  = getStackCount(mp); \
-            assumeInterp((slotsToClear_504) < nlocals); \
-            incExtends((slotsToClear_504)); \
+            assumeInterp((slotsToClear_482) < nlocals); \
+            incExtends((slotsToClear_482)); \
             if (likely((fp - nlocals - nstack) > (sl + FP_FIXED_FRAME_SIZE))) { \
                 UWordAddress oldsp = sp; \
                 int delta = nlocals; \
@@ -3225,10 +3225,10 @@ assumeInterp(inCode(mp)); \
                         slotsToZap = slotsToZap - 1; \
                     } \
                 } \
-                while ((slotsToClear_504) > 0) { \
+                while ((slotsToClear_482) > 0) { \
                     setUWord(--oldsp, 0, 0);            /* zero local variables that need clearing */ \
                     setType(oldsp, AddressType_ANY, sizeof(UWord)); \
-                    (slotsToClear_504) = (slotsToClear_504) - 1; \
+                    (slotsToClear_482) = (slotsToClear_482) - 1; \
                 } \
             } else { \
                 int overflow = (sl + FP_FIXED_FRAME_SIZE) - (fp - nlocals - nstack); \
@@ -3240,7 +3240,7 @@ assumeInterp(inCode(mp)); \
                                             sp - sl, \
                                             nlocals, \
                                             nstack, \
-                                            (slotsToClear_504), \
+                                            (slotsToClear_482), \
                                             (int)mp \
                                           ); \
                 } \
@@ -3332,8 +3332,8 @@ assumeInterp(inCode(mp)); \
          *
          * @param flag  return immediately if false
          */
-#define  return_ref_or_uword(flag_505) { boolean  flag_506 = flag_505;  \
-            if (TYPEMAP && (flag_506)) { \
+#define  return_ref_or_uword(flag_483) { boolean  flag_484 = flag_483;  \
+            if (TYPEMAP && (flag_484)) { \
                 if (getMutationType() == AddressType_REF) { \
                     Address res; \
                     ip = (ByteAddress)getObject(fp, FP_returnIP); \
@@ -3458,9 +3458,9 @@ assumeInterp(inCode(mp)); \
          * Java Stack: ..., INT -> ...
          * <p>
          */
-#define  do_pop_n(n_507) { int  n_508 = n_507;  \
+#define  do_pop_n(n_485) { int  n_486 = n_485;  \
             popAsType(AddressType_ANY); \
-            if (!SQUAWK_64 && (n_508) == 2) { \
+            if (!SQUAWK_64 && (n_486) == 2) { \
                 popAsType(AddressType_ANY); \
             } \
         }
@@ -6194,7 +6194,7 @@ if (l != 0 && r > (java_lang_Long_MAX_VALUE/l)) { \
          *
          * @param n ignored parameter
          */
-#define  do_res(n_509) { int  n_510 = n_509;  \
+#define  do_res(n_487) { int  n_488 = n_487;  \
             shouldNotReachHere(); \
         }
         

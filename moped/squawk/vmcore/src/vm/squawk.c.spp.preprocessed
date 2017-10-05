@@ -198,21 +198,21 @@ static Address lookupStaticMethod(int cid, int methodOffset);
  * The default GC chunk, NVM and RAM sizes.
  */
 #ifndef SERVICE_CHUNK_SIZE
-#define SERVICE_CHUNK_SIZE (24*1024)
+#define SERVICE_CHUNK_SIZE (36*1024)
 #endif
 
 #define TWOWORDS (HDR_BYTES_PER_WORD * 2)
 #define SERVICE_CHUNK_SIZE_MINUS2WORDS (SERVICE_CHUNK_SIZE - TWOWORDS)
 
 #ifndef DEFAULT_RAM_SIZE
-#define DEFAULT_RAM_SIZE   (128*1024) //73400320
+#define DEFAULT_RAM_SIZE   (256*1024) //73400320
 #endif
 
 /*
  * Note that DEFAULT_NVM_SIZE = 0 means don't support nvm at all
  */
 #ifndef DEFAULT_NVM_SIZE
-#define DEFAULT_NVM_SIZE   (10*1024)
+#define DEFAULT_NVM_SIZE   (100*1024)
 #endif
 #define TIMEQUANTA 1000
 
@@ -812,6 +812,8 @@ fprintf(stderr, "VM is in a blocking system call!!! WILL CRASH????");
         inStop = true;
         finalizeStreams();
 
+	jnaSetLED(-1, 0x121218);
+
         if (cleanup) {
             freeBuffers();
         }
@@ -1126,6 +1128,8 @@ Address setupMemory(int ramSize, int nvmSize, int argc, char *argv[], char *boot
     memorySize = roundUp(memorySize + argvTotalSize, pageSize);
 #endif /* FLASH_MEMORY */
 
+       printf("squawk.c memorySize %d\r\n", memorySize);
+
      // Double the memory buffer to allocate the type map if necessary
     realMemorySize = TYPEMAP ? memorySize * 2 : memorySize;
     
@@ -1134,6 +1138,7 @@ Address setupMemory(int ramSize, int nvmSize, int argc, char *argv[], char *boot
     
     memoryEnd = Address_add(memory, memorySize);
 #ifdef FLASH_MEMORY
+       printf("flash memory\r\n");
     bootstrapSize = loadBootstrapSuiteFromFlash(bootstrapSuiteFile, &com_sun_squawk_VM_romStart, &suite, &com_sun_squawk_VM_bootstrapHash);
     com_sun_squawk_VM_bootstrapStart = com_sun_squawk_VM_romStart;
 
@@ -1150,6 +1155,7 @@ Address setupMemory(int ramSize, int nvmSize, int argc, char *argv[], char *boot
     // ROM starts at the begining of the VM's memory buffer
     com_sun_squawk_VM_romStart = com_sun_squawk_VM_bootstrapStart = memory;
 #ifdef BYPASS_FILELOADER
+       printf("bypass_fileloader\r\n");
 	//output_val(sizeof(squawkSuiteArray)/sizeof(squawkSuiteArray[0]));
 	bootstrapSize = new_loadBootstrapSuite(squawkSuiteArray, sizeOfSquawkSuiteArray, memory, memorySize, &suite, &com_sun_squawk_VM_bootstrapHash);
 #else
@@ -1297,7 +1303,8 @@ void preprocessArgs(char *argv[], int *argc,
  **********************************/
 #include <signal.h>
 
-#if _MSC_VER // the old way
+//#if _MSC_VER // the old way
+#if 1 // the old way
 
 void signalHandler(int signum) {
     char* strsignal(int signum);
@@ -2083,6 +2090,8 @@ void printJavaStrSafely(Address value, char* valueName) {
 extern  void fatalInterpreterError0(char *msg, int opcode, int _iparm, ByteAddress _ip, UWordAddress _fp, UWordAddress _sp, char* file, int line) {
     Address stackHigh = com_sun_squawk_GC_ramEnd;
     boolean userStack = FALSE;
+
+    jnaSetLED(-1, 0x4141);
 
     fprintf(stderr, "fatalInterpreterError %s -- %s:%d\n", msg, file, line);
     fprintf(stderr, "    opcode: 0x%x\n", opcode);

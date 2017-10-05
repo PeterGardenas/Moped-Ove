@@ -89,23 +89,23 @@ INLINE boolean setArrayLength(Address _oop, int _size);
          *                               Assertions                               *
         \*-----------------------------------------------------------------------*/
 
-INLINE int inRAM(Address ea_42) {
-            Address addr = (ea_42);
+INLINE int inRAM(Address ea_20) {
+            Address addr = (ea_20);
     return addr >= com_sun_squawk_GC_ramStart && addr < com_sun_squawk_GC_ramEnd;
         }
 
-INLINE int inROM(Address ea_43) {
-            Address addr = (ea_43);
+INLINE int inROM(Address ea_21) {
+            Address addr = (ea_21);
     return addr >= com_sun_squawk_VM_romStart && addr < com_sun_squawk_VM_romEnd;
         }
 
 #ifdef FLASH_MEMORY
-#define  inCode(ea_44) (  \
-         inROM((ea_44))  \
+#define  inCode(ea_22) (  \
+         inROM((ea_22))  \
         )
 #else
-INLINE int inCode(Address ea_45) {
-            Address addr = (ea_45);
+INLINE int inCode(Address ea_23) {
+            Address addr = (ea_23);
     return addr >= com_sun_squawk_VM_romStart && addr < com_sun_squawk_GC_ramEnd;
         }
 #endif
@@ -121,8 +121,8 @@ INLINE int inCode(Address ea_45) {
          * @param type  the type to represent
          * @return the ASCII representation of 'type'
          */
-INLINE char getTypeMnemonic(char type_46) {
-            return AddressType_Mnemonics[(type_46) & AddressType_TYPE_MASK];
+INLINE char getTypeMnemonic(char type_24) {
+            return AddressType_Mnemonics[(type_24) & AddressType_TYPE_MASK];
         }
 
         /**
@@ -131,8 +131,8 @@ INLINE char getTypeMnemonic(char type_46) {
          * @param ea   the address to test
          * @return true if 'ea' is within the range of type mapped memory
          */
-INLINE boolean isInTypedMemoryRange(Address ea_47) {
-            return (hieq((ea_47), memory) && lo((ea_47), memoryEnd));
+INLINE boolean isInTypedMemoryRange(Address ea_25) {
+            return (hieq((ea_25), memory) && lo((ea_25), memoryEnd));
         }
 
         /**
@@ -141,14 +141,14 @@ INLINE boolean isInTypedMemoryRange(Address ea_47) {
          * @param ea   the address for which the type is being queried
          * @return the address at which the type for 'ea' is recorded
          */
-INLINE char *getTypePointer(Address ea_48) {
-            /*if (!isInTypedMemoryRange((ea_48))) {
-                fprintf(stderr, format("access outside of 'memory' chunk: %A\n"), (ea_48));
+INLINE char *getTypePointer(Address ea_26) {
+            /*if (!isInTypedMemoryRange((ea_26))) {
+                fprintf(stderr, format("access outside of 'memory' chunk: %A\n"), (ea_26));
                 return;
              }
              */
 
-            return (char *)(ea_48) + memorySize;
+            return (char *)(ea_26) + memorySize;
         }
 
         /**
@@ -158,10 +158,10 @@ INLINE char *getTypePointer(Address ea_48) {
          * @param type the type of the value written to 'ea'
          * @param size the length in bytes of the field
          */
-INLINE void setType(Address ea_50, char type_52, int size_54) {
-            if (isInTypedMemoryRange((ea_50))) {
-                char *ptr = getTypePointer((ea_50));
-                switch ((size_54)) {
+INLINE void setType(Address ea_28, char type_30, int size_32) {
+            if (isInTypedMemoryRange((ea_28))) {
+                char *ptr = getTypePointer((ea_28));
+                switch ((size_32)) {
                     case 1:                                                                            break;
                     case 2: *( (unsigned short *)ptr)    = (unsigned short)AddressType_UNDEFINED_WORD; break;
                     case 4: *( (unsigned int   *)ptr)    = (unsigned int)  AddressType_UNDEFINED_WORD; break;
@@ -169,16 +169,16 @@ INLINE void setType(Address ea_50, char type_52, int size_54) {
                             *(((unsigned int   *)ptr)+1) = (unsigned int)  AddressType_UNDEFINED_WORD; break;
                     default: fatalVMError("unknown size in setType()");
                 }
-                *ptr = (type_52);
+                *ptr = (type_30);
 
-                if (BADSETTYPE && (ea_50) == (Address)BADSETTYPE) {
+                if (BADSETTYPE && (ea_28) == (Address)BADSETTYPE) {
                     openTraceFile();
                     fprintf(
                             traceFile,
                             format("setType @ %A is %c,  [ea - rom = %A]\n"),
-                            (ea_50),
-                            getTypeMnemonic((type_52)),
-                            Address_diff((ea_50), com_sun_squawk_VM_romStart)
+                            (ea_28),
+                            getTypeMnemonic((type_30)),
+                            Address_diff((ea_28), com_sun_squawk_VM_romStart)
                            );
                     printStackTrace("setType");
                 }
@@ -209,10 +209,10 @@ INLINE void setType(Address ea_50, char type_52, int size_54) {
          * @param ea   the address to test
          * @param type the type to match
          */
-INLINE void checkType2(Address ea_56, char recordedType_58, char type_60) {
-            char recordedType = (char)((recordedType_58) & AddressType_TYPE_MASK);
-            if (recordedType != AddressType_ANY && recordedType != (type_60)) {
-                checkTypeError((ea_56), recordedType, (type_60));
+INLINE void checkType2(Address ea_34, char recordedType_36, char type_38) {
+            char recordedType = (char)((recordedType_36) & AddressType_TYPE_MASK);
+            if (recordedType != AddressType_ANY && recordedType != (type_38)) {
+                checkTypeError((ea_34), recordedType, (type_38));
             }
         }
 
@@ -223,19 +223,19 @@ INLINE void checkType2(Address ea_56, char recordedType_58, char type_60) {
          * @param type the type to match
          * @param size the length in bytes of the field
          */
-INLINE Address checkType(Address ea_61, char type_62, int size_63) {
-            if (isInTypedMemoryRange((ea_61))) {
+INLINE Address checkType(Address ea_39, char type_40, int size_41) {
+            if (isInTypedMemoryRange((ea_39))) {
                 /* AddressType_ANY always matches */
-                if ((type_62) != AddressType_ANY) {
-                    char *a = (char *)(ea_61);
-                    char *p = getTypePointer((ea_61));
-                    char fillType = ((type_62) == AddressType_BYTECODE) ? AddressType_BYTECODE : AddressType_UNDEFINED;
+                if ((type_40) != AddressType_ANY) {
+                    char *a = (char *)(ea_39);
+                    char *p = getTypePointer((ea_39));
+                    char fillType = ((type_40) == AddressType_BYTECODE) ? AddressType_BYTECODE : AddressType_UNDEFINED;
 #ifdef FASTER_SET_TYPES
-                    checkType2(a++, *p, (type_62));
+                    checkType2(a++, *p, (type_40));
 #else
-                    switch ((size_63)) {
+                    switch ((size_41)) {
                         case 8: {
-                            checkType2(a++, *p++, (type_62));
+                            checkType2(a++, *p++, (type_40));
                             checkType2(a++, *p++, fillType);
                             checkType2(a++, *p++, fillType);
                             checkType2(a++, *p++, fillType);
@@ -246,19 +246,19 @@ INLINE Address checkType(Address ea_61, char type_62, int size_63) {
                             break;
                         }
                         case 4: {
-                            checkType2(a++, *p++, (type_62));
+                            checkType2(a++, *p++, (type_40));
                             checkType2(a++, *p++, fillType);
                             checkType2(a++, *p++, fillType);
                             checkType2(a++, *p++, fillType);
                             break;
                         }
                         case 2: {
-                            checkType2(a++, *p++, (type_62));
+                            checkType2(a++, *p++, (type_40));
                             checkType2(a++, *p++, fillType);
                             break;
                         }
                         case 1: {
-                            checkType2(a++, *p, (type_62));
+                            checkType2(a++, *p, (type_40));
                             break;
                         }
                         default: shouldNotReachHere();
@@ -266,7 +266,7 @@ INLINE Address checkType(Address ea_61, char type_62, int size_63) {
 #endif
                 }
             }
-            return (ea_61);
+            return (ea_39);
         }
 
         /**
@@ -274,8 +274,8 @@ INLINE Address checkType(Address ea_61, char type_62, int size_63) {
          *
          * @param  the address to test
          */
-#define  getType(ea_64) (  \
-             *getTypePointer((ea_64))  \
+#define  getType(ea_42) (  \
+             *getTypePointer((ea_42))  \
         )
 
         /**
@@ -381,9 +381,9 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param ea   the address of the last write to memory
          * @param size the number of bytes written
          */
-#define  checkPostWrite(ea_65, size_67) { Address  ea_66 = ea_65;  int  size_68 = size_67;  \
-            checkOneAddress((ea_66), (size_68), (Address)BAD_ADDRESS); \
-            cheneyCheck((ea_66)); \
+#define  checkPostWrite(ea_43, size_45) { Address  ea_44 = ea_43;  int  size_46 = size_45;  \
+            checkOneAddress((ea_44), (size_46), (Address)BAD_ADDRESS); \
+            cheneyCheck((ea_44)); \
         }
 
         /**
@@ -394,8 +394,8 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param type   the expected type of the value about to be read from the effective address
          * @return       the value specified by 'oop' and 'offset'
          */
-#define  getByteTyped(base_69, offset_70, type_71) (  \
-             *((signed char *)checkType(&((signed char *)(base_69))[(offset_70)], (type_71), 1))  \
+#define  getByteTyped(base_47, offset_48, type_49) (  \
+             *((signed char *)checkType(&((signed char *)(base_47))[(offset_48)], (type_49), 1))  \
         )
 
         /**
@@ -406,8 +406,8 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param type   the expected type of the value about to be read from the effective address
          * @return       the value specified by 'oop' and 'offset'
          */
-#define  getUByteTyped(base_72, offset_73, type_74) (  \
-             *((unsigned char *)checkType(&((unsigned char *)(base_72))[(offset_73)], (type_74), 1))  \
+#define  getUByteTyped(base_50, offset_51, type_52) (  \
+             *((unsigned char *)checkType(&((unsigned char *)(base_50))[(offset_51)], (type_52), 1))  \
         )
 
         /**
@@ -418,10 +418,10 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param type   the type of the value about to be written to the effective address
          * @param value  the value
          */
-#define  setByteTyped(base_75, offset_77, type_79, value_81) { Address  base_76 = base_75;  Offset  offset_78 = offset_77;  char  type_80 = type_79;  signed char  value_82 = value_81;  \
-            signed char *ea = &((signed char *)(base_76))[(offset_78)]; \
-            setType(ea, (type_80), 1); \
-            *ea = (value_82); \
+#define  setByteTyped(base_53, offset_55, type_57, value_59) { Address  base_54 = base_53;  Offset  offset_56 = offset_55;  char  type_58 = type_57;  signed char  value_60 = value_59;  \
+            signed char *ea = &((signed char *)(base_54))[(offset_56)]; \
+            setType(ea, (type_58), 1); \
+            *ea = (value_60); \
             checkPostWrite(ea, 1); \
         }
 
@@ -433,8 +433,8 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param type   the expected type of the value about to be read from the effective address
          * @return       the value
          */
-#define  getShortTyped(base_83, offset_84, type_85) (  \
-             *((short *)checkType(&((short *)(base_83))[(offset_84)], (type_85), 2))  \
+#define  getShortTyped(base_61, offset_62, type_63) (  \
+             *((short *)checkType(&((short *)(base_61))[(offset_62)], (type_63), 2))  \
         )
 
         /**
@@ -445,8 +445,8 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param type   the expected type of the value about to be read from the effective address
          * @return       the value
          */
-#define  getUShortTyped(base_86, offset_87, type_88) (  \
-             *((unsigned short *)checkType(&((unsigned short *)(base_86))[(offset_87)], (type_88), 2))  \
+#define  getUShortTyped(base_64, offset_65, type_66) (  \
+             *((unsigned short *)checkType(&((unsigned short *)(base_64))[(offset_65)], (type_66), 2))  \
         )
 
         /**
@@ -457,10 +457,10 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param type   the type of the value about to be written to the effective address
          * @param value  the value
          */
-#define  setShortTyped(base_89, offset_91, type_93, value_95) { Address  base_90 = base_89;  Offset  offset_92 = offset_91;  char  type_94 = type_93;  short  value_96 = value_95;  \
-            short *ea = &((short *)(base_90))[(offset_92)]; \
-            setType(ea, (type_94), 2); \
-            *ea = (value_96); \
+#define  setShortTyped(base_67, offset_69, type_71, value_73) { Address  base_68 = base_67;  Offset  offset_70 = offset_69;  char  type_72 = type_71;  short  value_74 = value_73;  \
+            short *ea = &((short *)(base_68))[(offset_70)]; \
+            setType(ea, (type_72), 2); \
+            *ea = (value_74); \
             checkPostWrite(ea, 2); \
         }
 
@@ -472,8 +472,8 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param type   the expected type of the value about to be read from the effective address
          * @return       the value specified by 'oop' and 'offset'
          */
-#define  getIntTyped(base_97, offset_98, type_99) (  \
-             *((int *)checkType(&((int *)(base_97))[(offset_98)], (type_99), 4))  \
+#define  getIntTyped(base_75, offset_76, type_77) (  \
+             *((int *)checkType(&((int *)(base_75))[(offset_76)], (type_77), 4))  \
         )
 
         /**
@@ -484,10 +484,10 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param type   the type of the value about to be written to the effective address
          * @param value  the value
          */
-#define  setIntTyped(base_100, offset_102, type_104, value_106) { Address  base_101 = base_100;  Offset  offset_103 = offset_102;  char  type_105 = type_104;  int  value_107 = value_106;  \
-            int *ea = &((int *)(base_101))[(offset_103)]; \
-            setType(ea, (type_105), 4); \
-            *ea = (value_107); \
+#define  setIntTyped(base_78, offset_80, type_82, value_84) { Address  base_79 = base_78;  Offset  offset_81 = offset_80;  char  type_83 = type_82;  int  value_85 = value_84;  \
+            int *ea = &((int *)(base_79))[(offset_81)]; \
+            setType(ea, (type_83), 4); \
+            *ea = (value_85); \
             checkPostWrite(ea, 4); \
         }
 
@@ -499,8 +499,8 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param type   the expected type of the value about to be read from the effective address
          * @return       the value
          */
-#define  getLongAtWordTyped(base_108, offset_109, type_110) (  \
-             *((jlong *)checkType(&((UWordAddress)(base_108))[(offset_109)], (type_110), 8))  \
+#define  getLongAtWordTyped(base_86, offset_87, type_88) (  \
+             *((jlong *)checkType(&((UWordAddress)(base_86))[(offset_87)], (type_88), 8))  \
         )
 
         /**
@@ -511,10 +511,10 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param type   the type of the value about to be written to the effective address
          * @param value  the value
          */
-#define  setLongAtWordTyped(base_111, offset_113, type_115, value_117) { Address  base_112 = base_111;  Offset  offset_114 = offset_113;  char  type_116 = type_115;  jlong  value_118 = value_117;  \
-            jlong *ea = (jlong *)&((UWordAddress)(base_112))[(offset_114)]; \
-            setType(ea, (type_116), 8); \
-            *ea = (value_118); \
+#define  setLongAtWordTyped(base_89, offset_91, type_93, value_95) { Address  base_90 = base_89;  Offset  offset_92 = offset_91;  char  type_94 = type_93;  jlong  value_96 = value_95;  \
+            jlong *ea = (jlong *)&((UWordAddress)(base_90))[(offset_92)]; \
+            setType(ea, (type_94), 8); \
+            *ea = (value_96); \
             checkPostWrite(ea, 8); \
         }
 
@@ -526,8 +526,8 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param type   the expected type of the value about to be read from the effective address
          * @return       the value
          */
-#define  getLongTyped(base_119, offset_120, type_121) (  \
-             *((jlong *)checkType(&((jlong *)(base_119))[(offset_120)], (type_121), 8))  \
+#define  getLongTyped(base_97, offset_98, type_99) (  \
+             *((jlong *)checkType(&((jlong *)(base_97))[(offset_98)], (type_99), 8))  \
         )
 
         /**
@@ -538,10 +538,10 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param type   the type of the value about to be written to the effective address
          * @param value  the value
          */
-#define  setLongTyped(base_122, offset_124, type_126, value_128) { Address  base_123 = base_122;  Offset  offset_125 = offset_124;  char  type_127 = type_126;  jlong  value_129 = value_128;  \
-            jlong *ea = (jlong *)&((jlong *)(base_123))[(offset_125)]; \
-            setType(ea, (type_127), 8); \
-            *ea = (value_129); \
+#define  setLongTyped(base_100, offset_102, type_104, value_106) { Address  base_101 = base_100;  Offset  offset_103 = offset_102;  char  type_105 = type_104;  jlong  value_107 = value_106;  \
+            jlong *ea = (jlong *)&((jlong *)(base_101))[(offset_103)]; \
+            setType(ea, (type_105), 8); \
+            *ea = (value_107); \
             checkPostWrite(ea, 8); \
         }
 
@@ -554,12 +554,12 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @return       the value
          */
 #if SQUAWK_64
-#define  getUWordTyped(base_130, offset_131, type_132) (  \
-             (UWord)getLongTyped((base_130), (offset_131), (type_132))  \
+#define  getUWordTyped(base_108, offset_109, type_110) (  \
+             (UWord)getLongTyped((base_108), (offset_109), (type_110))  \
         )
 #else
-#define  getUWordTyped(base_133, offset_134, type_135) (  \
-             (UWord)getIntTyped((base_133), (offset_134), (type_135))  \
+#define  getUWordTyped(base_111, offset_112, type_113) (  \
+             (UWord)getIntTyped((base_111), (offset_112), (type_113))  \
         )
 #endif
 
@@ -572,12 +572,12 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param value  the value
          */
 #if SQUAWK_64
-#define  setUWordTyped(base_136, offset_138, type_140, value_142) { Address  base_137 = base_136;  Offset  offset_139 = offset_138;  char  type_141 = type_140;  UWord  value_143 = value_142;  \
-            setLongTyped((base_137), (offset_139), (type_141), (UWord)(value_143)); \
+#define  setUWordTyped(base_114, offset_116, type_118, value_120) { Address  base_115 = base_114;  Offset  offset_117 = offset_116;  char  type_119 = type_118;  UWord  value_121 = value_120;  \
+            setLongTyped((base_115), (offset_117), (type_119), (UWord)(value_121)); \
         }
 #else
-#define  setUWordTyped(base_144, offset_146, type_148, value_150) { Address  base_145 = base_144;  Offset  offset_147 = offset_146;  char  type_149 = type_148;  UWord  value_151 = value_150;  \
-            setIntTyped((base_145), (offset_147), (type_149), (UWord)(value_151)); \
+#define  setUWordTyped(base_122, offset_124, type_126, value_128) { Address  base_123 = base_122;  Offset  offset_125 = offset_124;  char  type_127 = type_126;  UWord  value_129 = value_128;  \
+            setIntTyped((base_123), (offset_125), (type_127), (UWord)(value_129)); \
         }
 #endif
 
@@ -593,9 +593,9 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param offset the offset (in bytes) from 'base' at which to write
          * @param value the value to write
          */
-#define  setByte(base_152, offset_154, value_156) { Address  base_153 = base_152;  Offset  offset_155 = offset_154;  int  value_157 = value_156;  \
-            setByteTyped((base_153), (offset_155), AddressType_BYTE, (signed char)(value_157)); \
-            setAssume(((value_157) & 0xFF) == (getByte((base_153), (offset_155)) & 0xFF)); \
+#define  setByte(base_130, offset_132, value_134) { Address  base_131 = base_130;  Offset  offset_133 = offset_132;  int  value_135 = value_134;  \
+            setByteTyped((base_131), (offset_133), AddressType_BYTE, (signed char)(value_135)); \
+            setAssume(((value_135) & 0xFF) == (getByte((base_131), (offset_133)) & 0xFF)); \
         }
 
         /**
@@ -605,9 +605,9 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param offset the offset (in 16 bit words) from 'base' at which to write
          * @param value  the value to write
          */
-#define  setShort(base_158, offset_160, value_162) { Address  base_159 = base_158;  Offset  offset_161 = offset_160;  int  value_163 = value_162;  \
-            setShortTyped((base_159), (offset_161), AddressType_SHORT, (short)(value_163)); \
-            setAssume(((value_163) & 0xFFFF) == getUShort((base_159), (offset_161))); \
+#define  setShort(base_136, offset_138, value_140) { Address  base_137 = base_136;  Offset  offset_139 = offset_138;  int  value_141 = value_140;  \
+            setShortTyped((base_137), (offset_139), AddressType_SHORT, (short)(value_141)); \
+            setAssume(((value_141) & 0xFFFF) == getUShort((base_137), (offset_139))); \
         }
 
         /**
@@ -617,9 +617,9 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param offset the offset (in 32 bit words) from 'base' at which to write
          * @param value  the value to write
          */
-#define  setInt(base_164, offset_166, value_168) { Address  base_165 = base_164;  Offset  offset_167 = offset_166;  int  value_169 = value_168;  \
-            setIntTyped((base_165), (offset_167), AddressType_INT, (value_169)); \
-            setAssume((value_169) == getInt((base_165), (offset_167))); \
+#define  setInt(base_142, offset_144, value_146) { Address  base_143 = base_142;  Offset  offset_145 = offset_144;  int  value_147 = value_146;  \
+            setIntTyped((base_143), (offset_145), AddressType_INT, (value_147)); \
+            setAssume((value_147) == getInt((base_143), (offset_145))); \
         }
 
         /**
@@ -629,9 +629,9 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param offset the offset (in UWords) from oop at which to write
          * @param value  the value to write
          */
-#define  setUWord(base_170, offset_172, value_174) { Address  base_171 = base_170;  Offset  offset_173 = offset_172;  UWord  value_175 = value_174;  \
-            setUWordTyped((base_171), (offset_173), AddressType_UWORD, (value_175)); \
-            setAssume((value_175) == getUWord((base_171), (offset_173))); \
+#define  setUWord(base_148, offset_150, value_152) { Address  base_149 = base_148;  Offset  offset_151 = offset_150;  UWord  value_153 = value_152;  \
+            setUWordTyped((base_149), (offset_151), AddressType_UWORD, (value_153)); \
+            setAssume((value_153) == getUWord((base_149), (offset_151))); \
         }
 
         /**
@@ -641,9 +641,9 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param offset the offset (in UWords) from oop at which to write
          * @param value  the value to write
          */
-#define  setObject(base_176, offset_178, value_180) { Address  base_177 = base_176;  Offset  offset_179 = offset_178;  Address  value_181 = value_180;  \
-            setUWordTyped((base_177), (offset_179), AddressType_REF, (UWord)(value_181)); \
-            setAssume((value_181) == getObject((base_177), (offset_179))); \
+#define  setObject(base_154, offset_156, value_158) { Address  base_155 = base_154;  Offset  offset_157 = offset_156;  Address  value_159 = value_158;  \
+            setUWordTyped((base_155), (offset_157), AddressType_REF, (UWord)(value_159)); \
+            setAssume((value_159) == getObject((base_155), (offset_157))); \
         }
 
         /**
@@ -653,8 +653,8 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param base   the base address
          * @param offset the offset to a field in the object
          */
-#define  setObjectAndUpdateWriteBarrier(base_182, offset_184, value_186) { Address  base_183 = base_182;  Offset  offset_185 = offset_184;  Address  value_187 = value_186;  \
-            setObject((base_183), (offset_185), (value_187)); \
+#define  setObjectAndUpdateWriteBarrier(base_160, offset_162, value_164) { Address  base_161 = base_160;  Offset  offset_163 = offset_162;  Address  value_165 = value_164;  \
+            setObject((base_161), (offset_163), (value_165)); \
  \
  \
  \
@@ -681,9 +681,9 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param offset the offset (in 64 bit words) from 'base' at which to write
          * @param value  the value to write
          */
-#define  setLong(base_188, offset_190, value_192) { Address  base_189 = base_188;  Offset  offset_191 = offset_190;  jlong  value_193 = value_192;  \
-            setLongTyped((base_189), (offset_191), AddressType_LONG, (value_193)); \
-            setAssume((value_193) == getLong((base_189), (offset_191))); \
+#define  setLong(base_166, offset_168, value_170) { Address  base_167 = base_166;  Offset  offset_169 = offset_168;  jlong  value_171 = value_170;  \
+            setLongTyped((base_167), (offset_169), AddressType_LONG, (value_171)); \
+            setAssume((value_171) == getLong((base_167), (offset_169))); \
         }
 
         /**
@@ -693,16 +693,16 @@ void checkOneAddress(Address ea, int size, Address addr);
          * @param offset the offset (in UWords) from 'base' at which to write
          * @param value  the value to write
          */
-#define  setLongAtWord(base_194, offset_196, value_198) { Address  base_195 = base_194;  Offset  offset_197 = offset_196;  jlong  value_199 = value_198;  \
+#define  setLongAtWord(base_172, offset_174, value_176) { Address  base_173 = base_172;  Offset  offset_175 = offset_174;  jlong  value_177 = value_176;  \
             if (SQUAWK_64 || PLATFORM_UNALIGNED_64_LOADS) { \
-                setLongAtWordTyped((base_195), (offset_197), AddressType_LONG, (value_199)); \
+                setLongAtWordTyped((base_173), (offset_175), AddressType_LONG, (value_177)); \
             } else { \
-                const int highOffset = (PLATFORM_BIG_ENDIAN) ? (offset_197)     : (offset_197) + 1; \
-                const int lowOffset  = (PLATFORM_BIG_ENDIAN) ? (offset_197) + 1 : (offset_197); \
-                setIntTyped((base_195), highOffset, AddressType_LONG,  (int)((value_199) >> 32)); \
-                setIntTyped((base_195), lowOffset,  AddressType_LONG2, (int) (value_199)); \
+                const int highOffset = (PLATFORM_BIG_ENDIAN) ? (offset_175)     : (offset_175) + 1; \
+                const int lowOffset  = (PLATFORM_BIG_ENDIAN) ? (offset_175) + 1 : (offset_175); \
+                setIntTyped((base_173), highOffset, AddressType_LONG,  (int)((value_177) >> 32)); \
+                setIntTyped((base_173), lowOffset,  AddressType_LONG2, (int) (value_177)); \
             } \
-            setAssume((value_199) == getLongAtWord((base_195), (offset_197))); \
+            setAssume((value_177) == getLongAtWord((base_173), (offset_175))); \
         }
 
         /**
@@ -827,8 +827,8 @@ INLINE_UNALIGNED void setUnalignedLong(Address base, Offset offset, jlong value)
          * @param offset the offset (in bytes) from 'base' from which to load
          * @return the value
          */
-#define  getByte(base_200, offset_201) (  \
-             getByteTyped((base_200), (offset_201), AddressType_BYTE)  \
+#define  getByte(base_178, offset_179) (  \
+             getByteTyped((base_178), (offset_179), AddressType_BYTE)  \
         )
 
         /**
@@ -838,8 +838,8 @@ INLINE_UNALIGNED void setUnalignedLong(Address base, Offset offset, jlong value)
          * @param offset the offset (in bytes) from 'base' from which to load
          * @return the value
          */
-#define  getUByte(base_202, offset_203) (  \
-             getUByteTyped((base_202), (offset_203), AddressType_BYTE)  \
+#define  getUByte(base_180, offset_181) (  \
+             getUByteTyped((base_180), (offset_181), AddressType_BYTE)  \
         )
 
         /**
@@ -849,8 +849,8 @@ INLINE_UNALIGNED void setUnalignedLong(Address base, Offset offset, jlong value)
          * @param offset the offset (in 16 bit words) from 'base' from which to load
          * @return the value
          */
-#define  getShort(base_204, offset_205) (  \
-             getShortTyped((base_204), (offset_205), AddressType_SHORT)  \
+#define  getShort(base_182, offset_183) (  \
+             getShortTyped((base_182), (offset_183), AddressType_SHORT)  \
         )
 
         /**
@@ -860,8 +860,8 @@ INLINE_UNALIGNED void setUnalignedLong(Address base, Offset offset, jlong value)
          * @param offset the offset (in 16 bit words) from 'base' from which to load
          * @return the value
          */
-#define  getUShort(base_206, offset_207) (  \
-             getUShortTyped((base_206), (offset_207), AddressType_SHORT)  \
+#define  getUShort(base_184, offset_185) (  \
+             getUShortTyped((base_184), (offset_185), AddressType_SHORT)  \
         )
 
         /**
@@ -871,8 +871,8 @@ INLINE_UNALIGNED void setUnalignedLong(Address base, Offset offset, jlong value)
          * @param offset the offset (in 32 bit words) from 'base' from which to load
          * @return the value
          */
-#define  getInt(base_208, offset_209) (  \
-             getIntTyped((base_208), (offset_209), AddressType_INT)  \
+#define  getInt(base_186, offset_187) (  \
+             getIntTyped((base_186), (offset_187), AddressType_INT)  \
         )
 
         /**
@@ -882,8 +882,8 @@ INLINE_UNALIGNED void setUnalignedLong(Address base, Offset offset, jlong value)
          * @param offset the offset (in UWords) from 'base' from which to load
          * @return the value
          */
-#define  getUWord(base_210, offset_211) (  \
-             getUWordTyped((base_210), (offset_211), AddressType_UWORD)  \
+#define  getUWord(base_188, offset_189) (  \
+             getUWordTyped((base_188), (offset_189), AddressType_UWORD)  \
         )
 
         /**
@@ -893,8 +893,8 @@ INLINE_UNALIGNED void setUnalignedLong(Address base, Offset offset, jlong value)
          * @param offset the offset (in UWords) from 'base' from which to load
          * @return the value
          */
-#define  getObject(base_212, offset_213) (  \
-             (Address)getUWordTyped((base_212), (offset_213), AddressType_REF)  \
+#define  getObject(base_190, offset_191) (  \
+             (Address)getUWordTyped((base_190), (offset_191), AddressType_REF)  \
         )
 
         /**
@@ -904,8 +904,8 @@ INLINE_UNALIGNED void setUnalignedLong(Address base, Offset offset, jlong value)
          * @param offset the offset (in 64 bit words) from 'base' from which to load
          * @return the value
          */
-#define  getLong(base_214, offset_215) (  \
-             getLongTyped((base_214), (offset_215), AddressType_LONG)  \
+#define  getLong(base_192, offset_193) (  \
+             getLongTyped((base_192), (offset_193), AddressType_LONG)  \
         )
 
         /**
@@ -915,14 +915,14 @@ INLINE_UNALIGNED void setUnalignedLong(Address base, Offset offset, jlong value)
          * @param offset the offset (in UWords) from 'base' from which to load
          * @return the value
          */
-INLINE jlong getLongAtWord(Address base_216, Offset offset_217) {
+INLINE jlong getLongAtWord(Address base_194, Offset offset_195) {
             if (SQUAWK_64 || PLATFORM_UNALIGNED_64_LOADS) {
-                return getLongAtWordTyped((base_216), (offset_217), AddressType_LONG);
+                return getLongAtWordTyped((base_194), (offset_195), AddressType_LONG);
             } else {
-                const int highOffset = (PLATFORM_BIG_ENDIAN) ? (offset_217)     : (offset_217) + 1;
-                const int lowOffset  = (PLATFORM_BIG_ENDIAN) ? (offset_217) + 1 : (offset_217);
-                const unsigned int high = getIntTyped((base_216), highOffset, AddressType_LONG);
-                const unsigned int low  = getIntTyped((base_216), lowOffset,  AddressType_LONG2);
+                const int highOffset = (PLATFORM_BIG_ENDIAN) ? (offset_195)     : (offset_195) + 1;
+                const int lowOffset  = (PLATFORM_BIG_ENDIAN) ? (offset_195) + 1 : (offset_195);
+                const unsigned int high = getIntTyped((base_194), highOffset, AddressType_LONG);
+                const unsigned int low  = getIntTyped((base_194), lowOffset,  AddressType_LONG2);
 
                 /*Some strange MSC 6 bug prevents the following line from working:
                   return (jlong)(((jlong)high) << 32 | (((jlong)low) & 0xFFFFFFFF)); */
@@ -1031,19 +1031,19 @@ INLINE_UNALIGNED jlong getUnalignedLong(Address base, Offset offset) {
          *
          * @param address   the address of the value
          */
-#define  swap2(address_218) { Address  address_219 = address_218;  \
-            char type = (TYPEMAP ? getType((address_219)) : AddressType_UNDEFINED); \
-            if (!(PLATFORM_UNALIGNED_LOADS || isAligned((UWord)(address_219), 2))) { \
-                int b0 = getUByteTyped((address_219), 0, AddressType_ANY); \
-                int b1 = getUByteTyped((address_219), 1, AddressType_ANY); \
-                setByteTyped((address_219), 0, AddressType_ANY, (char)b1); \
-                setByteTyped((address_219), 1, AddressType_ANY, (char)b0); \
+#define  swap2(address_196) { Address  address_197 = address_196;  \
+            char type = (TYPEMAP ? getType((address_197)) : AddressType_UNDEFINED); \
+            if (!(PLATFORM_UNALIGNED_LOADS || isAligned((UWord)(address_197), 2))) { \
+                int b0 = getUByteTyped((address_197), 0, AddressType_ANY); \
+                int b1 = getUByteTyped((address_197), 1, AddressType_ANY); \
+                setByteTyped((address_197), 0, AddressType_ANY, (char)b1); \
+                setByteTyped((address_197), 1, AddressType_ANY, (char)b0); \
             } else { \
-                int value = getUShortTyped((address_219), 0, AddressType_ANY); \
+                int value = getUShortTyped((address_197), 0, AddressType_ANY); \
                 int b0 =  value       & 0xFF; \
                 int b1 = (value >> 8) & 0xFF; \
                 value = (b0 << 8) | b1; \
-                setShortTyped((address_219), 0, type, (short)value); \
+                setShortTyped((address_197), 0, type, (short)value); \
             } \
         }
 
@@ -1111,15 +1111,15 @@ INLINE_UNALIGNED jlong getUnalignedLong(Address base, Offset offset) {
          * @param address   the address of the value
          * @param dataSize  the size (in bytes) of the value
          */
-#define  swap(address_220, dataSize_222) { Address  address_221 = address_220;  int  dataSize_223 = dataSize_222;  \
-            /*fprintf(stderr, format("swap(%A, %d)\n"), (address_221), (dataSize_223));*/ \
-            switch ((dataSize_223)) { \
+#define  swap(address_198, dataSize_200) { Address  address_199 = address_198;  int  dataSize_201 = dataSize_200;  \
+            /*fprintf(stderr, format("swap(%A, %d)\n"), (address_199), (dataSize_201));*/ \
+            switch ((dataSize_201)) { \
                 case 1:               break; \
-                case 2: swap2((address_221)); break; \
-                case 4: swap4((address_221)); break; \
-                case 8: swap8((address_221)); break; \
+                case 2: swap2((address_199)); break; \
+                case 4: swap4((address_199)); break; \
+                case 8: swap8((address_199)); break; \
                 default: \
-                    fprintf(stderr, "dataSize=%d\n", (dataSize_223)); \
+                    fprintf(stderr, "dataSize=%d\n", (dataSize_201)); \
                     shouldNotReachHere(); \
             } \
         }
@@ -1129,8 +1129,8 @@ INLINE_UNALIGNED jlong getUnalignedLong(Address base, Offset offset) {
          *
          * @param address   the address of the value
          */
-#define  swapWord(address_224) { Address  address_225 = address_224;  \
-            swap((address_225), HDR_BYTES_PER_WORD); \
+#define  swapWord(address_202) { Address  address_203 = address_202;  \
+            swap((address_203), HDR_BYTES_PER_WORD); \
         }
 
         /*-----------------------------------------------------------------------*\
@@ -1143,23 +1143,23 @@ INLINE_UNALIGNED jlong getUnalignedLong(Address base, Offset offset) {
          * @param start the start address
          * @param end the end address
          */
-#define  zeroWords(start_226, end_228) { UWordAddress  start_227 = start_226;  UWordAddress  end_229 = end_228;  \
-            assume(isWordAligned((UWord)(start_227))); \
-            assume(isWordAligned((UWord)(end_229))); \
-            zeroTypes((start_227), (end_229)); \
-            while ((start_227) < (end_229)) { \
-                *(start_227) = 0; \
-                (start_227)++; \
+#define  zeroWords(start_204, end_206) { UWordAddress  start_205 = start_204;  UWordAddress  end_207 = end_206;  \
+            assume(isWordAligned((UWord)(start_205))); \
+            assume(isWordAligned((UWord)(end_207))); \
+            zeroTypes((start_205), (end_207)); \
+            while ((start_205) < (end_207)) { \
+                *(start_205) = 0; \
+                (start_205)++; \
             } \
         }
 
-#define  traceAllocation(oop_230, size_232) { Address  oop_231 = oop_230;  int  size_233 = size_232;  \
+#define  traceAllocation(oop_208, size_210) { Address  oop_209 = oop_208;  int  size_211 = size_210;  \
             fprintf(stderr, "%s allocating object: size=%d, alloc free=%d, total free=%d, ptr=%d\n", \
-                    (((oop_231) != 0) ? "succeeded" : "failed"), \
-                    (size_233), \
+                    (((oop_209) != 0) ? "succeeded" : "failed"), \
+                    (size_211), \
                     Address_diff(com_sun_squawk_GC_allocEnd, com_sun_squawk_GC_allocTop), \
                     Address_diff(com_sun_squawk_GC_heapEnd, com_sun_squawk_GC_allocTop), \
-                    (Offset)(oop_231)); \
+                    (Offset)(oop_209)); \
         }
 
         /**
@@ -1220,7 +1220,7 @@ INLINE_UNALIGNED jlong getUnalignedLong(Address base, Offset offset) {
          *                      object is being allocated
          * @return a pointer to a well-formed object or null if the allocation failed
          */
-INLINE Address allocateFast(int size_234, Address klass_235, int arrayLength_236) {
+INLINE Address allocateFast(int size_212, Address klass_213, int arrayLength_214) {
             if (
                 com_sun_squawk_GC_excessiveGC != false       ||
                 com_sun_squawk_GC_allocationEnabled == false ||
@@ -1228,15 +1228,15 @@ INLINE Address allocateFast(int size_234, Address klass_235, int arrayLength_236
                ) {
                 return null; /* Force call to Java code */
             }
-            return allocate((size_234), (klass_235), (arrayLength_236));
+            return allocate((size_212), (klass_213), (arrayLength_214));
         }
 
         /**
          * Static version of {@link #getDataSize()} so that garbage collector can
          * invoke this method on a possibly forwarded Klass object.
          */
-INLINE int getDataSize(Address klass_237) {
-            switch (com_sun_squawk_Klass_id((klass_237))) {
+INLINE int getDataSize(Address klass_215) {
+            switch (com_sun_squawk_Klass_id((klass_215))) {
                 case CID_BOOLEAN:
                 case CID_BYTECODE:
                 case CID_BYTE: {
