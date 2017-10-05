@@ -1,4 +1,5 @@
 package main;
+
 public class Line {
 	private final int yValue;
 	private int xStartValue;

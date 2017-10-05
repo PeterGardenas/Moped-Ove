@@ -145,7 +145,7 @@ public class Shape {
         return count;
     }
 
-
+    //Some lines might overlap, this merge them together.
     public void mergeLines() {
         Iterator<Integer> iterator = lines.keySet().iterator();
         while (iterator.hasNext()) {
@@ -162,7 +162,17 @@ public class Shape {
         }
     }
 
-    public double getCirclePosX(Shape circle) {
+    public double getCirclePosX() {
         return (endX + startX) / 2;
     }
+
+	// TODO Auto-generated method stub
+	//Negative values if circle is to the left of image center, positive if circle is to the right
+    public double distanceFromCenter(int imageWidth) {
+        double centerX = imageWidth / 2;
+        double distance = getCirclePosX() - centerX;
+        System.out.println("Distance from center: " + distance);
+        return distance;
+    }
+	
 }

@@ -38,7 +38,7 @@ public class ServerTest {
 	    	System.out.println("Message recived");
 	        String response = "hello world";
 	        loadImage(t.getRequestBody());
-	        Main.init("test" + i + ".jpg");
+	        new ImageDetector("test" + i + ".jpg");
 	        t.sendResponseHeaders(200, response.length());
 	    }
 	}
