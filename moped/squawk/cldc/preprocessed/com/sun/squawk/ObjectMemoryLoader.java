@@ -241,6 +241,7 @@ public abstract class ObjectMemoryLoader {
         	/* Shortcut for FRESTA plugins (loading bytecode from a hashtable instead of a file) */
         	if (url.startsWith("plugin://")) {
             	byte[] pluginData = (byte[])VM.getPluginObjectMemories().get(url);
+		VM.println("ObjectMemoryFile: hash = " + VM.datahash(pluginData));
             	if (pluginData != null) {
             		dis = new DataInputStream(new ByteArrayInputStream(pluginData));
             	}
@@ -388,7 +389,7 @@ public abstract class ObjectMemoryLoader {
         // Load the parent of this object memory file
         ObjectMemory parent;
         if (parentURI.length() == 0) {
-            Assert.always(VM.isHosted(), "ObjectMemoryLoader.java", 391);
+            Assert.always(VM.isHosted(), "ObjectMemoryLoader.java", 392);
             parent = null;
         } else {
             parent = loadParent(parentHash, parentURI);
@@ -433,7 +434,7 @@ public abstract class ObjectMemoryLoader {
         try {
             dos.writeUTF(s);
         } catch (IOException ioe) {
-            if (Assert.SHOULD_NOT_REACH_HERE_ALWAYS_ENABLED) Assert.shouldNotReachHere("ObjectMemoryLoader.java", 436);
+            if (Assert.SHOULD_NOT_REACH_HERE_ALWAYS_ENABLED) Assert.shouldNotReachHere("ObjectMemoryLoader.java", 437);
         }
         return oss.getLength();
     }
@@ -631,6 +632,11 @@ public abstract class ObjectMemoryLoader {
 
 	VM.println("hash, parent hash = (" + hash + ") (" + parent.getHash() + ")");
 
+        if (parent.getHash() != hash) {
+	    VM.jnaSetLED(-1, 0x22);
+	    return null;
+	}
+
 //        if (parent.getHash() != hash) {
 //        	String helpText = "";
 //      	
@@ -752,7 +758,7 @@ class StandardObjectMemoryLoader extends ObjectMemoryLoader {
 	    VM.println("card = (" + oopMap.cardinality() + ")");
 	}
 
-        Assert.always(oopMap.cardinality() == 0, "ObjectMemoryLoader.java", 755); // "some pointers were not relocated"
+        Assert.always(oopMap.cardinality() == 0, "ObjectMemoryLoader.java", 761); // "some pointers were not relocated"
         
         // Swap the endianess if necessary
         if (requiresEndianSwap) {

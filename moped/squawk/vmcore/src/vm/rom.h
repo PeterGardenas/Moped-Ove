@@ -2610,8 +2610,8 @@
 #define java_lang_ref_Reference_ref(oop) getObject((oop), 0)
 #define set_java_lang_ref_Reference_ref(oop, value) setObject((oop), 0, value)
 #define java_lang_ref_WeakReference 324
-#define com_sun_squawk_microedition_io_FileConnection 466
-#define com_sun_squawk_platform_Platform 479
+#define com_sun_squawk_microedition_io_FileConnection 465
+#define com_sun_squawk_platform_Platform 478
 #define com_sun_squawk_platform_Platform_DEBUG false
 #define com_sun_squawk_platform_Platform_BARE_METAL 0
 #define com_sun_squawk_platform_Platform_DELEGATING 1
@@ -2621,7 +2621,7 @@
 #define com_sun_squawk_platform_Platform_IS_DELEGATING false
 #define com_sun_squawk_platform_Platform_IS_NATIVE false
 #define com_sun_squawk_platform_Platform_IS_SOCKET false
-#define com_sun_squawk_platform_GCFFile 480
+#define com_sun_squawk_platform_GCFFile 479
 const char *AddressType_Mnemonics = "-ZbBSIFLlDdRU";
 #if TRACE
 char *getOpcodeName(int code) {

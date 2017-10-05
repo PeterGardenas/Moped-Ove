@@ -942,11 +942,24 @@ public final class Suite {
      *         a problem while loading it
      */
     static Suite getSuite(String uri, boolean errorOnIOException) throws Error {
-        ObjectMemory om = GC.lookupReadOnlyObjectMemoryBySourceURI(uri);
+	return getSuite(uri, errorOnIOException, false);
+    }
+
+	static Suite getSuite(String uri, boolean errorOnIOException,
+			      boolean alwaysLoad) throws Error {
+	VM.println("getSuite " + alwaysLoad + " " + uri);
+	ObjectMemory om;
+	if (alwaysLoad) {
+	    om = null;
+	} else {
+	    om = GC.lookupReadOnlyObjectMemoryBySourceURI(uri);
+	}
+
         if (om == null) {
 
     		try {
-                om = ObjectMemoryLoader.load(uri, true).objectMemory;
+		    // Arndt: changed true to false
+                om = ObjectMemoryLoader.load(uri, false).objectMemory;
             } catch (IOException e) {
                 if (errorOnIOException) {
                     e.printStackTrace();
@@ -1017,7 +1030,7 @@ public final class Suite {
         ObjectMemory parentMemory = null;
         if (!isBootstrap()) {
             parentMemory = parent.getReadOnlyObjectMemory();
-            Assert.always(parentMemory != null, "Suite.java", 1020); // "parent not found: " + parent
+            Assert.always(parentMemory != null, "Suite.java", 1033); // "parent not found: " + parent
         }
         checkSuite();
         ObjectMemorySerializer.save(dos, uri, cb, parentMemory, bigEndian);
@@ -1321,7 +1334,7 @@ public final class Suite {
         for (int i = 0; i < classes.length; i++) {
             Klass klass = classes[i];
             if (klass != null) {
-                Assert.always(klass.getSuiteID() == i, "Suite.java", 1324);
+                Assert.always(klass.getSuiteID() == i, "Suite.java", 1337);
                 KlassMetadata km = getMetadata(klass);
                 if (km != null) {
                     if (km.getDefinedClass() != klass) {
@@ -1330,7 +1343,7 @@ public final class Suite {
                         System.out.println("<><><><><><><><> i is " + i);
                         System.out.println("<><><><><><><><> suite is " + this);
                     }
-                    Assert.always(km.getDefinedClass() == klass, "Suite.java", 1333);
+                    Assert.always(km.getDefinedClass() == klass, "Suite.java", 1346);
                 }
             }
         }

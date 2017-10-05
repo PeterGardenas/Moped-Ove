@@ -22,11 +22,13 @@ import sics.port.instances.ReadPluginDataFromTCUVirtualPPort;
 import sics.port.instances.ReadSpeedInPirteVirtualPPort;
 import sics.port.instances.ReadSteerInPirteVirtualPPort;
 import sics.port.instances.VCUReadPluginDataFromSCUVirtualPPort;
+import sics.port.instances.VCUReadPluginDataFromTCUVirtualPPort;
 import sics.port.instances.VirtualAdcPPort;
 import sics.port.instances.VirtualFrontWheelPPort;
 import sics.port.instances.VirtualIMUPPort;
 import sics.port.instances.VirtualLedRPort;
 import sics.port.instances.SCUWritePluginData2VCURPort;
+import sics.port.instances.VCUWritePluginData2SCURPort;
 import sics.port.instances.VirtualPositionPPort;
 import sics.port.instances.VirtualPublishPort;
 import sics.port.instances.VirtualRearWheelPPort;
@@ -75,6 +77,9 @@ public class PIRTE {
 	// Hashtable<String, Vector<Integer>>();
 	private Linker linker;
 
+    private Isolate the_isolate;
+    private Thread the_thread;
+
 	public PIRTE() {
 		linker = new Linker(this);
 
@@ -97,6 +102,8 @@ public class PIRTE {
 		vpports.put(-2, new ReadSteerInPirteVirtualPPort(-2));
 		vrports.put(0, new VirtualPublishPort(0));
 		vpports.put(1, new VCUReadPluginDataFromSCUVirtualPPort(1));
+
+		vpports.put(22, new VCUReadPluginDataFromTCUVirtualPPort(22));
 		
 		vrports.put(3, new VirtualSpeedPort(3));
 		vrports.put(4, new VirtualSteeringPort(4));
@@ -106,6 +113,7 @@ public class PIRTE {
 		vpports.put(8, new VirtualPositionPPort(8));
 		vrports.put(9, new VirtualLedRPort(9));
 		
+		vrports.put(10, new VCUWritePluginData2SCURPort(10));
 		vrports.put(11, new SCUWritePluginData2VCURPort(11));
 		
 		vpports.put(13, new VirtualUltraSonicPPort(13));
@@ -166,13 +174,13 @@ public class PIRTE {
 				Envelope msg;
 				try {
 					msg = channel.receive();
-					VM.println("[Server] Server is receiving message");
+					//VM.println("[Server] Server is receiving message");
 					if (msg instanceof ByteArrayEnvelope) {
 						ByteArrayEnvelope dataEnv = (ByteArrayEnvelope) msg;
 						//VM.println("getData");
 						byte[] data = dataEnv.getData();
 						byte frameType = data[0];
-						VM.println("frameType " + frameType);
+						//VM.println("frameType " + frameType);
 						switch (frameType) {
 						case ChannelFrameType.INT_VALUE_TRANSMIT:
 							// Get port ID
@@ -224,9 +232,9 @@ public class PIRTE {
 							portIdBytes[2] = data[3];
 							portIdBytes[3] = data[4];
 							portId = byteArrayToInt(portIdBytes);
-							VM.println("calling fetchInt");
+							//VM.println("calling fetchInt");
 							int replyValue = fetchIntVal(portId);
-							VM.println("called fetchInt " + replyValue);
+							//VM.println("called fetchInt " + replyValue);
 							// 1: type, 4: intValue
 							int totalSize = 5;
 							byte dataBytes[] = new byte[totalSize];
@@ -237,9 +245,9 @@ public class PIRTE {
 							dataBytes[4] = (byte) (replyValue);
 							Envelope replyDataEnv = new ByteArrayEnvelope(
 									dataBytes);
-							VM.println("channel.send 1");
+							//VM.println("channel.send 1");
 							channel.send(replyDataEnv);
-							VM.println("channel.send 2");
+							//VM.println("channel.send 2");
 							break;
 						case ChannelFrameType.STRING_VALUE_RQ:
 							// Get port ID
@@ -287,14 +295,15 @@ public class PIRTE {
 							channel.send(replyDataEnv4LongVal);
 							break;
 						case ChannelFrameType.STRING_VALUE_SEND:
+						    //VM.println("sending 0");
 							// Get port ID
-						    VM.println("sending 1 " + portIdBytes);
 							portIdBytes[0] = data[1];
 							portIdBytes[1] = data[2];
 							portIdBytes[2] = data[3];
 							portIdBytes[3] = data[4];
 							portId = byteArrayToInt(portIdBytes);
-						    VM.println("sending to " + portId);
+							//VM.println("sending 1 " + portIdBytes);
+							//VM.println("sending to " + portId);
 							// Get value byte size
 							byte sentValueSizeBytes[] = new byte[4];
 							sentValueSizeBytes[0] = data[5];
@@ -312,18 +321,18 @@ public class PIRTE {
 							int remotePluginPortId = linker.getPluginRPortId(portId);
 							PluginMessage pluginMessage = new PluginMessage(remotePluginPortId, sentValueStr);
 							// Arndt: 11
-							sendValue2(11, pluginMessage);
-							//							sendValue(portId, pluginMessage);
+							sendValue2(10, pluginMessage);
+							sendValue(portId, pluginMessage);
 							break;
 						case ChannelFrameType.STRING_VALUE_RECEIVE:
 							// Get port ID
-							VM.println("receiving 1 " + portIdBytes);
+							//VM.println("receiving 1 " + portIdBytes);
 							portIdBytes[0] = data[1];
 							portIdBytes[1] = data[2];
 							portIdBytes[2] = data[3];
 							portIdBytes[3] = data[4];
 							portId = byteArrayToInt(portIdBytes);
-							VM.println("receiving from " + portId);
+							//VM.println("receiving from " + portId);
 							Object replyObject = receivePluginData(portId);
 							if(replyObject == null) {
 								byte[] replyNullMsgBytes = new byte[1];
@@ -335,6 +344,7 @@ public class PIRTE {
 								String replyReceivedValStr = (String) replyObject;
 								byte[] replyReceivedValBytes = replyReceivedValStr.getBytes();
 								int replyReceivedValBytesSize = replyReceivedValBytes.length;
+								//VM.println("received " + replyReceivedValBytesSize + " bytes " + replyReceivedValBytes[replyReceivedValBytesSize-1]);
 								// 1: type, strValBytes
 								int replyReceivedMsgSize = 1 + replyReceivedValBytesSize;
 								byte replyReceivedMsgBytes[] = new byte[replyReceivedMsgSize];
@@ -357,12 +367,15 @@ public class PIRTE {
 				} catch (MailboxClosedException e) {
 					VM.println("[Server] Server seems to have gone away. Oh well. "
 									+ channel);
-					break;
+					// Arndt: experiment: return instead
+					return;
+					//break;
 				} catch (AddressClosedException e) {
+			    VM.println("AddressClosedException in plugin");
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (NullPointerException e) {
-				    //VM.println("NULL POINTER in ServerChannelHandler of PIRTE");
+				    VM.println("NULL POINTER in ServerChannelHandler of PIRTE");
 					e.printStackTrace();
 					try {
 					    byte[] replyNullMsgBytes = new byte[1];
@@ -376,6 +389,7 @@ public class PIRTE {
 					}
 
 				} catch (Exception e) {
+			    VM.println("Exception in plugin");
 					e.printStackTrace();
 				}
 				// finally {
@@ -394,6 +408,7 @@ public class PIRTE {
 			try {
 				serverChannel = ServerChannel.create(MAILBOX_NAME);
 			} catch (MailboxInUseException ex) {
+			    VM.println("MailboxInUseException in PIRTE");
 				throw new RuntimeException(ex.toString());
 			}
 			while (true) {
@@ -401,7 +416,12 @@ public class PIRTE {
 					aChannel = serverChannel.accept();
 					new Thread(new ServerChannelHandler(aChannel)).start();
 				} catch (IOException ex) {
+				    VM.println("IO exception in PIRTE " + ex);
+					ex.printStackTrace();
 					// ok, just close server.
+				} catch (Exception ex) {
+				    VM.println("exception in PIRTE " + ex);
+					ex.printStackTrace();
 				}
 				// finally {
 				// // no way to get here:
@@ -462,21 +482,26 @@ public class PIRTE {
 		// Isolate iso = new Isolate(null, extractClassName, new String[0],
 		// null,
 		// pluginUrl);
-		//1 VM.println("loadPlugin 1");
+		VM.println("loadPlugin 1");
 		Isolate iso = new Isolate(null, extractClassName, portInitContextArray,
 				null, pluginUrl);
 
-		//1 VM.println("loadPlugin 2 " + extractClassName);
+		the_isolate = iso;
+		VM.println("plugin loadedB " + the_thread + " " + the_isolate);
+
+		VM.println("loadPlugin 2 " + extractClassName);
 		// register Isolate and name to installedPlugins
 		String shortPluginName = pluginUrl
 				.substring(pluginUrl.lastIndexOf('/') + 1);
 		installedPlugins.put(shortPluginName, iso);
 
-		//1 VM.println("loadPlugin 3 " + extractClassName);
-		iso.start();
-		//1 VM.println("loadPlugin 4 " + extractClassName);
+		VM.println("loadPlugin 3 " + extractClassName);
+		Thread tt;
+		tt = iso.start();
+		VM.println("loadPlugin 4 " + extractClassName + " " + tt);
+		the_thread = tt;
 		iso.join();
-		//1 VM.println("loadPlugin 5 " + extractClassName);
+		VM.println("loadPlugin 5 " + extractClassName);
 	}
 
 	class PluginLoader implements Runnable {
@@ -508,37 +533,6 @@ public class PIRTE {
 		String substring = pluginUrl.substring(begin, end);
 		String res = substring.replace('/', '.');
 		return res;
-	}
-
-	private void sendMessage(RequestIdAckMessage message) {
-		// 2: $$, 4: total size, 1: message type, 4: id
-		int totalSize = 11;
-		byte buffer[] = new byte[totalSize];
-		int index = 0;
-
-		// assign value
-
-		// starting sign: $$
-		buffer[index++] = '$';
-		buffer[index++] = '$';
-
-		// message size
-		buffer[index++] = (byte) (totalSize >> 24);
-		buffer[index++] = (byte) ((totalSize >> 16) & 0xFF);
-		buffer[index++] = (byte) ((totalSize >> 8) & 0xFF);
-		buffer[index++] = (byte) (totalSize & 0xFF);
-
-		// message typeinstalledPluginsShortcut
-		buffer[index++] = (byte) message.getMessageType();
-
-		// id
-		int id = message.getId();
-		buffer[index++] = (byte) (id >> 24);
-		buffer[index++] = (byte) ((id >> 16) & 0xFF);
-		buffer[index++] = (byte) ((id >> 8) & 0xFF);
-		buffer[index++] = (byte) (id & 0xFF);
-
-		VM.jnaSendPackageData(totalSize, buffer);
 	}
 
 	private void sendMessage(InstallAckMessage message) {
@@ -579,6 +573,7 @@ public class PIRTE {
 		 */
 		int nodatacount = 0;
 		while (true) {
+		    try {
 			// check how many data bytes updated
 			// count = VM.jnaReadCount();
 			// VM.print("#### count: "+count+"\r\n");
@@ -591,6 +586,7 @@ public class PIRTE {
 				//message = new byte[messageSize];
 				index = 0;
 				isConsectutive = true;
+				VM.jnaSetLED(-1, 0x21f1);
 				VM.println("Java: messageSize:" + messageSize);
 			}
 
@@ -631,6 +627,9 @@ public class PIRTE {
 				for (int n = 0; n < size; n++) {
 				    byte bb = VM.jnaFetchByte(rearIndex);
 					message[index++] = bb;
+					if (index % 1000 == 0) {
+					    VM.println(index + " bytes");
+					}
 					//VM.print(" (_" + (bb & 0xff) + "_)");
 				}
 				//VM.println("");
@@ -642,21 +641,6 @@ public class PIRTE {
 				if (index >= messageSize) {
 					byte messageType = message[0];
 					switch (messageType) {
-					case MessageType.REQUEST_ID:
-						VM.println("Receive request id");
-						RequestIdAckMessage requestIdAckMessage = new RequestIdAckMessage(
-								2);
-						VM.println("Send request ack");
-						sendMessage(requestIdAckMessage);
-
-						// clear context
-						// isNewStart = false;
-						// isMessageReady = false;
-						// isMessageSizeReady = false;
-						messageSize = 0;
-						index = 0;
-						message = null;
-						break;
 					case MessageType.INSTALL:
 					case MessageType.LOAD:
 						index = 1;
@@ -672,6 +656,7 @@ public class PIRTE {
 
 						VM.println("plugin name size: " + pluginNameSize);
 
+						VM.println("1");
 						// Handle PlugIn Name
 						String pluginName = "";
 						for (int i = 0; i < pluginNameSize; i++) {
@@ -680,6 +665,7 @@ public class PIRTE {
 						}
 
 						//1 VM.println("plugin name: " + pluginName);
+						VM.println("2");
 
 						// Handle size of PlugIn
 						byte pluginSizeBuffer[] = new byte[4];
@@ -687,6 +673,7 @@ public class PIRTE {
 							pluginSizeBuffer[z] = message[index++];
 						}
 
+						VM.println("3");
 						int pluginSize = byteArrayToInt(pluginSizeBuffer);
 //						VM.println("@pluginSize@ " + pluginSize);
 						// Handle PlugIn
@@ -694,6 +681,7 @@ public class PIRTE {
 						for (int m = 0; m < pluginSize; m++) {
 							plugin[m] = message[index++];
 						}
+						VM.println("4");
 
 						// Handle size of port init context
 						byte portInitContextSizeBytes[] = new byte[4];
@@ -701,7 +689,9 @@ public class PIRTE {
 						portInitContextSizeBytes[1] = message[index++];
 						portInitContextSizeBytes[2] = message[index++];
 						portInitContextSizeBytes[3] = message[index++];
+						VM.println("5");
 						int portInitContextSize = byteArrayToInt(portInitContextSizeBytes);
+						VM.println("6: " + portInitContextSize + " " + index);
 
 						// Handle port init context
 						String[] portInitContext;
@@ -711,15 +701,20 @@ public class PIRTE {
 						for (int z = 0; z < portInitContextSize; z++) {
 							portInitContextBytes[z] = message[index++];
 						}
+						VM.println("7");
 						String portInitContextStr = new String(
 								portInitContextBytes);
+						VM.println("8");
 						tok = new StringTokenizer(portInitContextStr, "|");
 						int countTokens = tok.countTokens();
+						VM.println("9");
 						portInitContext = new String[countTokens];
+						VM.println("10");
 						for (int i = 0; i < countTokens; i++) {
 							portInitContext[i] = (String) tok.nextElement();
 						}
 
+						VM.println("11");
 						// Handle port link context
 						ArrayList<LinkContextEntry> linkContext = new ArrayList<LinkContextEntry>();
 						int fromPortIdTmp;
@@ -735,6 +730,7 @@ public class PIRTE {
 						portLinkContextNumBytes[2] = message[index++];
 						portLinkContextNumBytes[3] = message[index++];
 						int portLinkContextByteSize = byteArrayToInt(portLinkContextNumBytes);
+						VM.println("12 " + portLinkContextByteSize);
 						for (int y = 0; y < portLinkContextByteSize; y = y + 12) {
 							fromPortIdBytes[0] = message[index++];
 							fromPortIdBytes[1] = message[index++];
@@ -757,6 +753,7 @@ public class PIRTE {
 							VM.println("Added PLC: " + fromPortIdTmp + " -> " + toPortIdTmp + " via " + remotePortIdTmp);
 						}
 
+						VM.println("13");
 						// finish reading all executable bytes
 						VM.println("###################################");
 						VM.println("Size of Total Message Size: " + messageSize);
@@ -775,9 +772,6 @@ public class PIRTE {
 							VM.print("pluginName:");
 							VM.println(pluginName);
 
-							// String shortPluginName = pluginName
-							// .substring(pluginName.lastIndexOf('/') + 1);
-							// VM.println("ShortPluginName:" + shortPluginName);
 							InstallAckMessage installAckMessage = new InstallAckMessage(
 									pluginId);
 
@@ -794,9 +788,30 @@ public class PIRTE {
 							}
 
 							// loadPlugin(pluginName);
-							new Thread(new PluginLoader(pluginName,
-									portInitContext)).start();
-							VM.print("plugin loaded\r\n");
+							String shortPluginName = pluginName
+							.substring(pluginName.lastIndexOf('/') + 1);
+							// VM.println("ShortPluginName:" + shortPluginName);
+							Isolate isolate = installedPlugins
+							    .get(shortPluginName);
+							if(isolate != null) {
+							    if(!isolate.isExited()) {
+								VM.println("stopping earlier thread");
+								if (isolate == the_isolate) {
+								VM.println("interrupting thread");
+								    the_thread.interrupt();
+								} else {
+								VM.println("killing isolate");
+								    isolate.exit(1);
+								}
+
+							    }
+							}
+							
+
+							the_thread = new Thread(new PluginLoader(pluginName, portInitContext));
+							the_thread.start();
+							VM.println("plugin loadedA " + the_thread + " " + the_isolate);
+
 						} catch (Exception e) {
 							VM.print(e.toString());
 							e.printStackTrace();
@@ -812,6 +827,7 @@ public class PIRTE {
 						messageSize = 0;
 						// Arndt, should not be needed
 						// I added it
+						VM.jnaSetLED(-1, 0x121f);
 						try {
 						    Thread.sleep(1000);
 						} catch (InterruptedException e) {
@@ -833,7 +849,6 @@ public class PIRTE {
 						int pluginNameSize4Uninstall = byteArrayToInt(tempSizeBytes);
 						VM.println("plugin name size: "
 								+ pluginNameSize4Uninstall);
-
 						// Handle PlugIn Name
 						String pluginName4Uninstall = "";
 						for (int i = 0; i < pluginNameSize4Uninstall; i++) {
@@ -867,12 +882,11 @@ public class PIRTE {
 						isConsectutive = false;
 						message = null;
 						VM.println("The end of uninstallation handling");
+						VM.jnaSetLED(-1, 0x121f);
 						break;
 					case MessageType.RESTORE:
 						break;
 					case MessageType.PLUGIN_MESSAGE:
-						break;
-					case MessageType.PORT_LINK_CONTEXT_MESSAGE:
 						break;
 					default:
 						VM.println("Error: Wrong message type pushed to receiving channel (" + message[0] + ")");
@@ -913,7 +927,7 @@ public class PIRTE {
 			}
 
 			try {
-			    if (true) {
+			    if (false) {
 				if (stuck > 0)
 				    Thread.sleep(5);
 				else
@@ -923,6 +937,10 @@ public class PIRTE {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		    } catch (Exception exi) {
+			VM.println("PIRTE 1 exception " + exi);
+			exi.printStackTrace();
+		    }
 		}
 	}
 
@@ -933,6 +951,8 @@ public class PIRTE {
 
 	public static void main(String[] args) {
 		VM.print("PIRTE is running 2 ...\r\n");
+
+		VM.jnaSetLED(-1, 0x121f);
 
 		PIRTE p = new PIRTE();
 		
@@ -978,31 +998,31 @@ public class PIRTE {
 
 	public void deliverValue(int pportId, String value) {
 		int vrportId = linker.getVirtualRPortId(pportId);
-	    VM.println("deliverValue " + pportId);
+		//VM.println("deliverValue " + pportId);
 		EcuVirtualRPort vrport = (EcuVirtualRPort) vrports.get(vrportId);
-	    VM.println("deliverValue 2 " + pportId);
+		//VM.println("deliverValue 2 " + pportId);
 		vrport.deliver(value);
-	    VM.println("deliverValue 3 " + pportId);
+		//VM.println("deliverValue 3 " + pportId);
 	}
 	
 	public void sendValue(int pportId, PluginMessage message) {
-	    VM.println("vrports = " + vrports);
-	    VM.println("vpports = " + vpports);
-	    VM.println("sendValue 0 " + pportId);
+	    //VM.println("s vrports = " + vrports);
+	    //VM.println("s vpports = " + vpports);
+	    //VM.println("s sendValue 0 " + pportId);
 		int vrportId = linker.getVirtualRPortId(pportId);
-	    VM.println("sendValue 1 " + pportId + " " + vrportId);
+		//VM.println("s sendValue 1 " + pportId + " " + vrportId);
 		EcuVirtualRPort vrport = (EcuVirtualRPort) vrports.get(vrportId);
-	    VM.println("sendValue 2 " + pportId);
-		vrport.deliver(message);
-	    VM.println("sendValue 3 " + pportId);
+		//VM.println("s sendValue 2 " + pportId);
+	    //vrport.deliver(message);
+	    //VM.println("sendValue 3 " + pportId);
 	}
 
 	public void sendValue2(int vrportId, PluginMessage message) {
-	    VM.println("sendValue2 1 " + vrportId);
+	    //VM.println("sendValue2 1 " + vrportId);
 		EcuVirtualRPort vrport = (EcuVirtualRPort) vrports.get(vrportId);
-	    VM.println("sendValue2 2 " + vrportId);
+		//VM.println("sendValue2 2 " + vrportId);
 		vrport.deliver(message);
-	    VM.println("sendValue2 3 " + vrportId);
+		//VM.println("sendValue2 3 " + vrportId);
 	}
 
 	private int fetchIntVal(int rportId) {
@@ -1027,17 +1047,22 @@ public class PIRTE {
 	}
 	
 	private Object receivePluginData(int rportId) {
-	    VM.println("vrports = " + vrports);
-	    VM.println("vpports = " + vpports);
-	    VM.println("receivePluginData 0 " + rportId);
-	    //int vpportId = linker.getVirtualPPortId(rportId);
+	    //VM.println("vrports = " + vrports);
+	    //VM.println("vpports = " + vpports);
+	    int vpportId;
+	    vpportId = linker.getVirtualPPortId(rportId);
+	    //VM.println("receivePluginData 0 " + rportId + " " + vpportId);
 	    // Arndt
-	    int vpportId = 1;
-	    VM.println("receivePluginData 1 " + rportId + " " + vpportId);
+	    if (vpportId == -100) {
+		// Not found - then it's SCU to VCU
+		// (except when it's VCU to SCU, which doesn't work yet)
+		vpportId = 1;
+	    }
+	    //VM.println("receivePluginData 1 " + rportId + " " + vpportId);
 		EcuVirtualPPort vpport = (EcuVirtualPPort) vpports.get(vpportId);
-	    VM.println("receivePluginData 2 " + rportId);
+		//VM.println("receivePluginData 2 " + rportId);
 		Object res = vpport.deliver(rportId);
-	    VM.println("receivePluginData 3 " + rportId);
+		//VM.println("receivePluginData 3 " + rportId);
 		return res;
 	}
 
