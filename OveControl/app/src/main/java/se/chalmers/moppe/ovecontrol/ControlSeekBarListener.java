@@ -9,8 +9,8 @@ import android.widget.SeekBar;
 public class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
 
     private boolean vertical;
-    private int v = 0;
-    private int h = 0;
+    private static int v = 0;
+    private static int h = 0;
 
     ControlSeekBarListener(boolean vertical){
         this.vertical = vertical;
