@@ -4,14 +4,20 @@
 	<brand>SICS</brand>
 	<plugins>
 		<plugin>
-			<name>DistPub.suite</name>
+			<name>Comm2.suite</name>
 			<ecu>3</ecu>
 			<ports>
 				<port>
 					<name>fs</name>
 				</port>
+			</ports>
+		</plugin>
+		<plugin>
+			<name>Comm1.suite</name>
+			<ecu>2</ecu>
+			<ports>
 				<port>
-					<name>ff</name>
+					<name>ab</name>
 				</port>
 			</ports>
 		</plugin>
@@ -19,11 +25,7 @@
 	<links>
 		<link>
 			<from>fs</from>
-			<to>0</to>
-		</link>
-		<link>
-			<from>13</from>
-			<to>ff</to>
+			<to>ab</to>
 		</link>
 	</links>
 </app>
