@@ -25,14 +25,42 @@ public class Main extends JPanel {
 	private static Map<Integer, List<Line>> coleredLines = new HashMap<>();
 	private static List<Shape> finalShapes = new LinkedList<>();
 	private static long startTime = System.currentTimeMillis();
-	private static String standardFileName = "test.jpg";
+	private static String standardFileName = "test0.jpg";
 
 
 	public static void main(String[] args) {
 		init(standardFileName);
+		System.out.println(System.currentTimeMillis() - startTime);
+	}
+	
+	private static void goThroughImages() {
+		for (int i = 0; i < 40; i++) {
+			reset();
+			init("test" + i + ".jpg");
+			
+			int count = 0;
+			for (int y = 0; y < finalShapes.size(); y++) {
+				if (finalShapes.get(y).isCircle(null) || finalShapes.get(y).isEllipse(null)) count++;
+			}
+			System.out.println("Picture: "  + i + "had " + count + " circles.");
+			if (count == 0) {
+				draw();
+				break;
+			}
+			
+		}
+
+	}
+	
+	private static void reset() {
+		image = null;
+		coleredLines = new HashMap<>();
+		finalShapes = new LinkedList<>();
+		startTime = System.currentTimeMillis();
 	}
 
 	public static void init(String fileName) {
+
 		loadImage(fileName);
 		System.out.println("It took: " + (System.currentTimeMillis() - ServerTest.messageRecived));
 		createArrayLists();
@@ -46,7 +74,7 @@ public class Main extends JPanel {
 		}
 		System.out.println("Logic done in: " + (System.currentTimeMillis() - startTime) + " ms.");
 		*/
-		draw();
+		//draw();
 
 		//Both seems far to slow.
 		//HoughTransform transform = new HoughTransform(finalShapes);
@@ -83,10 +111,11 @@ public class Main extends JPanel {
     }
 
     private static void mergeLinesToShapes() {
-        int matchesThisLine = 0;
+        int matchesThisLine;
         List<Shape> activeShapes = new LinkedList<>();
 
         for (int i = 0; i < coleredLines.size(); i++) {
+        	matchesThisLine = 0;
             for (int y = 0; y < coleredLines.get(i).size(); y++) {
                 Line line = coleredLines.get(i).get(y);
 
@@ -119,14 +148,12 @@ public class Main extends JPanel {
 
 
             }
-            /* Possible optimization, does not work right now.
             if (!activeShapes.isEmpty() && matchesThisLine == 0) {
 				while (!activeShapes.isEmpty()) {
 					finalShapes.add(activeShapes.get(0));
 					activeShapes.remove(0);
 				}
 			}
-			*/
         }
 
         while (!activeShapes.isEmpty()) {
@@ -139,24 +166,6 @@ public class Main extends JPanel {
         System.out.println("Size: " + finalShapes.size());
 
     }
-	/*
-	private static void createShape(int i, int y) {
-		int startXValue = i;
-		Shape currentShape = new Shape();
-		shapes.add(currentShape);
-		while (y < image.getHeight()) {
-			if ( && i < image.getWidth()) {
-				currentShape.addCordiante(i, y);
-				i++;
-			} else {
-				analyzedInterval.get(y).add(startXValue + ":" + (i - 1));
-				if (startXValue > 0) startXValue--;
-				i = startXValue;
-				y++;
-			}
-		}
-	}
-	*/
 
 	private static void loadImage(String fileName) {
 		try {
@@ -171,13 +180,15 @@ public class Main extends JPanel {
         int red = (clr & 0x00ff0000) >> 16;
         int green = (clr & 0x0000ff00) >> 8;
         int blue = clr & 0x000000ff;
-        return (Math.abs(red - 240) + Math.abs(green - 240) + blue) < 50;
+       
+        return red > 100 && green > 100 && blue < 50;
+        //return (Math.abs(red - 240) + Math.abs(green - 240) + blue) < 260;
     }
 
     private static void draw() {
         JFrame frame = new JFrame("Test");
-        int width = 620;
-        int height = 620;
+        int width = image.getWidth();
+        int height = image.getHeight();
 
         frame.setVisible(true);
         frame.setSize(width, height);
