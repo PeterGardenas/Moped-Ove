@@ -1,0 +1,424 @@
+[    0.000000] Booting Linux on physical CPU 0xf00
+[    0.000000] Initializing cgroup subsys cpuset
+[    0.000000] Initializing cgroup subsys cpu
+[    0.000000] Initializing cgroup subsys cpuacct
+[    0.000000] Linux version 4.1.7-v7+ (dc4@dc4-XPS13-9333) (gcc version 4.8.3 20140303 (prerelease) (crosstool-NG linaro-1.13.1+bzr2650 - Linaro GCC 2014.03) ) #817 SMP PREEMPT Sat Sep 19 15:32:00 BST 2015
+[    0.000000] CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=10c5387d
+[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+[    0.000000] Machine model: Raspberry Pi 2 Model B Rev 1.1
+[    0.000000] cma: Reserved 8 MiB at 0x36800000
+[    0.000000] Memory policy: Data cache writealloc
+[    0.000000] On node 0 totalpages: 225280
+[    0.000000] free_area_init_node: node 0, pgdat 8085af80, node_mem_map b6036000
+[    0.000000]   Normal zone: 1980 pages used for memmap
+[    0.000000]   Normal zone: 0 pages reserved
+[    0.000000]   Normal zone: 225280 pages, LIFO batch:31
+[    0.000000] [bcm2709_smp_init_cpus] enter (9420->f3003010)
+[    0.000000] [bcm2709_smp_init_cpus] ncores=4
+[    0.000000] PERCPU: Embedded 13 pages/cpu @b5ff5000 s20608 r8192 d24448 u53248
+[    0.000000] pcpu-alloc: s20608 r8192 d24448 u53248 alloc=13*4096
+[    0.000000] pcpu-alloc: [0] 0 [0] 1 [0] 2 [0] 3 
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 223300
+[    0.000000] Kernel command line: dma.dmachans=0x7f35 bcm2708_fb.fbwidth=1920 bcm2708_fb.fbheight=1200 bcm2709.boardrev=0xa01041 bcm2709.serial=0xaadf70f5 smsc95xx.macaddr=B8:27:EB:DF:70:F5 bcm2708_fb.fbswap=1 bcm2709.disk_led_gpio=47 bcm2709.disk_led_active_low=0 sdhci-bcm2708.emmc_clock_freq=250000000 vc_mem.mem_base=0x3dc00000 vc_mem.mem_size=0x3f000000  dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait
+[    0.000000] PID hash table entries: 4096 (order: 2, 16384 bytes)
+[    0.000000] Dentry cache hash table entries: 131072 (order: 7, 524288 bytes)
+[    0.000000] Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+[    0.000000] Memory: 874556K/901120K available (5958K kernel code, 534K rwdata, 1648K rodata, 416K init, 757K bss, 18372K reserved, 8192K cma-reserved)
+[    0.000000] Virtual kernel memory layout:
+    vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+    fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
+    vmalloc : 0xb7800000 - 0xff000000   (1144 MB)
+    lowmem  : 0x80000000 - 0xb7000000   ( 880 MB)
+    modules : 0x7f000000 - 0x80000000   (  16 MB)
+      .text : 0x80008000 - 0x80775cd0   (7608 kB)
+      .init : 0x80776000 - 0x807de000   ( 416 kB)
+      .data : 0x807de000 - 0x80863af4   ( 535 kB)
+       .bss : 0x80866000 - 0x8092378c   ( 758 kB)
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+[    0.000000] Preemptible hierarchical RCU implementation.
+[    0.000000] 	Additional per-CPU info printed with stalls.
+[    0.000000] NR_IRQS:608
+[    0.000000] Architected cp15 timer(s) running at 19.20MHz (virt).
+[    0.000000] clocksource arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x46d987e47, max_idle_ns: 440795202767 ns
+[    0.000010] sched_clock: 56 bits at 19MHz, resolution 52ns, wraps every 4398046511078ns
+[    0.000031] Switching to timer-based delay loop, resolution 52ns
+[    0.000313] Console: colour dummy device 80x30
+[    0.002096] console [tty1] enabled
+[    0.002159] Calibrating delay loop (skipped), value calculated using timer frequency.. 38.40 BogoMIPS (lpj=192000)
+[    0.002260] pid_max: default: 32768 minimum: 301
+[    0.002624] Mount-cache hash table entries: 2048 (order: 1, 8192 bytes)
+[    0.002691] Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes)
+[    0.004023] Initializing cgroup subsys blkio
+[    0.004108] Initializing cgroup subsys memory
+[    0.004179] Initializing cgroup subsys devices
+[    0.004242] Initializing cgroup subsys freezer
+[    0.004315] Initializing cgroup subsys net_cls
+[    0.004426] CPU: Testing write buffer coherency: ok
+[    0.004546] ftrace: allocating 20207 entries in 60 pages
+[    0.053997] missing device node for CPU 0
+[    0.054088] missing device node for CPU 1
+[    0.054135] missing device node for CPU 2
+[    0.054179] missing device node for CPU 3
+[    0.054224] CPU0: thread -1, cpu 0, socket 15, mpidr 80000f00
+[    0.054270] [bcm2709_smp_prepare_cpus] enter
+[    0.054429] Setting up static identity map for 0x8240 - 0x8274
+[    0.113952] [bcm2709_boot_secondary] cpu:1 started (0) 17
+[    0.114388] [bcm2709_secondary_init] enter cpu:1
+[    0.114442] CPU1: thread -1, cpu 1, socket 15, mpidr 80000f01
+[    0.133932] [bcm2709_boot_secondary] cpu:2 started (0) 16
+[    0.134293] [bcm2709_secondary_init] enter cpu:2
+[    0.134326] CPU2: thread -1, cpu 2, socket 15, mpidr 80000f02
+[    0.153975] [bcm2709_boot_secondary] cpu:3 started (0) 16
+[    0.154231] [bcm2709_secondary_init] enter cpu:3
+[    0.154260] CPU3: thread -1, cpu 3, socket 15, mpidr 80000f03
+[    0.154356] Brought up 4 CPUs
+[    0.154461] SMP: Total of 4 processors activated (153.60 BogoMIPS).
+[    0.154504] CPU: All CPU(s) started in SVC mode.
+[    0.155534] devtmpfs: initialized
+[    0.180264] VFP support v0.3: implementor 41 architecture 2 part 30 variant 7 rev 5
+[    0.180625] clocksource jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+[    0.181791] pinctrl core: initialized pinctrl subsystem
+[    0.182626] NET: Registered protocol family 16
+[    0.188405] DMA: preallocated 4096 KiB pool for atomic coherent allocations
+[    0.189661] bcm2709.uart_clock = 3000000
+[    0.195187] hw-breakpoint: found 5 (+1 reserved) breakpoint and 4 watchpoint registers.
+[    0.195260] hw-breakpoint: maximum watchpoint size is 8 bytes.
+[    0.195491] Serial: AMBA PL011 UART driver
+[    0.195718] 3f201000.uart: ttyAMA0 at MMIO 0x3f201000 (irq = 83, base_baud = 0) is a PL011 rev2
+[    0.696927] console [ttyAMA0] enabled
+[    0.701187] bcm2835-mbox 3f00b880.mailbox: mailbox enabled
+[    0.776469] bcm2708-dmaengine 3f007000.dma: DMA legacy API manager at f3007000, dmachans=0xf35
+[    0.785224] bcm2708-dmaengine 3f007000.dma: Initialized 7 DMA channels (+ 1 legacy)
+[    0.793634] bcm2708-dmaengine 3f007000.dma: Load BCM2835 DMA engine driver
+[    0.800561] bcm2708-dmaengine 3f007000.dma: dma_debug:0
+[    0.806544] SCSI subsystem initialized
+[    0.810587] usbcore: registered new interface driver usbfs
+[    0.816199] usbcore: registered new interface driver hub
+[    0.821692] usbcore: registered new device driver usb
+[    0.827472] raspberrypi-firmware soc:firmware: Attached to firmware from 2015-09-23 12:21
+[    0.863019] Switched to clocksource arch_sys_counter
+[    0.917117] FS-Cache: Loaded
+[    0.920396] CacheFiles: Loaded
+[    0.935246] NET: Registered protocol family 2
+[    0.940953] TCP established hash table entries: 8192 (order: 3, 32768 bytes)
+[    0.948222] TCP bind hash table entries: 8192 (order: 4, 65536 bytes)
+[    0.954944] TCP: Hash tables configured (established 8192 bind 8192)
+[    0.961442] UDP hash table entries: 512 (order: 2, 16384 bytes)
+[    0.967469] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes)
+[    0.974230] NET: Registered protocol family 1
+[    0.979053] RPC: Registered named UNIX socket transport module.
+[    0.985077] RPC: Registered udp transport module.
+[    0.989808] RPC: Registered tcp transport module.
+[    0.994566] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    1.002214] CPU PMU: failed to probe PMU!
+[    1.006312] CPU PMU: failed to register PMU devices!
+[    1.012724] futex hash table entries: 1024 (order: 4, 65536 bytes)
+[    1.034774] VFS: Disk quotas dquot_6.6.0
+[    1.039112] VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+[    1.048729] FS-Cache: Netfs 'nfs' registered for caching
+[    1.055246] NFS: Registering the id_resolver key type
+[    1.060381] Key type id_resolver registered
+[    1.064623] Key type id_legacy registered
+[    1.071480] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 252)
+[    1.079163] io scheduler noop registered
+[    1.083159] io scheduler deadline registered (default)
+[    1.088657] io scheduler cfq registered
+[    1.095162] BCM2708FB: allocated DMA memory f6c00000
+[    1.100191] BCM2708FB: allocated DMA channel 0 @ f3007000
+[    1.142964] Console: switching to colour frame buffer device 240x75
+[    1.172642] Serial: 8250/16550 driver, 0 ports, IRQ sharing disabled
+[    1.180521] vc-cma: Videocore CMA driver
+[    1.184564] vc-cma: vc_cma_base      = 0x00000000
+[    1.189358] vc-cma: vc_cma_size      = 0x00000000 (0 MiB)
+[    1.194878] vc-cma: vc_cma_initial   = 0x00000000 (0 MiB)
+[    1.200636] vc-mem: phys_addr:0x00000000 mem_base=0x3dc00000 mem_size:0x3f000000(1008 MiB)
+[    1.225295] brd: module loaded
+[    1.237595] loop: module loaded
+[    1.241888] vchiq: vchiq_init_state: slot_zero = 0xb6c80000, is_master = 0
+[    1.250964] Loading iSCSI transport class v2.0-870.
+[    1.256947] usbcore: registered new interface driver smsc95xx
+[    1.262904] dwc_otg: version 3.00a 10-AUG-2012 (platform bus)
+[    1.469163] Core Release: 2.80a
+[    1.472394] Setting default values for core params
+[    1.477350] Finished setting default values for core params
+[    1.683441] Using Buffer DMA mode
+[    1.686829] Periodic Transfer Interrupt Enhancement - disabled
+[    1.692765] Multiprocessor Interrupt Enhancement - disabled
+[    1.698461] OTG VER PARAM: 0, OTG VER FLAG: 0
+[    1.702906] Dedicated Tx FIFOs mode
+[    1.706873] WARN::dwc_otg_hcd_init:1047: FIQ DMA bounce buffers: virt = 0xb6c14000 dma = 0xf6c14000 len=9024
+[    1.716986] FIQ FSM acceleration enabled for :
+Non-periodic Split Transactions
+Periodic Split Transactions
+High-Speed Isochronous Endpoints
+[    1.733991] dwc_otg: Microframe scheduler enabled
+[    1.734073] WARN::hcd_init_fiq:412: FIQ on core 1 at 0x80401108
+[    1.740112] WARN::hcd_init_fiq:413: FIQ ASM at 0x80401464 length 36
+[    1.746497] WARN::hcd_init_fiq:438: MPHI regs_base at 0xb789a000
+[    1.752647] dwc_otg 3f980000.usb: DWC OTG Controller
+[    1.757778] dwc_otg 3f980000.usb: new USB bus registered, assigned bus number 1
+[    1.765278] dwc_otg 3f980000.usb: irq 32, io mem 0x00000000
+[    1.770996] Init: Port Power? op_state=1
+[    1.775031] Init: Power Port (0)
+[    1.778630] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
+[    1.785577] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    1.792932] usb usb1: Product: DWC OTG Controller
+[    1.797750] usb usb1: Manufacturer: Linux 4.1.7-v7+ dwc_otg_hcd
+[    1.803805] usb usb1: SerialNumber: 3f980000.usb
+[    1.809432] hub 1-0:1.0: USB hub found
+[    1.813414] hub 1-0:1.0: 1 port detected
+[    1.823792] dwc_otg: FIQ enabled
+[    1.823807] dwc_otg: NAK holdoff enabled
+[    1.823819] dwc_otg: FIQ split-transaction FSM enabled
+[    1.823859] Module dwc_common_port init
+[    1.824285] usbcore: registered new interface driver usb-storage
+[    1.836538] mousedev: PS/2 mouse device common for all mice
+[    1.848963] bcm2835-cpufreq: min=600000 max=900000
+[    1.860027] sdhci: Secure Digital Host Controller Interface driver
+[    1.872100] sdhci: Copyright(c) Pierre Ossman
+[    1.882847] mmc-bcm2835 3f300000.mmc: mmc_debug:0 mmc_debug2:0
+[    1.894567] mmc-bcm2835 3f300000.mmc: DMA channels allocated
+[    1.943408] sdhci-pltfm: SDHCI platform and OF driver helper
+[    1.960028] ledtrig-cpu: registered to indicate activity on CPUs
+[    1.972196] hidraw: raw HID events driver (C) Jiri Kosina
+[    1.984815] usbcore: registered new interface driver usbhid
+[    1.996390] usbhid: USB HID core driver
+[    2.007623] Initializing XFRM netlink socket
+[    2.017879] NET: Registered protocol family 17
+[    2.023170] Indeed it is in host mode hprt0 = 00021501
+[    2.042768] Key type dns_resolver registered
+[    2.053612] Registering SWP/SWPB emulation handler
+[    2.065244] registered taskstats version 1
+[    2.075592] vc-sm: Videocore shared memory driver
+[    2.086239] [vc_sm_connected_init]: start
+[    2.097069] [vc_sm_connected_init]: end - returning 0
+[    2.110272] Waiting for root device /dev/mmcblk0p2...
+[    2.123443] mmc0: host does not support reading read-only switch, assuming write-enable
+[    2.139753] mmc0: new high speed SDHC card at address 0002
+[    2.151746] mmcblk0: mmc0:0002 00000 7.32 GiB 
+[    2.163541]  mmcblk0: p1 p2
+[    2.193067] usb 1-1: new high-speed USB device number 2 using dwc_otg
+[    2.205727] Indeed it is in host mode hprt0 = 00001101
+[    2.225275] EXT4-fs (mmcblk0p2): INFO: recovery required on readonly filesystem
+[    2.238571] EXT4-fs (mmcblk0p2): write access will be enabled during recovery
+[    2.407740] EXT4-fs (mmcblk0p2): orphan cleanup on readonly fs
+[    2.419963] usb 1-1: New USB device found, idVendor=0424, idProduct=9514
+[    2.420341] EXT4-fs (mmcblk0p2): 1 orphan inode deleted
+[    2.420350] EXT4-fs (mmcblk0p2): recovery complete
+[    2.454834] usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+[    2.455547] EXT4-fs (mmcblk0p2): mounted filesystem with ordered data mode. Opts: (null)
+[    2.455619] VFS: Mounted root (ext4 filesystem) readonly on device 179:2.
+[    2.456498] devtmpfs: mounted
+[    2.457317] Freeing unused kernel memory: 416K (80776000 - 807de000)
+[    2.517901] hub 1-1:1.0: USB hub found
+[    2.527980] hub 1-1:1.0: 5 ports detected
+[    2.759883] random: systemd urandom read with 76 bits of entropy available
+[    2.778017] systemd[1]: systemd 215 running in system mode. (+PAM +AUDIT +SELINUX +IMA +SYSVINIT +LIBCRYPTSETUP +GCRYPT +ACL +XZ -SECCOMP -APPARMOR)
+[    2.798409] systemd[1]: Detected architecture 'arm'.
+[    2.813112] usb 1-1.1: new high-speed USB device number 3 using dwc_otg
+[    2.913492] usb 1-1.1: New USB device found, idVendor=0424, idProduct=ec00
+[    2.926924] usb 1-1.1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+[    2.943602] smsc95xx v1.0.4
+[    2.981415] NET: Registered protocol family 10
+[    2.996068] systemd[1]: Inserted module 'ipv6'
+[    3.008945] systemd[1]: Set hostname to <raspberrypi>.
+[    3.024960] smsc95xx 1-1.1:1.0 eth0: register 'smsc95xx' at usb-3f980000.usb-1.1, smsc95xx USB 2.0 Ethernet, b8:27:eb:df:70:f5
+[    3.100862] uart-pl011 3f201000.uart: no DMA platform data
+[    3.123116] usb 1-1.2: new high-speed USB device number 4 using dwc_otg
+[    3.250742] usb 1-1.2: New USB device found, idVendor=148f, idProduct=5370
+[    3.264544] usb 1-1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[    3.278567] usb 1-1.2: Product: 802.11 n WLAN
+[    3.289654] usb 1-1.2: Manufacturer: Ralink
+[    3.300516] usb 1-1.2: SerialNumber: 1.0
+[    3.393102] usb 1-1.3: new low-speed USB device number 5 using dwc_otg
+[    3.546158] usb 1-1.3: New USB device found, idVendor=045e, idProduct=0752
+[    3.559754] usb 1-1.3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[    3.573684] usb 1-1.3: Product: Wired Keyboard 400
+[    3.585084] usb 1-1.3: Manufacturer: Microsoft
+[    3.611930] input: Microsoft Wired Keyboard 400 as /devices/platform/soc/3f980000.usb/usb1/1-1/1-1.3/1-1.3:1.0/0003:045E:0752.0001/input/input0
+[    3.683478] hid-generic 0003:045E:0752.0001: input,hidraw0: USB HID v1.11 Keyboard [Microsoft Wired Keyboard 400] on usb-3f980000.usb-1.3/input0
+[    3.685646] systemd[1]: Starting Forward Password Requests to Wall Directory Watch.
+[    3.686193] systemd[1]: Started Forward Password Requests to Wall Directory Watch.
+[    3.686305] systemd[1]: Expecting device dev-ttyAMA0.device...
+[    3.753557] systemd[1]: Starting Remote File Systems (Pre).
+[    3.774282] systemd[1]: Reached target Remote File Systems (Pre).
+[    3.787610] systemd[1]: Starting Arbitrary Executable File Formats File System Automount Point.
+[    3.812371] systemd[1]: Set up automount Arbitrary Executable File Formats File System Automount Point.
+[    3.829058] systemd[1]: Starting Encrypted Volumes.
+[    3.849456] systemd[1]: Reached target Encrypted Volumes.
+[    3.862103] systemd[1]: Starting Swap.
+[    3.881301] systemd[1]: Reached target Swap.
+[    3.892791] systemd[1]: Expecting device dev-mmcblk0p1.device...
+[    3.914260] systemd[1]: Starting Root Slice.
+[    3.934233] systemd[1]: Created slice Root Slice.
+[    3.946228] systemd[1]: Starting User and Session Slice.
+[    3.967418] systemd[1]: Created slice User and Session Slice.
+[    3.980441] systemd[1]: Starting /dev/initctl Compatibility Named Pipe.
+[    4.002988] systemd[1]: Listening on /dev/initctl Compatibility Named Pipe.
+[    4.017374] systemd[1]: Starting Delayed Shutdown Socket.
+[    4.038618] systemd[1]: Listening on Delayed Shutdown Socket.
+[    4.051682] systemd[1]: Starting Journal Socket (/dev/log).
+[    4.073121] systemd[1]: Listening on Journal Socket (/dev/log).
+[    4.086380] systemd[1]: Starting udev Control Socket.
+[    4.107226] systemd[1]: Listening on udev Control Socket.
+[    4.119917] systemd[1]: Starting udev Kernel Socket.
+[    4.140510] systemd[1]: Listening on udev Kernel Socket.
+[    4.153077] systemd[1]: Starting Journal Socket.
+[    4.173295] systemd[1]: Listening on Journal Socket.
+[    4.185535] systemd[1]: Starting System Slice.
+[    4.205254] systemd[1]: Created slice System Slice.
+[    4.217150] systemd[1]: Starting File System Check on Root Device...
+[    4.242025] systemd[1]: Starting system-systemd\x2dfsck.slice.
+[    4.264556] systemd[1]: Created slice system-systemd\x2dfsck.slice.
+[    4.278338] systemd[1]: Starting system-getty.slice.
+[    4.299848] systemd[1]: Created slice system-getty.slice.
+[    4.312386] systemd[1]: Starting system-serial\x2dgetty.slice.
+[    4.334743] systemd[1]: Created slice system-serial\x2dgetty.slice.
+[    4.348251] systemd[1]: Starting Increase datagram queue length...
+[    4.373274] systemd[1]: Starting Restore / save the current clock...
+[    4.402188] systemd[1]: Mounting POSIX Message Queue File System...
+[    4.431634] systemd[1]: Mounted Huge Pages File System.
+[    4.445004] systemd[1]: Mounting Debug File System...
+[    4.485214] systemd[1]: Started Set Up Additional Binary Formats.
+[    4.514600] systemd[1]: Starting Load Kernel Modules...
+[    4.540144] systemd[1]: Starting udev Coldplug all Devices...
+[    4.565726] systemd[1]: Starting Create list of required static device nodes for the current kernel...
+[    4.576373] fuse init (API version 7.23)
+[    4.606686] systemd[1]: Starting Slices.
+[    4.626269] systemd[1]: Reached target Slices.
+[    4.645394] bcm2708_i2c 3f804000.i2c: BSC1 Controller at 0x3f804000 (irq 79) (baudrate 100000)
+[    4.648792] i2c /dev entries driver
+[    4.675765] systemd[1]: Mounted Debug File System.
+[    4.695215] systemd[1]: Mounted POSIX Message Queue File System.
+[    4.717381] systemd[1]: Started File System Check on Root Device.
+[    4.751692] systemd[1]: Started Increase datagram queue length.
+[    4.773987] systemd[1]: Started Restore / save the current clock.
+[    4.797851] systemd[1]: Started Load Kernel Modules.
+[    4.824172] systemd[1]: Started Create list of required static device nodes for the current kernel.
+[    4.846635] systemd[1]: Time has been changed
+[    4.894750] systemd[1]: Started udev Coldplug all Devices.
+[    5.085790] systemd[1]: Starting Create Static Device Nodes in /dev...
+[    5.111484] systemd[1]: Starting Apply Kernel Variables...
+[    5.137155] systemd[1]: Mounting Configuration File System...
+[    5.161979] systemd[1]: Mounting FUSE Control File System...
+[    5.175587] systemd[1]: Starting Syslog Socket.
+[    5.185552] systemd[1]: Listening on Syslog Socket.
+[    5.185819] systemd[1]: Starting Journal Service...
+[    5.207958] systemd[1]: Started Journal Service.
+[    5.380543] systemd-udevd[110]: starting version 215
+[    5.859530] gpiomem-bcm2835 3f200000.gpiomem: Initialised: Registers at 0x3f200000
+[    5.867676] spi spi0.0: setting up native-CS0 as GPIO 8
+[    5.867911] spi spi0.1: setting up native-CS1 as GPIO 7
+[    6.168902] random: nonblocking pool is initialized
+[    6.187392] EXT4-fs (mmcblk0p2): re-mounted. Opts: (null)
+[    6.373715] CAN device driver interface
+[    6.376681] cfg80211: Calling CRDA to update world regulatory domain
+[    6.486098] smsc95xx 1-1.1:1.0 eth0: hardware isn't capable of remote wakeup
+[    6.486381] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+[    6.593218] usb 1-1.2: reset high-speed USB device number 4 using dwc_otg
+[    6.708825] ieee80211 phy0: rt2x00_set_rt: Info - RT chipset 5390, rev 0502 detected
+[    6.762553] ieee80211 phy0: rt2x00_set_rf: Info - RF chipset 5370 detected
+[    6.795624] ieee80211 phy0: Selected rate control algorithm 'minstrel_ht'
+[    6.804384] usbcore: registered new interface driver rt2800usb
+[    6.903379] ieee80211 phy0: rt2x00lib_request_firmware: Info - Loading firmware file 'rt2870.bin'
+[    6.907974] ieee80211 phy0: rt2x00lib_request_firmware: Info - Firmware detected - version: 0.29
+[    6.946844] systemd-journald[108]: Received request to flush runtime journal from PID 1
+[    7.281490] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+[    9.415787] spi_bcm2835: disagrees about version of symbol module_layout
+[    9.449316] can: disagrees about version of symbol module_layout
+[    9.477132] can_dev: disagrees about version of symbol module_layout
+[    9.516773] can_raw: disagrees about version of symbol module_layout
+[    9.533158] cfg80211: Calling CRDA to update world regulatory domain
+[    9.572031] can_bcm: disagrees about version of symbol module_layout
+[    9.597575] mcp251x: disagrees about version of symbol module_layout
+[    9.749151] Adding 102396k swap on /var/swap.  Priority:-1 extents:5 across:573436k SSFS
+[    9.923161] wlan0: authenticate with 02:1a:11:fc:7e:d4
+[    9.993165] wlan0: send auth to 02:1a:11:fc:7e:d4 (try 1/3)
+[    9.999576] wlan0: authenticated
+[   10.003172] wlan0: associate with 02:1a:11:fc:7e:d4 (try 1/3)
+[   10.008767] wlan0: RX AssocResp from 02:1a:11:fc:7e:d4 (capab=0x411 status=0 aid=2)
+[   10.018052] wlan0: associated
+[   10.018226] IPv6: ADDRCONF(NETDEV_CHANGE): wlan0: link becomes ready
+[   10.018468] cfg80211: Calling CRDA to update world regulatory domain
+[   10.117013] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[   10.161900] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[   11.921767] can: controller area network core (rev 20120528 abi 9)
+[   11.921921] NET: Registered protocol family 29
+[   11.931348] can: raw protocol (rev 20120528)
+[   12.693190] cfg80211: Calling CRDA to update world regulatory domain
+[   15.853293] cfg80211: Calling CRDA to update world regulatory domain
+[   19.013434] cfg80211: Calling CRDA to update world regulatory domain
+[   20.808449] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[   22.173559] cfg80211: Calling CRDA to update world regulatory domain
+[   23.470865] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[   25.333667] cfg80211: Calling CRDA to update world regulatory domain
+[   28.493809] cfg80211: Calling CRDA to update world regulatory domain
+[   30.843761] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[   31.653928] cfg80211: Calling CRDA to update world regulatory domain
+[   31.970160] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[   34.814032] cfg80211: Calling CRDA to update world regulatory domain
+[   37.974165] cfg80211: Calling CRDA to update world regulatory domain
+[   41.134262] cfg80211: Calling CRDA to update world regulatory domain
+[   44.294403] cfg80211: Exceeded CRDA call max attempts. Not calling CRDA
+[   50.916323] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[   55.931206] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[   74.262115] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[   96.789942] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  100.371812] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  106.720535] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  139.692936] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  145.939269] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  151.059216] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  159.455896] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  163.142240] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  170.617375] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  174.201289] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  176.146884] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  182.086049] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  193.145755] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  270.660890] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  274.961654] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  278.647980] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  281.719946] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  292.983815] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  294.110207] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  307.122649] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  308.343605] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  443.919514] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  449.551437] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  454.056965] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  455.080951] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  484.264580] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  493.480453] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  500.443587] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  501.263444] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  508.225891] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  508.737869] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  514.779404] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  515.496175] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  525.326465] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  527.683842] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  584.000915] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  584.308125] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  618.406866] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  620.250039] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  623.322003] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  629.773123] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  633.459493] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  633.664253] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  648.819267] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  661.516706] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  671.654187] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  682.610879] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  685.785189] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  689.369179] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  717.016807] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  723.160746] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  732.172765] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  745.176444] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  773.131296] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  805.079668] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  810.916428] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  814.807533] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  819.825072] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
+[  822.692242] wlan0: Limiting TX power to 20 (20 - 0) dBm as advertised by 02:1a:11:fc:7e:d4
