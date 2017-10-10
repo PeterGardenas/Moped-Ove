@@ -14,3 +14,15 @@
 hs_err_pid*
 
 tempIMG/*
+
+# IntelliJ project files
+*.iml
+*.iws
+*.ipr
+.idea/
+
+# eclipse project file
+.settings/
+.classpath
+.project
+*/.project
