@@ -95,14 +95,17 @@ public class Shape {
         double middleX = (endX + startX) / 2;
         double middleY = (endY + startY) / 2;
         for (int i = 0; i < CHECK_POINTS; i++) {
+            if (true)break;
             int x = (int) (middleX + radius * Math.cos(2 * Math.PI / 100 * i));
             int y = (int) (middleY + radius * Math.sin(2 * Math.PI / 100 * i));
             if (!cordinates.containsKey(x + ":" + y)) return false;
-            if (g == null) {
+
+            if (g != null) {
             	g.setColor(Color.black);
                 g.drawRect(x, y, 2, 2);
             }
         }
+        System.out.println("hai");
         return true;
     }
 

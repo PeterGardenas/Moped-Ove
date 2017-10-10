@@ -7,12 +7,13 @@ public class Main {
 	private static String standardFileName = "tempIMG/test0.jpg";
 
 	public static void main(String[] args) {
-		new ImageDetector(standardFileName);
+		goThroughImages();
+		//new ImageDetector(standardFileName);
 	}
 	
 	private static void goThroughImages() {
 		for (int i = 0; i < 40; i++) {
-			ImageDetector imageDetector = new ImageDetector("test" + i + ".jpg");
+			ImageDetector imageDetector = new ImageDetector("bilder/test" + i + ".jpg");
 			List<Shape> shapes = imageDetector.getFinalShapes();
 			
 			int count = 0;

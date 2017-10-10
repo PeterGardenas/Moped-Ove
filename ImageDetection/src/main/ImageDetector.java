@@ -84,7 +84,7 @@ public class ImageDetector extends JPanel {
 
         for (int i = 0; i < coleredLines.size(); i++) {
         	for (int z = 0; z < activeShapes.size(); z++) {
-        		activeShapes.get(i).setMatch(false);
+        		activeShapes.get(z).setMatch(false);
         	}
             for (int y = 0; y < coleredLines.get(i).size(); y++) {
                 Line line = coleredLines.get(i).get(y);
@@ -120,7 +120,8 @@ public class ImageDetector extends JPanel {
             }
             
             for (int z = 0; z < activeShapes.size(); z++) {
-            	if (!activeShapes.get(i).wasThereAMatch()) {
+        	    if (true) break;
+            	if (!activeShapes.get(z).wasThereAMatch()) {
             		finalShapes.add(activeShapes.get(z));
 					activeShapes.remove(z);
             		z--;
@@ -153,7 +154,8 @@ public class ImageDetector extends JPanel {
 	private boolean isCorrectColor(int clr) {
 		int red = (clr & 0x00ff0000) >> 16;
 		int green = (clr & 0x0000ff00) >> 8;
-		int blue = clr & 0x000000ff;   
+		int blue = clr & 0x000000ff;
+		
 		return red > 100 && green > 100 && blue < 50;
 	  //return (Math.abs(red - 240) + Math.abs(green - 240) + blue) < 260;
 	}
