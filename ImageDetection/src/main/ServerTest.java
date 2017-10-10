@@ -1,11 +1,14 @@
 package main;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
+import java.net.URL;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -21,7 +24,6 @@ public class ServerTest {
 	 * 2. taskkill /PID typeyourPIDhere /F
 	 */
 	public static void main(String[] args) throws Exception {
-		//Copied from some stack overflow thread.
 	    try {
 	    	HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
 		    server.createContext("/processimage", new ImageHandler());
@@ -36,10 +38,16 @@ public class ServerTest {
 	static class ImageHandler implements HttpHandler {
 	    public void handle(HttpExchange t) throws IOException {
 	    	System.out.println("Message recived");
-	        String response = "hello world";
-	        loadImage(t.getRequestBody());
-	        new ImageDetector("test" + i + ".jpg");
-	        t.sendResponseHeaders(200, response.length());
+	        //loadImage(t.getRequestBody());
+	    	String response = new ImageDetector("test.jpg").getResult();
+	    	 t.sendResponseHeaders(200, response.length());
+		     t.close();
+			try {
+				sendAnswer(response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    }
 	}
 	
@@ -72,7 +80,7 @@ public class ServerTest {
             }
             
             //Store a sample slice of 100 images for testing.
-            imgFile = new File("test" + i + ".jpg");
+            imgFile = new File("tempIMG/test.jpg");
             if (i < 100) i++;
 
             fos = new FileOutputStream(imgFile);            
@@ -109,6 +117,26 @@ public class ServerTest {
 	    }
 
 	    return ous.toByteArray();
+	}
+	
+	private static void sendAnswer(String message) throws Exception{
+	    String url = "http://localhost:9000/response";
+	    URL obj = new URL(url);
+	    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+	    
+	    con.setRequestMethod("POST");
+
+	    // Send post request
+	    con.setDoOutput(true);
+	    DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+	    wr.write(message.getBytes());
+	    wr.flush();
+	    wr.close();
+	    System.out.println("sent");
+
+
+	    con.getResponseCode();
+	    
 	}
 
 }

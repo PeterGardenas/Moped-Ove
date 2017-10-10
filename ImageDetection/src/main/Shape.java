@@ -174,7 +174,7 @@ public class Shape {
         double centerX = imageWidth / 2;
         double distance = getCirclePosX() - centerX;
         System.out.println("Distance from center: " + distance);
-        return distance;
+        return 2 * distance / imageWidth;
     }
 
 	public void setMatch(boolean b) {
@@ -183,6 +183,10 @@ public class Shape {
 
 	public boolean wasThereAMatch() {
 		return match;
+	}
+
+	public int getWidth() {
+		return Math.abs((int) (startX - endX));
 	}
 	
 }

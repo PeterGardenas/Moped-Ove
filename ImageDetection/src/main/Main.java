@@ -4,7 +4,7 @@ import java.util.List;
 
 //https://stackoverflow.com/questions/22391353/get-color-of-each-pixel-of-an-image-using-bufferedimages
 public class Main {
-	private static String standardFileName = "test0.jpg";
+	private static String standardFileName = "tempIMG/test0.jpg";
 
 	public static void main(String[] args) {
 		new ImageDetector(standardFileName);

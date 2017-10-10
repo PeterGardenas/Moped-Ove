@@ -145,6 +145,7 @@ public class ImageDetector extends JPanel {
 			image = ImageIO.read(new File(fileName));
 			System.out.println("Image load speed: " + (System.currentTimeMillis() - startTime));
 		} catch (IOException e) {
+			System.out.println(fileName);
 			e.printStackTrace();
 		}
 	}
@@ -191,6 +192,19 @@ public class ImageDetector extends JPanel {
             }
         }
     }
+	
+	public String getResult() {
+		Shape finalShape = null;
+		for (int i = 0; i < finalShapes.size(); i++) {
+			if (finalShapes.get(i).isCircle(null) || finalShapes.get(i).isEllipse(null)) {
+				if (finalShape == null || finalShapes.get(i).getWidth() > finalShape.getWidth()) {
+					finalShape = finalShapes.get(i);
+				}
+			}	
+		}
+		
+		return finalShape == null ? "false" : "" + finalShape.distanceFromCenter(image.getWidth());
+	}
 	
 	public List<Shape> getFinalShapes() {
 		return finalShapes;
