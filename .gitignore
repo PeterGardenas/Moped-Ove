@@ -26,3 +26,6 @@ tempIMG/*
 .classpath
 .project
 */.project
+
+/.metadata/
+/.recommenders/
