@@ -89,13 +89,9 @@ public class Shape {
 
 
     public boolean isCircle(Graphics g) {
-    	System.out.println("Is Circle");
-        System.out.println(Math.abs(endX - startX) / (endY - startY) - 1);
-
         if (Math.abs(endX - startX) / (endY - startY) - 1 > MAX_HIGHT_WIDTH_DIFFERENCE) return false;
         if ((endX - startX) < MIN_RADIUS || (endY - startY) < MIN_RADIUS) return false;
         if ((endX - startX) > MAX_RADIUS || (endY - startY) > MAX_RADIUS) return false;
-        System.out.println(Math.abs(weightInCircle() - 1) > MAX_WEIGHT_IN_CIRCLE_DIFFERENCE);
         if (Math.abs(weightInCircle() - 1) > MAX_WEIGHT_IN_CIRCLE_DIFFERENCE) return false;
         double radius = Math.sqrt((startX - endX) / 2 * (startY - endY) / 2) * EXPECTED_FULL_CIRCLE;
         double middleX = (endX + startX) / 2;
@@ -111,7 +107,6 @@ public class Shape {
                 g.drawRect(x, y, 2, 2);
             }
         }
-        System.out.println("hai");
         return true;
     }
 

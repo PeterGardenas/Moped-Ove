@@ -22,7 +22,7 @@ public class Main {
 			for (int y = 0; y < shapes.size(); y++) {
 				if (shapes.get(y).isCircle(null) || shapes.get(y).isEllipse(null)) count++;
 			}
-			System.out.println("Picture: "  + i + " had " + count + " circles.");
+			System.out.println("Picture: "  + i + " had " + count + " circles. It gave the result: " + imageDetector.getResult());
 			if (count == 0) {
 				imageDetector.draw();
 				break;
