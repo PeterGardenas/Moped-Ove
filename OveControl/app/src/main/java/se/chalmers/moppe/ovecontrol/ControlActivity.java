@@ -90,7 +90,7 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
             //view.invalidate(); // Repaint (to show "not connected" in the main view)
         }
         else if (item.getItemId() == CONFIG_INDEX) {
-            Intent i = new Intent(ControlActivity.this, SocketConnector.class);
+            Intent i = new Intent(ControlActivity.this, NetworkConnectorActivity.class);
             startActivity(i);
         }
 

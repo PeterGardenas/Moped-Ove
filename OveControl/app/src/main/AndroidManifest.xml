@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SocketConnector"
+            android:name=".NetworkConnectorActivity"
             android:label="Target Server Setting" >
         </activity>
     </application>
