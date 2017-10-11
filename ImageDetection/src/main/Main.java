@@ -8,7 +8,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		goThroughImages();
-		//new ImageDetector(standardFileName);
+		//new ImageDetector("src/manyCircle.jpg").draw();
+		//new ImageDetector("bilder/checkdraw.jpg").draw();
+
 	}
 	
 	private static void goThroughImages() {
@@ -20,7 +22,7 @@ public class Main {
 			for (int y = 0; y < shapes.size(); y++) {
 				if (shapes.get(y).isCircle(null) || shapes.get(y).isEllipse(null)) count++;
 			}
-			System.out.println("Picture: "  + i + "had " + count + " circles.");
+			System.out.println("Picture: "  + i + " had " + count + " circles.");
 			if (count == 0) {
 				imageDetector.draw();
 				break;

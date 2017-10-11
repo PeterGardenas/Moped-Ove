@@ -45,24 +45,24 @@ public class ImageDetector extends JPanel {
 
 	
     private void createColorLines() {
-        for (int i = 0; i < image.getWidth(); i++) {
+        for (int y = 0; y < image.getHeight(); y++) {
             boolean wasPreviousCorrectColor = false;
             int startOfInterval = 0;
 
-            for (int y = 0; y < image.getHeight(); y++) {
-                if (isCorrectColor(image.getRGB(i, y))) {
-                    if (!wasPreviousCorrectColor) startOfInterval = y;
+            for (int x = 0; x < image.getWidth(); x++) {
+                if (isCorrectColor(image.getRGB(x, y))) {
+                    if (!wasPreviousCorrectColor) startOfInterval = x;
                     wasPreviousCorrectColor = true;
                 } else {
                     if (wasPreviousCorrectColor) {
-                        coleredLines.get(i).add(new Line(i, startOfInterval, y));
+                        coleredLines.get(y).add(new Line(y, startOfInterval, x));
                     }
                     wasPreviousCorrectColor = false;
                 }
             }
 
             if (wasPreviousCorrectColor) {
-                coleredLines.get(i).add(new Line(i, startOfInterval, image.getHeight() - 1));
+                coleredLines.get(y).add(new Line(y, startOfInterval, image.getHeight() - 1));
             }
         }
 
@@ -93,7 +93,6 @@ public class ImageDetector extends JPanel {
                 for (int z = 0; z < activeShapes.size(); z++) {
                     if (activeShapes.get(z).hasConnection(line)) {
                         matches.add(z);
-                        System.out.println("Match");
                         activeShapes.get(z).setMatch(true);
                     }
                 }
