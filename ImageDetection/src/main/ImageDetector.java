@@ -81,11 +81,11 @@ public class ImageDetector extends JPanel {
      */
 	private void mergeLinesToShapes() {
         List<Shape> activeShapes = new LinkedList<>();
+        List<Shape> previousShapes = new LinkedList<>();
 
         for (int i = 0; i < coleredLines.size(); i++) {
-        	for (int z = 0; z < activeShapes.size(); z++) {
-        		activeShapes.get(z).setMatch(false);
-        	}
+        	previousShapes.addAll(activeShapes);
+        	
             for (int y = 0; y < coleredLines.get(i).size(); y++) {
                 Line line = coleredLines.get(i).get(y);
 
@@ -93,6 +93,7 @@ public class ImageDetector extends JPanel {
                 for (int z = 0; z < activeShapes.size(); z++) {
                     if (activeShapes.get(z).hasConnection(line)) {
                         matches.add(z);
+                        System.out.println("Match");
                         activeShapes.get(z).setMatch(true);
                     }
                 }
@@ -119,13 +120,18 @@ public class ImageDetector extends JPanel {
 
             }
             
-            for (int z = 0; z < activeShapes.size(); z++) {
-        	    if (true) break;
-            	if (!activeShapes.get(z).wasThereAMatch()) {
-            		finalShapes.add(activeShapes.get(z));
-					activeShapes.remove(z);
+            for (int z = 0; z < previousShapes.size(); z++) {
+            	if (!previousShapes.get(z).wasThereAMatch()) {
+            		finalShapes.add(previousShapes.get(z));
+					activeShapes.remove(previousShapes.get(z));
+					previousShapes.remove(z);
             		z--;
             	}
+        	}
+            previousShapes.removeAll(activeShapes);
+            
+            for (int z = 0; z < activeShapes.size(); z++) {
+        		activeShapes.get(z).setMatch(false);
         	}
         }
 
@@ -180,7 +186,8 @@ public class ImageDetector extends JPanel {
                 g.setColor(Color.green);
             }
             else {
-                g.setColor(Color.RED);
+            	g.setColor(new Color((float)Math.random() , (float) Math.random() * 1, (float) Math.random() * 1));
+                //g.setColor(Color.RED);
             }
             finalShapes.get(i).paint(g);
         }

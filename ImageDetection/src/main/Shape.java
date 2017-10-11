@@ -181,7 +181,7 @@ public class Shape {
     }
 
 	public void setMatch(boolean b) {
-		
+		this.match = b;
 	}
 
 	public boolean wasThereAMatch() {
