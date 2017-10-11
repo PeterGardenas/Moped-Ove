@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app>
+	<vehicleName>volvo-rpi1</vehicleName>
+	<brand>Volvo</brand>
+	<plugins>
+		<plugin>
+			<name>Read_distance.suite</name>
+			<ecu>3</ecu>
+			<ports>
+<port><name>ff</name></port>
+				</ports>
+		</plugin>
+	</plugins>
+	<links>
+	<link>
+		<from>13</from>
+		<to>ff</to></link></links>
+</app>
