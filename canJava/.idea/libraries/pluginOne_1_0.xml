@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="pluginOne-1.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/plugins/CK_testar_plugins/target/pluginOne-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

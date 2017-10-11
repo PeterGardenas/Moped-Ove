@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="lib" path="/Users/juliaortheden/Downloads/api-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/Users/juliaortheden/Downloads/cldc-1.1-java5.0 (1).jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

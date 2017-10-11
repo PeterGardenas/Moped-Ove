@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="message">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ecm-core/libs/message.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/JavaInterfaceTest/JavaInterfaceTest.iml" filepath="$PROJECT_DIR$/JavaInterfaceTest/JavaInterfaceTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Mockups/Mockups.iml" filepath="$PROJECT_DIR$/Mockups/Mockups.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OnBoard/OnBoard.iml" filepath="$PROJECT_DIR$/OnBoard/OnBoard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/VCUSpeedControl/src/main/main.iml" filepath="$PROJECT_DIR$/plugins/VCUSpeedControl/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ecm-core/src/main/main1.iml" filepath="$PROJECT_DIR$/ecm-core/src/main/main1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/Acc/src/main/main2.iml" filepath="$PROJECT_DIR$/plugins/Acc/src/main/main2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/PluginTest/src/main/main3.iml" filepath="$PROJECT_DIR$/plugins/PluginTest/src/main/main3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/PluginTest2/src/main/main4.iml" filepath="$PROJECT_DIR$/plugins/PluginTest2/src/main/main4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/SCUDistReader/src/main/main5.iml" filepath="$PROJECT_DIR$/plugins/SCUDistReader/src/main/main5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugins/CK_testar_plugins/src/main/main6.iml" filepath="$PROJECT_DIR$/plugins/CK_testar_plugins/src/main/main6.iml" />
+    </modules>
+  </component>
+</project>

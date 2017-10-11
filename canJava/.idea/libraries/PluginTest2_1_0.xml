@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="PluginTest2-1.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/plugins/PluginTest2/target/PluginTest2-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
