@@ -43,7 +43,8 @@ public class ServerTest {
 	    	 t.sendResponseHeaders(200, response.length());
 		     t.close();
 			try {
-				sendAnswer(response);
+				sendAnswer(t.getLocalAddress().getHostName(), response);
+				System.out.println("Adress: " + t.getLocalAddress().getHostName());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -80,7 +81,7 @@ public class ServerTest {
             }
             
             //Store a sample slice of 100 images for testing.
-            imgFile = new File("tempIMG/test.jpg");
+            imgFile = new File("test.jpg");
             if (i < 100) i++;
 
             fos = new FileOutputStream(imgFile);            
@@ -119,13 +120,13 @@ public class ServerTest {
 	    return ous.toByteArray();
 	}
 	
-	private static void sendAnswer(String message) throws Exception{
-	    String url = "http://localhost:9000/response";
+	private static void sendAnswer(String adress, String message) throws Exception{
+	    String url = "http://" + adress + ":9090/response";
 	    URL obj = new URL(url);
 	    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 	    
 	    con.setRequestMethod("POST");
-
+		message = "startM" + message + "endM";
 	    // Send post request
 	    con.setDoOutput(true);
 	    DataOutputStream wr = new DataOutputStream(con.getOutputStream());
