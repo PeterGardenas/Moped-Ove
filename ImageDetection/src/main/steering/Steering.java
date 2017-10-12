@@ -5,10 +5,10 @@ package main.steering;
  */
 public class Steering {
 
-    public double steerWheelsTest(int deviation) {
-        double steerValue;
-        double percentage = 0.1;
-        steerValue = deviation * percentage;
+    public int steerWheelsTest(int deviation) {
+        int steerValue;
+        //double percentage = 0.1;
+        steerValue = deviation/* * percentage*/;
         return steerValue;
     }
 
