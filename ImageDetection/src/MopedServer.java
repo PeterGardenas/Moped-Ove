@@ -1,6 +1,7 @@
-
-
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -11,7 +12,7 @@ public class MopedServer {
 	public static void main(String[] args) throws Exception {
 		//Copied from some stack overflow thread.
 	    try {
-	    	HttpServer server = HttpServer.create(new InetSocketAddress(9000), 0);
+	    	HttpServer server = HttpServer.create(new InetSocketAddress(9090), 0);
 		    server.createContext("/response", new ImageHandler());
 		    server.setExecutor(null); // creates a default executor
 		    server.start();
@@ -27,7 +28,30 @@ public class MopedServer {
 	    	System.out.println("Message recived");
 	        String response = "hello world";
 	        t.sendResponseHeaders(200, response.length());
+	        System.out.println(getResult(t.getRequestBody()));
 	        t.close();
 	    }
 	}
+	
+	public static String getResult(InputStream is) {
+
+
+	    BufferedReader in = new BufferedReader(
+	            new InputStreamReader(is));
+	    String inputLine;
+	    StringBuffer response = new StringBuffer();
+	    try {
+	    	 while ((inputLine = in.readLine()) != null) {
+	 	        response.append(inputLine);
+	 	    }
+	 	    in.close();
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	    return response.substring(response.indexOf("startResponse"), response.indexOf("endResponse"));
+
+		
+	}
+	
+	
 }

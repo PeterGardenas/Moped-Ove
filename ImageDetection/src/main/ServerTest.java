@@ -25,10 +25,14 @@ public class ServerTest {
 	 */
 	public static void main(String[] args) throws Exception {
 	    try {
+	    	/*
 	    	HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
 		    server.createContext("/processimage", new ImageHandler());
 		    server.setExecutor(null); // creates a default executor
 		    server.start();
+		    */
+	    	
+	    	sendAnswer("127.0.0.1",new ImageDetector("img.jpg").getResult());
 	    } catch (RuntimeException e) {
 	    	e.printStackTrace();
 	    }
@@ -36,14 +40,13 @@ public class ServerTest {
 	
 	//Receives a post request, handles it and sends a response. 
 	static class ImageHandler implements HttpHandler {
-	    public void handle(HttpExchange t) throws IOException {
-	    	System.out.println("Message recived");
-	        //loadImage(t.getRequestBody());
+	    public void handle(HttpExchange t) throws IOException {	    	
+	        loadImage(t.getRequestBody());
 	    	String response = new ImageDetector("test.jpg").getResult();
 	    	 t.sendResponseHeaders(200, response.length());
 		     t.close();
 			try {
-				sendAnswer(response);
+				sendAnswer(t.getRemoteAddress().getHostName() ,response);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -119,8 +122,8 @@ public class ServerTest {
 	    return ous.toByteArray();
 	}
 	
-	private static void sendAnswer(String message) throws Exception{
-	    String url = "http://localhost:9000/response";
+	private static void sendAnswer(String adress, String message) throws Exception{
+	    String url = "http://"+ adress + ":9090/response";
 	    URL obj = new URL(url);
 	    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 	    
