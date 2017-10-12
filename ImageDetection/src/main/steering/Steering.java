@@ -1,15 +1,29 @@
 package main.steering;
 
+import canJava.JavaInterfaceTest.ACC.absolut.can.CanReader;
+
 /**
  * Created by Elina Olsson on 2017-10-09.
  */
+
 public class Steering {
 
-    public int steerWheelsTest(int deviation) {
+    private CanReader canReader;
+
+    public void steerWheelsTest(int deviation, int distance) {
         int steerValue;
-        //double percentage = 0.1;
-        steerValue = deviation/* * percentage*/;
-        return steerValue;
+        try {
+            while (deviation > 5 && deviation < -5) {
+                if (deviation < 0) {
+                    steerValue = 10;
+                } else {
+                    steerValue = -10;
+                }
+                canReader.sendSteering((byte) steerValue);
+            }
+        } catch(InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
     /* Update steering after every new picture from the camera
