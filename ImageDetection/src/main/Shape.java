@@ -96,18 +96,22 @@ public class Shape {
         double radius = Math.sqrt((startX - endX) / 2 * (startY - endY) / 2) * EXPECTED_FULL_CIRCLE;
         double middleX = (endX + startX) / 2;
         double middleY = (endY + startY) / 2;
+        int count = 0;
+        double percentage = 0.5;
         for (int i = 0; i < CHECK_POINTS; i++) {
-            if (true)break;
+            //if (true)break;
             int x = (int) (middleX + radius * Math.cos(2 * Math.PI / 100 * i));
             int y = (int) (middleY + radius * Math.sin(2 * Math.PI / 100 * i));
-            if (!cordinates.containsKey(x + ":" + y)) return false;
+            if (!cordinates.containsKey(x + ":" + y)) {
+                count++;
+            }
 
             if (g != null) {
             	g.setColor(Color.black);
                 g.drawRect(x, y, 2, 2);
             }
         }
-        return true;
+        return (count/100) <= percentage;
     }
 
     public boolean isEllipse(Graphics g) {
