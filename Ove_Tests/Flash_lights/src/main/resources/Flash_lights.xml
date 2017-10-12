@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app>
+	<vehicleName>volvo-rpi1</vehicleName>
+	<brand>Volvo</brand>
+	<plugins>
+		<plugin>
+			<name>Flash_lights.suite</name>
+			<ecu>2</ecu>
+			<ports>
+				<port>
+				<name>led</name>
+				</port>
+			</ports>
+		</plugin>
+	</plugins>
+	<links>
+		<link>
+		<from>led</from>
+		<to>9</to>
+		</link>
+	</links>
+</app>
