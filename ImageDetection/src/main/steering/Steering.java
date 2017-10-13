@@ -1,13 +1,13 @@
 package main.steering;
 
-import canJava.JavaInterfaceTest.ACC.absolut.can.CanReader;
+//import canJava.JavaInterfaceTest.ACC.absolut.can.CanReader;
 
 /**
  * Created by Elina Olsson on 2017-10-09.
  */
 
 public class Steering {
-
+/*
     private CanReader canReader;
 
     public void steerWheelsTest(int deviation, int distance) {
@@ -32,7 +32,7 @@ public class Steering {
         while(deviation > 5 || deviation < -5) {
             steerWheels(deviation);
         }
-    }*/
+    }*/ /*
 
     //Is called when we know that the MOPED in front starts to turn
     private void sleepUntilTurn (double dist, double velocity) {
@@ -52,6 +52,7 @@ public class Steering {
     public double steerWheels(int deviation) {
         return steerWheelsTest(deviation);
     }
+
 
     /*
     public double distance(double sensorValue) {

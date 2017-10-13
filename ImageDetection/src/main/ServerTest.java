@@ -40,13 +40,15 @@ public class ServerTest {
 	
 	//Receives a post request, handles it and sends a response. 
 	static class ImageHandler implements HttpHandler {
-	    public void handle(HttpExchange t) throws IOException {	    	
+	    public void handle(HttpExchange t) throws IOException {
+	    	System.out.println("Message recived");
 	        loadImage(t.getRequestBody());
 	    	String response = new ImageDetector("test.jpg").getResult();
 	    	 t.sendResponseHeaders(200, response.length());
 		     t.close();
 			try {
-				sendAnswer(t.getRemoteAddress().getHostName() ,response);
+				System.out.println("Adress: " + t.getLocalAddress().getHostName());
+				sendAnswer("192.168.137.228", response);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -83,7 +85,7 @@ public class ServerTest {
             }
             
             //Store a sample slice of 100 images for testing.
-            imgFile = new File("tempIMG/test.jpg");
+            imgFile = new File("test.jpg");
             if (i < 100) i++;
 
             fos = new FileOutputStream(imgFile);            
@@ -123,12 +125,12 @@ public class ServerTest {
 	}
 	
 	private static void sendAnswer(String adress, String message) throws Exception{
-	    String url = "http://"+ adress + ":9090/response";
+	    String url = "http://" + adress + ":9090/response";
 	    URL obj = new URL(url);
 	    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 	    
 	    con.setRequestMethod("POST");
-
+		message = "startM" + message + "endM";
 	    // Send post request
 	    con.setDoOutput(true);
 	    DataOutputStream wr = new DataOutputStream(con.getOutputStream());
