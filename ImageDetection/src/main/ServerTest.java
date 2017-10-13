@@ -38,13 +38,14 @@ public class ServerTest {
 	static class ImageHandler implements HttpHandler {
 	    public void handle(HttpExchange t) throws IOException {
 	    	System.out.println("Message recived");
-	        //loadImage(t.getRequestBody());
+	        loadImage(t.getRequestBody());
 	    	String response = new ImageDetector("test.jpg").getResult();
 	    	 t.sendResponseHeaders(200, response.length());
 		     t.close();
 			try {
-				sendAnswer(t.getLocalAddress().getHostName(), response);
 				System.out.println("Adress: " + t.getLocalAddress().getHostName());
+				System.out.println(response);
+				sendAnswer("192.168.137.228", response);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
