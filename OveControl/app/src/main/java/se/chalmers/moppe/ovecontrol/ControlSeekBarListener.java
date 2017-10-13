@@ -14,8 +14,9 @@ public class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
     private static int v = 0;
     private static int h = 0;
 
-    ControlSeekBarListener(boolean vertical){
+    ControlSeekBarListener(boolean vertical, ToggleButton platoonToggleButton){
         this.vertical = vertical;
+        this.platoonToggleButton = platoonToggleButton;
     }
     ControlSeekBarListener(){
         this.vertical = false;

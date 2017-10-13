@@ -42,8 +42,8 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
         toggleButtonPlatoon.setOnCheckedChangeListener(new ToggleOnChangeListener("P"));
         toggleButtonAcc.setOnCheckedChangeListener(new ToggleOnChangeListener("A"));
 
-        steerSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(false));
-        speedSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(true));
+        steerSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(false, toggleButtonPlatoon));
+        speedSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(true, toggleButtonPlatoon));
         steerSeekBar.setMax(200);
         speedSeekBar.setMax(200);
         steerSeekBar.setProgress(100);
