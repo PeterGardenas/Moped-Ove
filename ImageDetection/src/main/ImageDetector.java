@@ -161,7 +161,7 @@ public class ImageDetector extends JPanel {
 		int green = (clr & 0x0000ff00) >> 8;
 		int blue = clr & 0x000000ff;
 		
-		return red > 100 && green > 100 && blue < 50;
+		return red > 115 && green > 100 && blue < 50;
 	  //return (Math.abs(red - 240) + Math.abs(green - 240) + blue) < 260;
 	}
 	
@@ -185,8 +185,8 @@ public class ImageDetector extends JPanel {
                 g.setColor(Color.green);
             }
             else {
-            	g.setColor(new Color((float)Math.random() , (float) Math.random() * 1, (float) Math.random() * 1));
-                //g.setColor(Color.RED);
+            	//g.setColor(new Color((float)Math.random() , (float) Math.random() * 1, (float) Math.random() * 1));
+                g.setColor(Color.RED);
             }
             finalShapes.get(i).paint(g);
         }
@@ -211,7 +211,7 @@ public class ImageDetector extends JPanel {
 			}	
 		}
 		
-		return finalShape == null ? "false" : "" + finalShape.distanceFromCenter(image.getWidth());
+		return finalShape == null ? "false" : "" + finalShape.distanceFromCenter(image.getWidth()) * 100 * -1;
 	}
 	
 	public List<Shape> getFinalShapes() {
