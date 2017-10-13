@@ -12,7 +12,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 public class MopedServer {
-	public static void main(String[] args) throws Exception {
+	public static void init() {
 		//Copied from some stack overflow thread.
 	    try {
 	    	HttpServer server = HttpServer.create(new InetSocketAddress(9090), 0);
@@ -22,7 +22,7 @@ public class MopedServer {
 		    System.out.println("Server up");
 	    } catch (RuntimeException e) {
 	    	e.printStackTrace();
-	    }
+	    } catch (IOException e) {}
 	}
 	
 	//Receives a post request, handles it and sends a response. 

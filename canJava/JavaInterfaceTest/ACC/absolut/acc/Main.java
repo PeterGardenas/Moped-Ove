@@ -8,6 +8,7 @@ public class Main {
 
     public static void main(String args[]) throws IOException {
         acc2 acc = new acc2();
+	MopedServer.init();
         Thread accThread = new Thread(acc);
         accThread.start();
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
