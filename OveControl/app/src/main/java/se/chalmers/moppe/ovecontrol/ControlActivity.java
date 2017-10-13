@@ -16,7 +16,6 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
 
     private SeekBar steerSeekBar;
     private VerticalSeekBar speedSeekBar;
-    //private ImageSwitcher connectedImage;
     private ImageView connectedImage;
     private TextView connectedText;
 

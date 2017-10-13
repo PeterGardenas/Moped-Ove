@@ -1,6 +1,7 @@
 package se.chalmers.moppe.ovecontrol;
 
 import android.widget.SeekBar;
+import android.widget.ToggleButton;
 
 /**
  * Created by Erik on 2017-09-24.
@@ -9,6 +10,7 @@ import android.widget.SeekBar;
 public class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
 
     private boolean vertical;
+    private ToggleButton platoonToggleButton;
     private static int v = 0;
     private static int h = 0;
 
@@ -42,7 +44,9 @@ public class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
         } else {
             h = i - 100;
         }
-        SocketHandler.send(getMessage());
+        //Don't send if platooning is on
+        if (!platoonToggleButton.isChecked())
+            SocketHandler.send(getMessage());
     }
 
     private String getMessage() {
