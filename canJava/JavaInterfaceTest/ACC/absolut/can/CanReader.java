@@ -32,7 +32,6 @@ public class CanReader {
      * @return The distance data from SCU
      */
     public synchronized String getData() {
-	System.out.println(data);
         while (data == null) {
             try {
                 wait();

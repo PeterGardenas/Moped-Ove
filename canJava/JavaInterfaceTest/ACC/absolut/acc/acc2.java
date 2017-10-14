@@ -25,13 +25,15 @@ public class acc2 implements Runnable {
 
 
     int i = 0;
+    int[] speedValues = new int[]{0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
+
     //En funktion som raknar ut ultimata distance, utbyte mot perfdist konstanten.
     public void doFunction(){
-        int oldDist, minPerfDist, perfDist, dist;
-        int[] speedValues = new int[]{0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
-       	//int [] speedValues = new int[]{0, 1, 3, 5, 7, 10, 12, 17, 21, 23, 25};
-	perfDist = 100;
-        minPerfDist = 70;
+        int oldDist,  dist;
+        //int minPerfDist, perfDist;
+        //int [] speedValues = new int[]{0, 1, 3, 5, 7, 10, 12, 17, 21, 23, 25};
+        //perfDist = 100;
+        //minPerfDist = 70;
 
         oldDist = (int) sensor.getDistance();
         try {
@@ -45,7 +47,7 @@ public class acc2 implements Runnable {
                 if (shouldBreak(dist, oldDist)) {
                     crucialBreak(dist, oldDist);
                 }
-                checkPlatoon(dist, perfDist, minPerfDist, speedValues);
+                checkPlatoon(dist);
                 oldDist = dist;
                 Thread.sleep(25);
 
@@ -60,24 +62,21 @@ public class acc2 implements Runnable {
      * @param dist is the current distance from the MOPED/Object to the MOPED in front
      * @param oldDist is the previous distance from the MOPED/Object to the MOPED in front
      */
-   public void crucialBreak(int dist, int oldDist) {
+    public void crucialBreak(int dist, int oldDist) {
         System.out.println("ACTIVATE CRUCIAL BREAK");
         try {
-            while (dist < 50 && (i>3)) {
-                //VM.println("Distance right now: " + dist);
+            while (dist < speedValues[i] && (i>3)) {
                 can.sendMotorSpeed((byte) -100);
-                Thread.sleep(25);
-
+                Thread.sleep(5);
                 oldDist = dist;
                 dist = (int) sensor.getDistance();
             }
-		while (dist < 30){
-		can.sendMotorSpeed((byte) -10);
-		Thread.sleep(25);
-		oldDist = dist;
-		dist = (int) sensor.getDistance();
-}
-            //VM.println("Deactivate crucial break ");
+            while (dist < 25){
+                can.sendMotorSpeed((byte) -10);
+                Thread.sleep(5);
+                oldDist = dist;
+                dist = (int) sensor.getDistance();
+            }
             i = 0;
         } catch (InterruptedException ie) {
             ie.printStackTrace();
@@ -85,7 +84,7 @@ public class acc2 implements Runnable {
     }
 
     public boolean shouldBreak(int dist, int oldDist){
-        if (dist < 30) {
+        if (dist < speedValues[i] || dist < 25) {
             return true;
         }
         return false;
@@ -98,36 +97,29 @@ public class acc2 implements Runnable {
      * @param minDist is the minimum distance to the MOPED in front for platooning
      * @param speedValues is the ideal values when settning the speed for the MOPED
      */
-   public void checkPlatoon(int dist, int perfDist, int minDist, int[] speedValues) {
-       try {
-           if (dist < (perfDist + 10) && dist > (perfDist - 10)) {
-          //     System.out.println("perf dist");
-           } else if (dist < minDist) {
-               can.sendMotorSpeed((byte) 0);
-               if (i > 0) {
-                   i--;
-               }
-	//	System.out.println("not perf dist");
-           } else if (dist > minDist && dist < perfDist) {
-               if (i > 0) {
-                   i--;
-               }
-               can.sendMotorSpeed((byte) speedValues[i]);
-               //VM.println("Decrease speedValue ");
-               //VM.println("Distance: " + dist);
-               // VM.println("Speed: " + speedValues[i]);
-           } else if (dist > perfDist) {
-               if (i < speedValues.length - 12) {
-                   i++;
-               }
-               can.sendMotorSpeed((byte) speedValues[i]);
-               //VM.println("Increase speedValue ");
-               //VM.println("Distance: " + dist);
-               //VM.println("Speed: " + speedValues[i]);
-           }
-       } catch(InterruptedException ie) {
-           ie.printStackTrace();
+    public void checkPlatoon(int dist) {
+        try {
+            if (dist < (speedValues[i] * 3 + 10) && dist > (speedValues[i] * 3 - 10)) {
 
-       }
+            } else if (dist < speedValues[i] * 2) {
+                can.sendMotorSpeed((byte) 0);
+                if (i > 0) {
+                    i--;
+                }
+            } else if (dist > speedValues[i] * 2 && dist < speedValues[i] * 2) {
+                if (i > 0) {
+                    i--;
+                }
+                can.sendMotorSpeed((byte) speedValues[i]);
+            } else if (dist > speedValues[i] * 3) {
+                if (i < speedValues.length - 12) {
+                    i++;
+                }
+                can.sendMotorSpeed((byte) speedValues[i]);
+            }
+        } catch(InterruptedException ie) {
+            ie.printStackTrace();
+
+        }
     }
 }
