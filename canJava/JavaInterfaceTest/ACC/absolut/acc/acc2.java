@@ -47,7 +47,7 @@ public class acc2 implements Runnable {
         while (true) {
             //try{
                 dist = (int) sensor.getDistance();
-                if (shouldBrake(dist)) {
+                if (shouldBrake(dist, oldDist)) {
                     crucialBrake(dist, oldDist);
                 }
                 checkPlatoon(dist);
@@ -68,7 +68,7 @@ public class acc2 implements Runnable {
     public void crucialBrake(int dist, int oldDist) {
         try {
             boolean brake = true;
-            if (dist < speedValues[i] + 20 && speed > 20) {
+            if (dist < speedValues[i] + 20 && speed > 20 || dist < oldDist-dist + 10 && oldDist < 150) {
                 while (brake || dist + 10 < oldDist) {
                     System.out.println("ACTIVATE CRUCIAL BRAKE");
                     speed = -100;
@@ -111,8 +111,10 @@ public class acc2 implements Runnable {
         }
     }
 
-    public boolean shouldBrake(int dist){
+    public boolean shouldBrake(int dist, int oldDist){
         if (dist < speedValues[i] + 20  || dist < 15) {
+            return true;
+        } else if (dist < oldDist-dist + 10 && oldDist < 150) {
             return true;
         }
         return false;
