@@ -19,11 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Sensor.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Sensor.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/Sensor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="5" column="14" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
+            <state relative-caret-position="221">
+              <caret line="18" column="69" selection-start-line="18" selection-start-column="69" selection-end-line="18" selection-end-column="69" />
               <folding />
             </state>
           </provider>
@@ -49,7 +49,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="acc2.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="acc2.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/acc2.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-220">
@@ -102,10 +102,10 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/MopedServer.java" />
-        <option value="$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/Sensor.java" />
         <option value="$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/acc.java" />
         <option value="$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/Main.java" />
         <option value="$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/acc2.java" />
+        <option value="$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/Sensor.java" />
       </list>
     </option>
   </component>
@@ -845,14 +845,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/Sensor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="5" column="14" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/can/CanConfigParser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -908,6 +900,14 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/Sensor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="18" column="69" selection-start-line="18" selection-start-column="69" selection-end-line="18" selection-end-column="69" />
+          <folding />
         </state>
       </provider>
     </entry>
