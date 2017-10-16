@@ -26,7 +26,7 @@ public class acc2 implements Runnable {
 
     int i = 0;
     //Bad values: 7 and 27
-    int[] speedValues = new int[]{0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
+    int[] speedValues = new int[]{0, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
     int speed;
 
     //En funktion som raknar ut ultimata distance, utbyte mot perfdist konstanten.
@@ -159,7 +159,7 @@ public class acc2 implements Runnable {
                 speed = speedValues[i];
                 can.sendMotorSpeed((byte) speed);
             } else if (dist > speedValues[i] * 3) {
-                if (i < speedValues.length - 12) {
+                if (i < speedValues.length - 11) {
                     i++;
                 }
                 speed = speedValues[i];
