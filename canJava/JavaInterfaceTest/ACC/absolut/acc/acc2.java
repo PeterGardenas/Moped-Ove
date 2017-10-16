@@ -80,6 +80,7 @@ public class acc2 implements Runnable {
                 dist = (int) sensor.getDistance();
                 i = 0;
             }
+            can.sendMotorSpeed((byte) 0);
         } catch (InterruptedException ie) {
             ie.printStackTrace();
         }
