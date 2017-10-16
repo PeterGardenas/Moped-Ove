@@ -42,18 +42,18 @@ public class acc2 implements Runnable {
             e.printStackTrace();
         }
         while (true) {
-            try{
+            //try{
                 dist = (int) sensor.getDistance();
                 if (shouldBreak(dist, oldDist)) {
                     crucialBreak(dist, oldDist);
                 }
                 checkPlatoon(dist);
                 oldDist = dist;
-                Thread.sleep(25);
+                //Thread.sleep(25);
 
-            } catch(InterruptedException ie){
-                ie.printStackTrace();
-            }
+            //} catch(InterruptedException ie){
+              //  ie.printStackTrace();
+            //}
         }
 
     }
@@ -67,14 +67,14 @@ public class acc2 implements Runnable {
             while (dist < speedValues[i] && (i>3) && dist < oldDist) {
                 System.out.println("ACTIVATE CRUCIAL BREAK");
                 can.sendMotorSpeed((byte) -100);
-                Thread.sleep(5);
+                //Thread.sleep(5);
                 oldDist = dist;
                 dist = (int) sensor.getDistance();
             }
             while (dist < 15){
                 System.out.println("Reverse!");
                 can.sendMotorSpeed((byte) -10);
-                Thread.sleep(5);
+                //Thread.sleep(5);
                 dist = (int) sensor.getDistance();
             }
             i = 0;
@@ -84,7 +84,7 @@ public class acc2 implements Runnable {
     }
 
     public boolean shouldBreak(int dist, int oldDist){
-        if (dist < speedValues[i]  || dist < 15) {
+        if (dist < speedValues[i]  || dist < 15 && i>3) {
             return true;
         }
         return false;
