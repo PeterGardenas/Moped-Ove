@@ -29,3 +29,6 @@ tempIMG/*
 
 /.metadata/
 /.recommenders/
+
+.DS_Store
+
