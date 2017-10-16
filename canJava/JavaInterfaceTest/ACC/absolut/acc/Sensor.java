@@ -3,7 +3,7 @@ package absolut.acc;
 import absolut.can.CanReader;
 import java.util.Arrays;
 
-public class Sensor{
+public class  Sensor{
 
     public Sensor(){}
 

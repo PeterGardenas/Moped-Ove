@@ -20,6 +20,7 @@ public class acc implements Runnable {
     private void init() {
         reg = new Regulator();
         can = CanReader.getInstance();
+        System.out.println("Gurr ACC in action");
     }
 
     private void doFunction() {
