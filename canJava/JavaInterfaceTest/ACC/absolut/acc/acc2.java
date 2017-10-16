@@ -65,42 +65,48 @@ public class acc2 implements Runnable {
      * @param dist is the current distance from the MOPED/Object to the MOPED in front
      * @param oldDist is the previous distance from the MOPED/Object to the MOPED in front
      */
+    int brakeCase;
     public void crucialBrake(int dist, int oldDist) {
         try {
             boolean brake = true;
-            if (dist < speedValues[i] + 20 && speed > 20 || dist < oldDist-dist + 10 && oldDist < 150) {
-                while (brake || dist + 10 < oldDist) {
-                    System.out.println("ACTIVATE CRUCIAL BRAKE");
-                    speed = -100;
-                    can.sendMotorSpeed((byte) speed);
-                    //Thread.sleep(5);
-                    oldDist = dist;
-                    dist = (int) sensor.getDistance();
-                    brake = false;
-                }
-                i = 0;
-            } else if (dist < speedValues[i] && speed > 0) {
-                while ( brake || dist + 5 < oldDist) {
-                    System.out.println("ACTIVATE semi-CRUCIAL BRAKE");
-                    speed = -40;
-                    can.sendMotorSpeed((byte) speed);
-                    //Thread.sleep(5);
-                    oldDist = dist;
-                    dist = (int) sensor.getDistance();
-                    i = 0;
-                    brake = false;
-                }
+            switch (brakeCase) {
+                case 1:
+                    while (brake || dist + 10 < oldDist) {
+                        System.out.println("ACTIVATE CRUCIAL BRAKE");
+                        speed = -100;
+                        can.sendMotorSpeed((byte) speed);
+                        //Thread.sleep(5);
+                        oldDist = dist;
+                        dist = (int) sensor.getDistance();
+                        i = 0;
+                        brake = false;
+                    }
+                    break;
+                case 2:
+                    while ( brake || dist + 5 < oldDist) {
+                        System.out.println("ACTIVATE semi-CRUCIAL BRAKE");
+                        speed = -40;
+                        can.sendMotorSpeed((byte) speed);
+                        //Thread.sleep(5);
+                        oldDist = dist;
+                        dist = (int) sensor.getDistance();
+                        i = 0;
+                        brake = false;
+                    }
+                    break;
+                case 3:
+                    while (dist < 15){
+                        System.out.println("Reverse!");
+                        speed = -10;
+                        can.sendMotorSpeed((byte) speed);
+                        //Thread.sleep(5);
+                        dist = (int) sensor.getDistance();
+                        i = 0;
+                        brake = false;
+                    }
+                    break;
             }
-
-            while (dist < 15){
-                System.out.println("Reverse!");
-                speed = -10;
-                can.sendMotorSpeed((byte) speed);
-                //Thread.sleep(5);
-                dist = (int) sensor.getDistance();
-                i = 0;
-                brake = false;
-            }
+            
             if (!brake) {
                 speed = 0;
                 can.sendMotorSpeed((byte) speed);
@@ -112,9 +118,20 @@ public class acc2 implements Runnable {
     }
 
     public boolean shouldBrake(int dist, int oldDist){
-        if (dist < speedValues[i] + 20  || dist < 15) {
+        if (dist < speedValues[i] + 20 && speed > 20) {
+            brakeCase = 1;
+            return true;
+        } else if (dist < speedValues[i] && speed > 0 ) {
+           brakeCase = 2;
             return true;
         } else if (dist < oldDist-dist + 10 && oldDist < 150) {
+            brakeCase = 1;
+            return true;
+        } else if ( oldDist - dist > 40) {
+            brakeCase = 2;
+            return true;
+        } else if (dist < 15) {
+            brakeCase = 5;
             return true;
         }
         return false;
