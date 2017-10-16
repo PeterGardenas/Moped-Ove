@@ -63,18 +63,18 @@ public class acc2 implements Runnable {
      * @param oldDist is the previous distance from the MOPED/Object to the MOPED in front
      */
     public void crucialBreak(int dist, int oldDist) {
-        System.out.println("ACTIVATE CRUCIAL BREAK");
         try {
-            while (dist < speedValues[i] && (i>3)) {
+            while (dist < speedValues[i] && (i>3) && dist < oldDist) {
+                System.out.println("ACTIVATE CRUCIAL BREAK");
                 can.sendMotorSpeed((byte) -100);
                 Thread.sleep(5);
                 oldDist = dist;
                 dist = (int) sensor.getDistance();
             }
-            while (dist < 25){
+            while (dist < 15){
+                System.out.println("Reverse!");
                 can.sendMotorSpeed((byte) -10);
                 Thread.sleep(5);
-                oldDist = dist;
                 dist = (int) sensor.getDistance();
             }
             i = 0;
@@ -84,7 +84,7 @@ public class acc2 implements Runnable {
     }
 
     public boolean shouldBreak(int dist, int oldDist){
-        if (dist < speedValues[i] || dist < 25) {
+        if (dist < speedValues[i]  || dist < 15) {
             return true;
         }
         return false;
@@ -93,9 +93,6 @@ public class acc2 implements Runnable {
     /**
      * Adjusts the distance to the MOPED in front by accelerating or decelerating
      * @param dist is the current distance from the MOPED/Object to the MOPED in front
-     * @param perfDist is the perfect distance to the MOPED in front for platooning
-     * @param minDist is the minimum distance to the MOPED in front for platooning
-     * @param speedValues is the ideal values when settning the speed for the MOPED
      */
     public void checkPlatoon(int dist) {
         try {
