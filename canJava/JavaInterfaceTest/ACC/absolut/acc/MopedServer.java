@@ -34,13 +34,28 @@ public class MopedServer {
 	        String message = getMessage(t.getRequestBody());
 	        t.close();
 	        if (!message.equals("false")) {
-	        	double hai = Double.parseDouble(message);
+				double hai = Double.parseDouble(message);
+				int deviation = (int) Math.floor(hai);
+				int steerValue = 0;
+				try {
+					while (deviation > 5 && deviation < -5) {
+						if (deviation < 0) {
+							steerValue = 10;
+						} else {
+							steerValue = -10;
+						}
+						CanReader.getInstance().sendSteering((byte) steerValue);
+					}
+				} catch(InterruptedException e){
+					e.printStackTrace();
+				}
+	        	/*double hai = Double.parseDouble(message);
 	        	int temp = (int) Math.floor(hai);
 	        	try {
 					CanReader.getInstance().sendSteering((byte) temp);
 				} catch (Exception e) {
 	        		e.printStackTrace();
-				}
+				}*/
 			}
 	    }
 	}
