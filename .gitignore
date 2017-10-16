@@ -20,6 +20,7 @@ tempIMG/*
 *.iws
 *.ipr
 .idea/
+*/.idea/
 
 # eclipse project file
 .settings/
@@ -31,4 +32,3 @@ tempIMG/*
 /.recommenders/
 
 .DS_Store
-
