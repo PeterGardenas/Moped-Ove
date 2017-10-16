@@ -44,8 +44,8 @@ public class acc2 implements Runnable {
         while (true) {
             //try{
                 dist = (int) sensor.getDistance();
-                if (shouldBreak(dist, oldDist)) {
-                    crucialBreak(dist, oldDist);
+                if (shouldBrake(dist, oldDist)) {
+                    crucialBrake(dist, oldDist);
                 }
                 checkPlatoon(dist);
                 oldDist = dist;
@@ -62,29 +62,31 @@ public class acc2 implements Runnable {
      * @param dist is the current distance from the MOPED/Object to the MOPED in front
      * @param oldDist is the previous distance from the MOPED/Object to the MOPED in front
      */
-    public void crucialBreak(int dist, int oldDist) {
+    public void crucialBrake(int dist, int oldDist) {
         try {
+            //boolean brake = false;
             while (dist < speedValues[i] && (i>3) && dist < oldDist) {
-                System.out.println("ACTIVATE CRUCIAL BREAK");
+                System.out.println("ACTIVATE CRUCIAL BRAKE");
                 can.sendMotorSpeed((byte) -100);
                 //Thread.sleep(5);
                 oldDist = dist;
                 dist = (int) sensor.getDistance();
+                i = 0;
             }
             while (dist < 15){
                 System.out.println("Reverse!");
                 can.sendMotorSpeed((byte) -10);
                 //Thread.sleep(5);
                 dist = (int) sensor.getDistance();
+                i = 0;
             }
-            i = 0;
         } catch (InterruptedException ie) {
             ie.printStackTrace();
         }
     }
 
-    public boolean shouldBreak(int dist, int oldDist){
-        if (dist < speedValues[i]  || dist < 15 && i>3) {
+    public boolean shouldBrake(int dist, int oldDist){
+        if (dist < speedValues[i]  || dist < 15) {
             return true;
         }
         return false;

@@ -52,11 +52,31 @@
       <file leaf-file-name="acc2.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/acc2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="86" column="54" selection-start-line="86" selection-start-column="54" selection-end-line="86" selection-end-column="54" />
+            <state relative-caret-position="187">
+              <caret line="66" column="14" selection-start-line="66" selection-start-column="14" selection-end-line="66" selection-end-column="14" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CanManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/can/CanManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-8364">
+              <caret line="24" column="41" selection-start-line="24" selection-start-column="41" selection-end-line="24" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CanReader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/can/CanReader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1037">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -768,22 +788,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/can/CanManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="24" column="41" selection-start-line="24" selection-start-column="41" selection-end-line="24" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/can/CanReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -808,10 +812,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/can/CanReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1037">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/can/CanManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8364">
+          <caret line="24" column="41" selection-start-line="24" selection-start-column="41" selection-end-line="24" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/acc2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="86" column="54" selection-start-line="86" selection-start-column="54" selection-end-line="86" selection-end-column="54" />
+        <state relative-caret-position="187">
+          <caret line="66" column="14" selection-start-line="66" selection-start-column="14" selection-end-line="66" selection-end-column="14" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
