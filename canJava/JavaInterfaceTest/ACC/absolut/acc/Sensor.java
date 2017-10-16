@@ -2,7 +2,6 @@ package absolut.acc;
 
 import absolut.can.CanReader;
 import java.util.Arrays;
-import java.util.IntSummaryStatistics;
 
 public class  Sensor{
 
