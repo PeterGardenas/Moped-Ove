@@ -100,13 +100,13 @@ public class acc2 implements Runnable {
     public void checkPlatoon(int dist) {
         try {
             if (dist < (speedValues[i] * 3 + 10) && dist > (speedValues[i] * 3 - 10)) {
-
+                can.sendMotorSpeed((byte)speedValues[i]);
             } else if (dist < speedValues[i] * 2) {
                 can.sendMotorSpeed((byte) 0);
                 if (i > 0) {
                     i--;
                 }
-            } else if (dist > speedValues[i] * 2 && dist < speedValues[i] * 2) {
+            } else if (dist > speedValues[i] * 2 && dist < speedValues[i] * 3) {
                 if (i > 0) {
                     i--;
                 }

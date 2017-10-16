@@ -7,7 +7,7 @@ import org.omg.SendingContext.RunTime;
 public class Main {
 
     public static void main(String args[]) throws IOException {
-        acc2 acc = new acc2();
+        acc acc = new acc();
 	MopedServer.init();
         Thread accThread = new Thread(acc);
         accThread.start();
