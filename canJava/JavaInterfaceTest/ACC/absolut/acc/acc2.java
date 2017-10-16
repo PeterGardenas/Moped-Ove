@@ -106,7 +106,7 @@ public class acc2 implements Runnable {
                     }
                     break;
             }
-            
+
             if (!brake) {
                 speed = 0;
                 can.sendMotorSpeed((byte) speed);
@@ -127,7 +127,7 @@ public class acc2 implements Runnable {
         } else if (dist < oldDist-dist + 10 && oldDist < 150) {
             brakeCase = 1;
             return true;
-        } else if ( oldDist - dist > 40) {
+        } else if ( oldDist - dist > 40 && oldDist < 170) {
             brakeCase = 2;
             return true;
         } else if (dist < 15) {
