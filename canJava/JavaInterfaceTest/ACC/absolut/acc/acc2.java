@@ -25,6 +25,7 @@ public class acc2 implements Runnable {
 
 
     int i = 0;
+    //Bad values: 7 and 27
     int[] speedValues = new int[]{0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
     int speed;
 
@@ -66,22 +67,29 @@ public class acc2 implements Runnable {
      */
     public void crucialBrake(int dist, int oldDist) {
         try {
-            if (dist < speedValues[i] && speed > 20 && dist < oldDist) {
-                System.out.println("ACTIVATE CRUCIAL BRAKE");
-                speed = -100;
-                can.sendMotorSpeed((byte) speed);
-                //Thread.sleep(5);
-                oldDist = dist;
-                dist = (int) sensor.getDistance();
+            boolean brake = true;
+            if (dist < speedValues[i] + 20 && speed > 20) {
+                while (brake || dist + 10 < oldDist) {
+                    System.out.println("ACTIVATE CRUCIAL BRAKE");
+                    speed = -100;
+                    can.sendMotorSpeed((byte) speed);
+                    //Thread.sleep(5);
+                    oldDist = dist;
+                    dist = (int) sensor.getDistance();
+                    brake = false;
+                }
                 i = 0;
-            } else if (dist < speedValues[i] && speed > 0 && dist < oldDist) {
-                System.out.println("ACTIVATE semi-CRUCIAL BRAKE");
-                speed = -40;
-                can.sendMotorSpeed((byte) speed);
-                //Thread.sleep(5);
-                oldDist = dist;
-                dist = (int) sensor.getDistance();
-                i = 0;
+            } else if (dist < speedValues[i] && speed > 0) {
+                while ( brake || dist + 5 < oldDist) {
+                    System.out.println("ACTIVATE semi-CRUCIAL BRAKE");
+                    speed = -40;
+                    can.sendMotorSpeed((byte) speed);
+                    //Thread.sleep(5);
+                    oldDist = dist;
+                    dist = (int) sensor.getDistance();
+                    i = 0;
+                    brake = false;
+                }
             }
 
             while (dist < 15){
@@ -91,17 +99,20 @@ public class acc2 implements Runnable {
                 //Thread.sleep(5);
                 dist = (int) sensor.getDistance();
                 i = 0;
+                brake = false;
             }
-            speed = 0;
-            can.sendMotorSpeed((byte) speed);
-            Thread.sleep(100);
+            if (!brake) {
+                speed = 0;
+                can.sendMotorSpeed((byte) speed);
+                Thread.sleep(100);
+            }
         } catch (InterruptedException ie) {
             ie.printStackTrace();
         }
     }
 
     public boolean shouldBrake(int dist){
-        if (dist < speedValues[i]  || dist < 15) {
+        if (dist < speedValues[i] + 20  || dist < 15) {
             return true;
         }
         return false;
