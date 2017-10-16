@@ -161,7 +161,7 @@ public class ImageDetector extends JPanel {
 		int green = (clr & 0x0000ff00) >> 8;
 		int blue = clr & 0x000000ff;
 		
-		return red > 115 && green > 100 && blue < 50;
+		return red > 100 && green > 100 && blue < 50;
 	  //return (Math.abs(red - 240) + Math.abs(green - 240) + blue) < 260;
 	}
 	
@@ -211,7 +211,7 @@ public class ImageDetector extends JPanel {
 			}	
 		}
 		
-		return finalShape == null ? "false" : "" + finalShape.distanceFromCenter(image.getWidth()) * 100 * -1;
+		return finalShape == null ? "false" : "" + finalShape.distanceFromCenter(image.getWidth()) * 100;
 	}
 	
 	public List<Shape> getFinalShapes() {

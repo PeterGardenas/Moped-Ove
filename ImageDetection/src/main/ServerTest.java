@@ -25,14 +25,14 @@ public class ServerTest {
 	 */
 	public static void main(String[] args) throws Exception {
 	    try {
-	    	/*
+
 	    	HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
 		    server.createContext("/processimage", new ImageHandler());
 		    server.setExecutor(null); // creates a default executor
 		    server.start();
-		    */
+
 	    	
-	    	sendAnswer("127.0.0.1",new ImageDetector("img.jpg").getResult());
+	    	//sendAnswer("127.0.0.1",new ImageDetector("img.jpg").getResult());
 	    } catch (RuntimeException e) {
 	    	e.printStackTrace();
 	    }
