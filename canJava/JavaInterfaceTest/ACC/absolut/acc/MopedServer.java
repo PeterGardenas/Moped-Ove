@@ -33,6 +33,7 @@ public class MopedServer {
 	        t.sendResponseHeaders(200, response.length());
 	        String message = getMessage(t.getRequestBody());
 	        t.close();
+		System.out.println(message);
 	        if (!message.equals("false")) {
 				/*double hai = Double.parseDouble(message);
 				int deviation = (int) Math.floor(hai);
