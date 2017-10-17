@@ -16,7 +16,6 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
 
     private SeekBar steerSeekBar;
     private VerticalSeekBar speedSeekBar;
-    //private ImageSwitcher connectedImage;
     private ImageView connectedImage;
     private TextView connectedText;
 
@@ -43,8 +42,8 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
         toggleButtonPlatoon.setOnCheckedChangeListener(new ToggleOnChangeListener("P"));
         toggleButtonAcc.setOnCheckedChangeListener(new ToggleOnChangeListener("A"));
 
-        steerSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(false));
-        speedSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(true));
+        steerSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(false, toggleButtonPlatoon));
+        speedSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(true, toggleButtonPlatoon));
         steerSeekBar.setMax(200);
         speedSeekBar.setMax(200);
         steerSeekBar.setProgress(100);
@@ -85,9 +84,8 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == DISCONNECT_INDEX) {
             SocketHandler.disconnect();
+            PostRequester.disconnect();
             menu.getItem(DISCONNECT_INDEX).setVisible(false); // Hide the disconnect option
-            //TODO uncomment
-            //view.invalidate(); // Repaint (to show "not connected" in the main view)
         }
         else if (item.getItemId() == CONFIG_INDEX) {
             Intent i = new Intent(ControlActivity.this, NetworkConnectorActivity.class);

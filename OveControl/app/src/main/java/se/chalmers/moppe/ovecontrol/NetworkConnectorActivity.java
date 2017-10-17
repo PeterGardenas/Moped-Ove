@@ -12,6 +12,7 @@ public class NetworkConnectorActivity extends Activity {
     private EditText ed_host = null;
     private EditText ed_port = null;
     private Button   btn_connect = null;
+    private int javaPort = 9090;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +47,7 @@ public class NetworkConnectorActivity extends Activity {
                 new SocketConnector(NetworkConnectorActivity.this).execute(str_host, str_port);
 
                 //Connect to java server
-                JavaServerConnection.connect(str_host, str_port+1);
+                PostRequester.connect(str_host, "" + javaPort);
             }
         });
     }

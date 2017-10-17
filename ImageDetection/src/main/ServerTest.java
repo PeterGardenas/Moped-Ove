@@ -49,8 +49,8 @@ public class ServerTest {
 		    t.close();
 			try {
 				System.out.println("Adress: " + t.getLocalAddress().getHostName());
-				//sendAnswer("192.168.137.228", response);
-				//System.out.println(response);
+				sendAnswer("192.168.48.148", response);
+				System.out.println(response);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -87,7 +87,7 @@ public class ServerTest {
             }
             
             //Store a sample slice of 100 images for testing.
-            imgFile = new File("red2/test" + i + ".jpg");
+            imgFile = new File("test.jpg");
             if (i < 100) i++;
 
             fos = new FileOutputStream(imgFile);            

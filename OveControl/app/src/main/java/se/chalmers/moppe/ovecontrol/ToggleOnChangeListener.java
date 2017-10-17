@@ -17,7 +17,7 @@ public class ToggleOnChangeListener implements ToggleButton.OnCheckedChangeListe
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         String message = tag + booleanToChar(b);
-        JavaServerConnection.send(message);
+        new PostRequester().execute(message);
     }
 
     private char booleanToChar(boolean b){

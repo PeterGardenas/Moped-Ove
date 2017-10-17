@@ -34,7 +34,22 @@ public class MopedServer {
 	        String message = getMessage(t.getRequestBody());
 	        t.close();
 	        if (!message.equals("false")) {
-				/*double hai = Double.parseDouble(message);
+	        	double steerValue = 0;
+	        	double percentage = 0.3;
+	        	double offset = Double.parseDouble(message);
+	        	if (offset < -10) {
+					steerValue = offset * percentage;
+				} else if (offset > 10) {
+	        		steerValue = offset * percentage;
+				}
+				int steerValueTmp = (int) Math.floor(steerValue);
+	        	try {
+					CanReader.getInstance().sendSteering((byte) steerValueTmp);
+				} catch (Exception e) {
+	        		e.printStackTrace();
+				}
+			}
+			/*double hai = Double.parseDouble(message);
 				int deviation = (int) Math.floor(hai);
 				int steerValue = 0;
 				try {
@@ -49,19 +64,6 @@ public class MopedServer {
 				} catch(InterruptedException e){
 					e.printStackTrace();
 				}*/
-	        	double steerValueTmp = Double.parseDouble(message);
-	        	int steerValue = (int) Math.floor(steerValueTmp);
-	        	if (steerValue < 0) {
-					steerValue = 30;
-				} else if (steerValue > 0) {
-	        		steerValue = -30;
-				}
-	        	try {
-					CanReader.getInstance().sendSteering((byte) steerValue);
-				} catch (Exception e) {
-	        		e.printStackTrace();
-				}
-			}
 	    }
 	}
 
