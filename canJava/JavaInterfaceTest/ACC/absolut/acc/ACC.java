@@ -26,8 +26,8 @@ public class ACC implements Runnable {
     int i = 0;
     //Bad values: 7 and 27
     //int[] speedValues = new int[]{0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
-    //int[] speedValues = new int[]{0, 9, 11, 13, 15, 17 ,19, 21};
-    int[] speedValues = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+    int[] speedValues = new int[]{0, 9, 11, 15, 19};
+    //int[] speedValues = new int[]{0,9,10,11,12,13,14,15,16,17,18,19,20};
     int currentSpeed;
 
     //En funktion som raknar ut ultimata distance, utbyte mot perfdist konstanten.
@@ -122,15 +122,15 @@ public class ACC implements Runnable {
     public boolean shouldBrake(int dist, int oldDist){
         int safetyDistance = 10;
 
-        if (dist < currentSpeed + safetyDistance * 2 && this.currentSpeed > 20) {
+        if (dist < currentSpeed * 2 + safetyDistance * 2 && this.currentSpeed > 20) {
             System.out.println("If Case 1");
             brakeCase = 1;
             return true;
-        } else if (dist < currentSpeed + safetyDistance && this.currentSpeed > 0 ) {
+        } else if (dist < currentSpeed * 2 + safetyDistance && this.currentSpeed > 0 ) {
             System.out.println("If Case 2");
            brakeCase = 1;
             return true;
-        } else if (dist < oldDist-dist + safetyDistance && oldDist < 150 && this.currentSpeed > 20) {
+        } else if (dist < oldDist-dist + safetyDistance * 2 && oldDist < 150 && this.currentSpeed > 20) {
             System.out.println("If Case 3");
             brakeCase = 1;
             return true;
@@ -152,27 +152,31 @@ public class ACC implements Runnable {
      */
     public void adaptSpeed(int currentDistance) {
         try {
-            if (currentDistance < (currentSpeed * 3 + 10) && currentDistance > (currentSpeed * 3 - 10)) {
+            if (currentDistance < (currentSpeed * 4 + 10) && currentDistance > (currentSpeed * 4 - 10)) {
                 currentSpeed = speedValues[i];
                 can.sendMotorSpeed((byte) currentSpeed);
-            } else if (currentDistance < currentSpeed * 2) {
+            } else if (currentDistance < currentSpeed * 3) {
                 currentSpeed = 0;
                 can.sendMotorSpeed((byte) currentSpeed);
                 if (i > 0) {
                     i--;
                 }
-            } else if (currentDistance > currentSpeed * 2 && currentDistance < currentSpeed * 3) {
+            } else if (currentDistance > currentSpeed * 3 && currentDistance < currentSpeed * 4) {
                 if (i > 0) {
                     i--;
                 }
                 currentSpeed = speedValues[i];
                 can.sendMotorSpeed((byte) currentSpeed);
-            } else if (currentDistance > currentSpeed * 3) {
-                if (i < speedValues.length - 1) {
-                    i++;
+            } else if (currentDistance > currentSpeed * 4 ) {
+                if (currentDistance > 30) {
+                    if (i < speedValues.length - 1) {
+                        i++;
+                    }
+                } else {
+                    i = 0;
                 }
-                currentSpeed = speedValues[i];
-                can.sendMotorSpeed((byte) currentSpeed);
+                    currentSpeed = speedValues[i];
+                    can.sendMotorSpeed((byte) currentSpeed);
             }
         } catch(InterruptedException ie) {
             ie.printStackTrace();

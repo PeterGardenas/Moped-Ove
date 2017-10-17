@@ -7,8 +7,8 @@ import android.widget.ToggleButton;
  * Created by Erik on 2017-09-29.
  */
 
-public class ToggleOnChangeListener implements ToggleButton.OnCheckedChangeListener {
-    String tag;
+class ToggleOnChangeListener implements ToggleButton.OnCheckedChangeListener {
+    private String tag;
     ToggleOnChangeListener(String tag){
         this.tag = tag;
     }
