@@ -142,7 +142,6 @@ public class ServerTest {
 	    wr.close();
 	    System.out.println("sent");
 
-
 	    con.getResponseCode();
 	    
 	}

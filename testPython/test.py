@@ -2,6 +2,7 @@ import requests
 import time
 import os
 import picamera
+import sys
 
 
 def postImage(session, url):
@@ -23,8 +24,10 @@ def postImage(session, url):
 
 def main():
     print("hai")
-
-    server = 'http://192.168.43.246:8080/processimage'
+    if (len(sys.argv) == 2):
+        server = 'http://' +  sys.argv[1] + '/processimage'
+    else:
+        server = 'http://192.168.43.246:8080/processimage'
 
     camera = picamera.PiCamera()
     resolution = 972
