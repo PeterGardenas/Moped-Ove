@@ -47,7 +47,7 @@ public class acc2 implements Runnable {
         while (true) {
             //try{
                 dist = (int) sensor.getDistance();
-                while (shouldBrake(dist, oldDist)) {
+                if (shouldBrake(dist, oldDist)) {
                     crucialBrake(dist, oldDist);
                 }
                 checkPlatoon(dist);
@@ -104,6 +104,8 @@ public class acc2 implements Runnable {
                         i = 0;
                         brake = false;
                     }
+                    break;
+                default:
                     break;
             }
 
