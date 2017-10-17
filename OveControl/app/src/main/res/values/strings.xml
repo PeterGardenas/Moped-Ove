@@ -1,11 +1,5 @@
 <resources>
     <string name="app_name">OveControl</string>
-
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
-    <string name="title_connected">connected</string>
-    <string name="title_not_connected">not connected</string>
     <string name="connect">Connect</string>
     <string name="host_ip">Host:</string>
     <string name="host_port">Port:</string>
