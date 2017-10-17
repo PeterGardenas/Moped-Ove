@@ -12,6 +12,9 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 public class MopedServer {
+
+
+
 	public static void init() {
 		//Copied from some stack overflow thread.
 	    try {
@@ -27,21 +30,30 @@ public class MopedServer {
 	
 	//Receives a post request, handles it and sends a response. 
 	static class ImageHandler implements HttpHandler {
-	    public void handle(HttpExchange t) throws IOException {
+
+		private double prevOffset;
+
+		public void handle(HttpExchange t) throws IOException {
 	        t.sendResponseHeaders(200, 1);
 	        String message = getMessage(t.getRequestBody());
 	        t.close();
 	        if (!message.equals("false")) {
 	        	double steerValue = 0;
-	        	double percentage = 0.3;
+	        	double lowPercentage = 0.3;
+	        	double highPercentage = 0.7;
 	        	double offset = Double.parseDouble(message);
-	        	if (offset < -10) {
-					steerValue = offset * percentage;
+	        	if (((offset >= 0 && prevOffset >= 0) || (offset < 0 && prevOffset < 0)) && abs(offset - prevOffset) > 50) {
+	        		steerValue = offset * highPercentage;
+				} else if (((offset >= 0 && prevOffset < 0) || (offset < 0 && prevOffset >= 0)) && ((abs(offset) + abs(prevOffset)) > 50)) {
+	        		steerValue = offset * highPercentage;
+				} else if (offset < -10) {
+					steerValue = offset * lowPercentage;
 				} else if (offset > 10) {
-	        		steerValue = offset * percentage;
+	        		steerValue = offset * lowPercentage;
 				}
 				int steerValueTmp = (int) Math.floor(steerValue);
 	        	try {
+	        		prevOffset = offset;
 					CanReader.getInstance().sendSteering((byte) steerValueTmp);
 				} catch (Exception e) {
 	        		e.printStackTrace();
