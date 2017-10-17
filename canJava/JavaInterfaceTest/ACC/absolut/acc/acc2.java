@@ -26,7 +26,7 @@ public class acc2 implements Runnable {
 
     int i = 0;
     //Bad values: 7 and 27
-    int[] speedValues = new int[]{0, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
+    int[] speedValues = new int[]{0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
     int speed;
 
     //En funktion som raknar ut ultimata distance, utbyte mot perfdist konstanten.
@@ -105,6 +105,8 @@ public class acc2 implements Runnable {
                         brake = false;
                     }
                     break;
+                default:
+                    break;
             }
 
             if (!brake) {
@@ -119,19 +121,24 @@ public class acc2 implements Runnable {
 
     public boolean shouldBrake(int dist, int oldDist){
         if (dist < speedValues[i] + 20 && speed > 20) {
+            System.out.println("If Case 1");
             brakeCase = 1;
             return true;
         } else if (dist < speedValues[i] && speed > 0 ) {
+            System.out.println("If Case 2");
            brakeCase = 2;
             return true;
-        } else if (dist < oldDist-dist + 10 && oldDist < 150) {
+        } else if (dist < oldDist-dist + 10 && oldDist < 150 && speed > 20) {
+            System.out.println("If Case 3");
             brakeCase = 1;
             return true;
         } else if ( oldDist - dist > 40 && oldDist < 170) {
+            System.out.println("If Case 4");
             brakeCase = 2;
             return true;
         } else if (dist < 15) {
-            brakeCase = 5;
+            System.out.println("If Case 5");
+            brakeCase = 3;
             return true;
         }
         return false;
