@@ -49,6 +49,7 @@ public class ServerTest {
 			try {
 				System.out.println("Adress: " + t.getLocalAddress().getHostName());
 				sendAnswer("192.168.137.228", response);
+				System.out.println(response);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
