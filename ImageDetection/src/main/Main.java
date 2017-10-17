@@ -7,7 +7,7 @@ public class Main {
 	private static String standardFileName = "tempIMG/test0.jpg";
 
 	public static void main(String[] args) {
-goThroughImages();
+//goThroughImages();
 		//new ImageDetector("red/test25Bug.jpg").draw();
 		//new ImageDetector("red/test" + 58 + ".jpg").draw();
 		//new ImageDetector("bilder/checkdraw.jpg").draw();

@@ -34,7 +34,7 @@ public class MopedServer {
 	        String message = getMessage(t.getRequestBody());
 	        t.close();
 	        if (!message.equals("false")) {
-	        	int steerValue = 0;
+	        	double steerValue = 0;
 	        	double percentage = 0.3;
 	        	double offset = Double.parseDouble(message);
 	        	if (offset < -10) {
@@ -42,9 +42,9 @@ public class MopedServer {
 				} else if (offset > 10) {
 	        		steerValue = offset * percentage;
 				}
-				steerValue = (int) Math.floor(steerValue);
+				int steerValueTmp = (int) Math.floor(steerValue);
 	        	try {
-					CanReader.getInstance().sendSteering((byte) steerValue);
+					CanReader.getInstance().sendSteering((byte) steerValueTmp);
 				} catch (Exception e) {
 	        		e.printStackTrace();
 				}
