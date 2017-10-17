@@ -51,11 +51,11 @@ public class MopedServer {
 				}*/
 	        	double steerValueTmp = Double.parseDouble(message);
 	        	int steerValue = (int) Math.floor(steerValueTmp);
-	        	if (steerValue < 0) {
+	        	/*if (steerValue < 0) {
 					steerValue = 30;
 				} else if (steerValue > 0) {
 	        		steerValue = -30;
-				}
+				}*/
 	        	try {
 					CanReader.getInstance().sendSteering((byte) steerValue);
 				} catch (Exception e) {
