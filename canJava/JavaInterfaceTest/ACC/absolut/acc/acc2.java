@@ -128,7 +128,7 @@ public class acc2 implements Runnable {
             System.out.println("If Case 2");
            brakeCase = 2;
             return true;
-        } else if (dist < oldDist-dist + 10 && oldDist < 150) {
+        } else if (dist < oldDist-dist + 10 && oldDist < 150 && speed > 20) {
             System.out.println("If Case 3");
             brakeCase = 1;
             return true;
