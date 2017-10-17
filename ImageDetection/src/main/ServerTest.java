@@ -43,10 +43,9 @@ public class ServerTest {
 	    public void handle(HttpExchange t) throws IOException {
 	    	System.out.println("Message recived");
 	        loadImage(t.getRequestBody());
-	    
 	    	String response = new ImageDetector("test.jpg").getResult();
 	    	t.sendResponseHeaders(200, response.length());
-	    	String adress = t.getLocalAddress().getAddress().getHostAddress().trim();
+	    	String adress = t.getRemoteAddress().getAddress().getHostAddress().trim();
 		    t.close();
 			try {
 				System.out.println("Adress: " + adress);
