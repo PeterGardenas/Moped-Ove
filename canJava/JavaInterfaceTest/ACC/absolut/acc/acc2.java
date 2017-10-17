@@ -28,19 +28,16 @@ public class acc2 implements Runnable {
     //Bad values: 7 and 27
     int[] speedValues = new int[]{0, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
     int speed;
+    int steer;
 
     //En funktion som raknar ut ultimata distance, utbyte mot perfdist konstanten.
     public void doFunction(){
         int oldDist,  dist;
-        //int minPerfDist, perfDist;
-        //int [] speedValues = new int[]{0, 1, 3, 5, 7, 10, 12, 17, 21, 23, 25};
-        //perfDist = 100;
-        //minPerfDist = 70;
 
         oldDist = (int) sensor.getDistance();
         try {
-            speed = 0;
-            can.sendSteering((byte) speed);
+            steer = 0;
+            can.sendSteering((byte) steer);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -131,7 +128,7 @@ public class acc2 implements Runnable {
             brakeCase = 2;
             return true;
         } else if (dist < 15) {
-            brakeCase = 5;
+            brakeCase = 3;
             return true;
         }
         return false;
