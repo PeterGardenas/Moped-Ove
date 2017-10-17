@@ -3,7 +3,7 @@ package absolut.acc;
 import absolut.can.CanReader;
 import java.util.Arrays;
 
-public class Sensor{
+public class  Sensor{
 
     public Sensor(){}
 
@@ -12,8 +12,10 @@ public class Sensor{
         Arrays.sort(a);
         double median;
         if (a.length % 2 == 1) {
+            System.out.println(Double.toString(((double)a[a.length/2] + (double)a[a.length/2 - 1]) / 2.0));
             return ((double)a[a.length/2] + (double)a[a.length/2 - 1]) / 2.0;
         } else {
+            System.out.println(Double.toString((double)a[a.length/2]));
             return (double)a[a.length/2];
         }
     }

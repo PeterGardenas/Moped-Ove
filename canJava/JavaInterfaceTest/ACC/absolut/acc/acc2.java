@@ -25,7 +25,9 @@ public class acc2 implements Runnable {
 
 
     int i = 0;
-    int[] speedValues = new int[]{0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
+    //Bad values: 7 and 27
+    int[] speedValues = new int[]{0, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
+    int speed;
 
     //En funktion som raknar ut ultimata distance, utbyte mot perfdist konstanten.
     public void doFunction(){
@@ -37,23 +39,24 @@ public class acc2 implements Runnable {
 
         oldDist = (int) sensor.getDistance();
         try {
-            can.sendSteering((byte) 0);
+            speed = 0;
+            can.sendSteering((byte) speed);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         while (true) {
-            try{
+            //try{
                 dist = (int) sensor.getDistance();
-                if (shouldBreak(dist, oldDist)) {
-                    crucialBreak(dist, oldDist);
+                if (shouldBrake(dist, oldDist)) {
+                    crucialBrake(dist, oldDist);
                 }
                 checkPlatoon(dist);
                 oldDist = dist;
-                Thread.sleep(25);
+                //Thread.sleep(25);
 
-            } catch(InterruptedException ie){
-                ie.printStackTrace();
-            }
+            //} catch(InterruptedException ie){
+              //  ie.printStackTrace();
+            //}
         }
 
     }
@@ -62,29 +65,73 @@ public class acc2 implements Runnable {
      * @param dist is the current distance from the MOPED/Object to the MOPED in front
      * @param oldDist is the previous distance from the MOPED/Object to the MOPED in front
      */
-    public void crucialBreak(int dist, int oldDist) {
-        System.out.println("ACTIVATE CRUCIAL BREAK");
+    int brakeCase;
+    public void crucialBrake(int dist, int oldDist) {
         try {
-            while (dist < speedValues[i] && (i>3)) {
-                can.sendMotorSpeed((byte) -100);
-                Thread.sleep(5);
-                oldDist = dist;
-                dist = (int) sensor.getDistance();
+            boolean brake = true;
+            switch (brakeCase) {
+                case 1:
+                    while (brake || dist + 10 < oldDist) {
+                        System.out.println("ACTIVATE CRUCIAL BRAKE");
+                        speed = -100;
+                        can.sendMotorSpeed((byte) speed);
+                        //Thread.sleep(5);
+                        oldDist = dist;
+                        dist = (int) sensor.getDistance();
+                        i = 0;
+                        brake = false;
+                    }
+                    break;
+                case 2:
+                    while ( brake || dist + 5 < oldDist) {
+                        System.out.println("ACTIVATE semi-CRUCIAL BRAKE");
+                        speed = -40;
+                        can.sendMotorSpeed((byte) speed);
+                        //Thread.sleep(5);
+                        oldDist = dist;
+                        dist = (int) sensor.getDistance();
+                        i = 0;
+                        brake = false;
+                    }
+                    break;
+                case 3:
+                    while (dist < 15){
+                        System.out.println("Reverse!");
+                        speed = -10;
+                        can.sendMotorSpeed((byte) speed);
+                        //Thread.sleep(5);
+                        dist = (int) sensor.getDistance();
+                        i = 0;
+                        brake = false;
+                    }
+                    break;
             }
-            while (dist < 25){
-                can.sendMotorSpeed((byte) -10);
-                Thread.sleep(5);
-                oldDist = dist;
-                dist = (int) sensor.getDistance();
+
+            if (!brake) {
+                speed = 0;
+                can.sendMotorSpeed((byte) speed);
+                Thread.sleep(100);
             }
-            i = 0;
         } catch (InterruptedException ie) {
             ie.printStackTrace();
         }
     }
 
-    public boolean shouldBreak(int dist, int oldDist){
-        if (dist < speedValues[i] || dist < 25) {
+    public boolean shouldBrake(int dist, int oldDist){
+        if (dist < speedValues[i] + 20 && speed > 20) {
+            brakeCase = 1;
+            return true;
+        } else if (dist < speedValues[i] && speed > 0 ) {
+           brakeCase = 2;
+            return true;
+        } else if (dist < oldDist-dist + 10 && oldDist < 150) {
+            brakeCase = 1;
+            return true;
+        } else if ( oldDist - dist > 40 && oldDist < 170) {
+            brakeCase = 2;
+            return true;
+        } else if (dist < 15) {
+            brakeCase = 5;
             return true;
         }
         return false;
@@ -93,29 +140,30 @@ public class acc2 implements Runnable {
     /**
      * Adjusts the distance to the MOPED in front by accelerating or decelerating
      * @param dist is the current distance from the MOPED/Object to the MOPED in front
-     * @param perfDist is the perfect distance to the MOPED in front for platooning
-     * @param minDist is the minimum distance to the MOPED in front for platooning
-     * @param speedValues is the ideal values when settning the speed for the MOPED
      */
     public void checkPlatoon(int dist) {
         try {
             if (dist < (speedValues[i] * 3 + 10) && dist > (speedValues[i] * 3 - 10)) {
-
+                speed = speedValues[i];
+                can.sendMotorSpeed((byte) speed);
             } else if (dist < speedValues[i] * 2) {
-                can.sendMotorSpeed((byte) 0);
+                speed = 0;
+                can.sendMotorSpeed((byte) speed);
                 if (i > 0) {
                     i--;
                 }
-            } else if (dist > speedValues[i] * 2 && dist < speedValues[i] * 2) {
+            } else if (dist > speedValues[i] * 2 && dist < speedValues[i] * 3) {
                 if (i > 0) {
                     i--;
                 }
-                can.sendMotorSpeed((byte) speedValues[i]);
+                speed = speedValues[i];
+                can.sendMotorSpeed((byte) speed);
             } else if (dist > speedValues[i] * 3) {
-                if (i < speedValues.length - 12) {
+                if (i < speedValues.length - 11) {
                     i++;
                 }
-                can.sendMotorSpeed((byte) speedValues[i]);
+                speed = speedValues[i];
+                can.sendMotorSpeed((byte) speed);
             }
         } catch(InterruptedException ie) {
             ie.printStackTrace();
