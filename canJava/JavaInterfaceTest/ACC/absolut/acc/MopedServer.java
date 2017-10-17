@@ -28,9 +28,7 @@ public class MopedServer {
 	//Receives a post request, handles it and sends a response. 
 	static class ImageHandler implements HttpHandler {
 	    public void handle(HttpExchange t) throws IOException {
-	    	System.out.println("Message recived");
-	        String response = "hello world";
-	        t.sendResponseHeaders(200, response.length());
+	        t.sendResponseHeaders(200, 1);
 	        String message = getMessage(t.getRequestBody());
 	        t.close();
 	        if (!message.equals("false")) {
