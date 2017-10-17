@@ -167,7 +167,7 @@ public class ACC implements Runnable {
                 speed = speedValues[i];
                 can.sendMotorSpeed((byte) speed);
             } else if (dist > speedValues[i] * 3) {
-                if (i < speedValues.length) {
+                if (i < speedValues.length - 1) {
                     i++;
                 }
                 speed = speedValues[i];
