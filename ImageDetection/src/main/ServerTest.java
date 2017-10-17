@@ -43,7 +43,9 @@ public class ServerTest {
 	    public void handle(HttpExchange t) throws IOException {
 	    	System.out.println("Message recived");
 	        loadImage(t.getRequestBody());
-	    	String response = new ImageDetector("test.jpg").getResult();
+	    
+	    	//String response = new ImageDetector("test.jpg").getResult();
+	        String response = "hej hej";
 	    	t.sendResponseHeaders(200, response.length());
 		    t.close();
 			try {
@@ -86,7 +88,7 @@ public class ServerTest {
             }
             
             //Store a sample slice of 100 images for testing.
-            imgFile = new File("test.jpg");
+            imgFile = new File("red2/test" + i + ".jpg");
             if (i < 100) i++;
 
             fos = new FileOutputStream(imgFile);            
