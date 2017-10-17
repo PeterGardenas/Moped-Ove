@@ -26,8 +26,8 @@ public class ACC implements Runnable {
     int i = 0;
     //Bad values: 7 and 27
     //int[] speedValues = new int[]{0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
-    //int[] speedValues = new int[]{0, 9, 11, 13, 15, 17 ,19, 21};
-    int[] speedValues = new int[]{0,9,10,11,12,13,14,15,16,17,18,19,20};
+    int[] speedValues = new int[]{0, 9, 11, 15, 19};
+    //int[] speedValues = new int[]{0,9,10,11,12,13,14,15,16,17,18,19,20};
     int currentSpeed;
 
     //En funktion som raknar ut ultimata distance, utbyte mot perfdist konstanten.
@@ -167,12 +167,12 @@ public class ACC implements Runnable {
                 }
                 currentSpeed = speedValues[i];
                 can.sendMotorSpeed((byte) currentSpeed);
-            } else if (currentDistance > currentSpeed * 3) {
-                if (i < speedValues.length - 1) {
-                    i++;
-                }
-                currentSpeed = speedValues[i];
-                can.sendMotorSpeed((byte) currentSpeed);
+            } else if (currentDistance > currentSpeed * 3 && currentDistance > 30 ) {
+                    if (i < speedValues.length - 1) {
+                        i++;
+                    }
+                    currentSpeed = speedValues[i];
+                    can.sendMotorSpeed((byte) currentSpeed);
             }
         } catch(InterruptedException ie) {
             ie.printStackTrace();
