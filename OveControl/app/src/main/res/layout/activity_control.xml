@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#b6b6b6"
-    android:id="@+id/main_content"
     tools:context="se.chalmers.moppe.ovecontrol.ControlActivity">
 
     <SeekBar
@@ -15,12 +14,6 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
         android:thumb="@drawable/thumb_image"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </RelativeLayout>
 
     <GridLayout
         android:layout_width="match_parent"
@@ -74,14 +67,13 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/platooningText"
                     android:layout_width="89dp"
                     android:layout_height="wrap_content"
                     android:text="@string/platooning" />
 
                 <ToggleButton
                     android:id="@+id/toggleButtonPlatoon"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
@@ -95,7 +87,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/accText"
                     android:layout_width="89dp"
                     android:layout_height="wrap_content"
                     android:text="@string/acc" />
