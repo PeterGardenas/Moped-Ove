@@ -24,7 +24,7 @@ def postImage(session, url):
 def main():
     print("hai")
 
-    server = 'http://192.168.137.149:8080/processimage'
+    server = 'http://192.168.43.148:8080/processimage'
 
     camera = picamera.PiCamera()
     resolution = 972
