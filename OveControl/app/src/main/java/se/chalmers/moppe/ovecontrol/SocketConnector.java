@@ -13,7 +13,7 @@ import java.net.Socket;
      * (typically such tasks should not be done from the UI-thread, otherwise a
      * NetworkOnMainThreadException exception may be thrown by the Android runtime tools).
      */
-public class SocketConnector extends AsyncTask<String, Void, String> {
+public class SocketConnector extends AsyncTask<String, Void, Void> {
     private final static int CONNECTION_TIMEOUT = 3000;
 
     private Socket socket = null;
@@ -27,7 +27,7 @@ public class SocketConnector extends AsyncTask<String, Void, String> {
     /*
      * Establish a socket connection in the background.
      */
-    protected String doInBackground(String... params) {
+    protected Void doInBackground(String... params) {
         try {
             msg = params[0] + ":" + params[1];
 

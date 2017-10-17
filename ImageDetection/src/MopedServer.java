@@ -3,7 +3,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
+import java.util.List;
+import java.util.Map;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -35,8 +38,6 @@ public class MopedServer {
 	}
 	
 	public static String getResult(InputStream is) {
-
-
 	    BufferedReader in = new BufferedReader(
 	            new InputStreamReader(is));
 	    String inputLine;
@@ -50,21 +51,42 @@ public class MopedServer {
 	    	e.printStackTrace();
 	    }
 	    return response.substring(response.indexOf("startResponse"), response.indexOf("endResponse"));
+	}
 
-		
+	public static String streamToString(InputStream is) {
+		BufferedReader in = new BufferedReader(
+				new InputStreamReader(is));
+		String inputLine;
+		StringBuilder response = new StringBuilder();
+		try {
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return response.toString();
 	}
 	//Receives post request from app and handles it
 	private static class AppHandler implements HttpHandler {
 		@Override
 		public void handle(HttpExchange t) throws IOException {
-			String message = getResult(t.getRequestBody());
+			System.out.println("APP rec");
+			String message = streamToString(t.getRequestBody());
+
 			System.out.println("Message received: " + message);
 			if (message.charAt(0) == 'P'){
+				System.out.println("Platoon " + (message.charAt(1) == 'T'));
 //				setPlatoon((message.charAt(1) == 'T'))
 
 			}else if (message.charAt(0) == 'A'){
+				System.out.println("ACC " + (message.charAt(1) == 'T'));
 //				setACC((message.charAt(1) == 'T'));
 			}
+			String response = "hello world";
+			//Has to send a response, otherwise the app prints an error
+			t.sendResponseHeaders(200, 1);
 			t.close();
 		}
 	}
