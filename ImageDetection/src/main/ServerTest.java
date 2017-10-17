@@ -45,7 +45,6 @@ public class ServerTest {
 	        loadImage(t.getRequestBody());
 	    
 	    	String response = new ImageDetector("test.jpg").getResult();
-	        //String response = "hej hej";
 	    	t.sendResponseHeaders(200, response.length());
 		    t.close();
 			try {

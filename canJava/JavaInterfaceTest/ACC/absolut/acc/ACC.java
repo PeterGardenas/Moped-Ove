@@ -1,6 +1,5 @@
 package absolut.acc;
 
-import java.io.IOException;
 import absolut.can.CanReader;
 
 
@@ -29,31 +28,30 @@ public class ACC implements Runnable {
     //int[] speedValues = new int[]{0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
     //int[] speedValues = new int[]{0, 9, 11, 13, 15, 17 ,19, 21};
     int[] speedValues = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
-    int speed;
+    int currentSpeed;
 
     //En funktion som raknar ut ultimata distance, utbyte mot perfdist konstanten.
     public void doFunction(){
-        int oldDist,  dist;
+        int lastDistance,  currentDistance;
         //int minPerfDist, perfDist;
         //int [] speedValues = new int[]{0, 1, 3, 5, 7, 10, 12, 17, 21, 23, 25};
         //perfDist = 100;
         //minPerfDist = 70;
 
-        oldDist = (int) sensor.getDistance();
+        lastDistance = (int) sensor.getDistance();
         try {
-            speed = 0;
-            can.sendSteering((byte) speed);
+            can.sendSteering((byte) 0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         while (true) {
             //try{
-                dist = (int) sensor.getDistance();
-                if (shouldBrake(dist, oldDist)) {
-                    crucialBrake(dist, oldDist);
+                currentDistance = (int) sensor.getDistance();
+                if (shouldBrake(currentDistance, lastDistance)) {
+                    crucialBrake(currentDistance, lastDistance);
                 }
-                checkPlatoon(dist);
-                oldDist = dist;
+                adaptSpeed(currentDistance);
+                lastDistance = currentDistance;
                 //Thread.sleep(25);
 
             //} catch(InterruptedException ie){
@@ -68,41 +66,41 @@ public class ACC implements Runnable {
      * @param oldDist is the previous distance from the MOPED/Object to the MOPED in front
      */
     int brakeCase;
-    public void crucialBrake(int dist, int oldDist) {
+    public void crucialBrake(int currentDistance, int lastDistance) {
         try {
             boolean brake = true;
             switch (brakeCase) {
                 case 1:
-                    while (brake || dist + 10 < oldDist) {
+                    while (brake || currentDistance + 10 < lastDistance) {
                         System.out.println("ACTIVATE CRUCIAL BRAKE");
-                        speed = -100;
-                        can.sendMotorSpeed((byte) speed);
+                        currentSpeed = -100;
+                        can.sendMotorSpeed((byte) currentSpeed);
                         //Thread.sleep(5);
-                        oldDist = dist;
-                        dist = (int) sensor.getDistance();
+                        lastDistance = currentDistance;
+                        currentDistance = (int) sensor.getDistance();
                         i = 0;
                         brake = false;
                     }
                     break;
                 case 2:
-                    while ( brake || dist + 5 < oldDist) {
+                    while ( brake || currentDistance + 5 < lastDistance) {
                         System.out.println("ACTIVATE semi-CRUCIAL BRAKE");
-                        speed = -40;
-                        can.sendMotorSpeed((byte) speed);
+                        currentSpeed = -40;
+                        can.sendMotorSpeed((byte) currentSpeed);
                         //Thread.sleep(5);
-                        oldDist = dist;
-                        dist = (int) sensor.getDistance();
+                        lastDistance = currentDistance;
+                        currentDistance = (int) sensor.getDistance();
                         i = 0;
                         brake = false;
                     }
                     break;
                 case 3:
-                    while (dist < 15){
+                    while (currentDistance < 15){
                         System.out.println("Reverse!");
-                        speed = -10;
-                        can.sendMotorSpeed((byte) speed);
+                        currentSpeed = -10;
+                        can.sendMotorSpeed((byte) currentSpeed);
                         //Thread.sleep(5);
-                        dist = (int) sensor.getDistance();
+                        currentDistance = (int) sensor.getDistance();
                         i = 0;
                         brake = false;
                     }
@@ -112,8 +110,8 @@ public class ACC implements Runnable {
             }
 
             if (!brake) {
-                speed = 0;
-                can.sendMotorSpeed((byte) speed);
+                currentSpeed = 0;
+                can.sendMotorSpeed((byte) currentSpeed);
                 Thread.sleep(100);
             }
         } catch (InterruptedException ie) {
@@ -122,15 +120,17 @@ public class ACC implements Runnable {
     }
 
     public boolean shouldBrake(int dist, int oldDist){
-        if (dist < speedValues[i] + 20 && speed > 20) {
+        int safetyDistance = 10;
+
+        if (dist < currentSpeed + safetyDistance * 2 && this.currentSpeed > 20) {
             System.out.println("If Case 1");
             brakeCase = 1;
             return true;
-        } else if (dist < speedValues[i] + 10 && speed > 0 ) {
+        } else if (dist < currentSpeed + safetyDistance && this.currentSpeed > 0 ) {
             System.out.println("If Case 2");
            brakeCase = 1;
             return true;
-        } else if (dist < oldDist-dist + 10 && oldDist < 150 && speed > 20) {
+        } else if (dist < oldDist-dist + safetyDistance && oldDist < 150 && this.currentSpeed > 20) {
             System.out.println("If Case 3");
             brakeCase = 1;
             return true;
@@ -148,31 +148,31 @@ public class ACC implements Runnable {
 
     /**
      * Adjusts the distance to the MOPED in front by accelerating or decelerating
-     * @param dist is the current distance from the MOPED/Object to the MOPED in front
+     * @param currentDistance is the current distance from the MOPED/Object to the MOPED in front
      */
-    public void checkPlatoon(int dist) {
+    public void adaptSpeed(int currentDistance) {
         try {
-            if (dist < (speedValues[i] * 3 + 10) && dist > (speedValues[i] * 3 - 10)) {
-                speed = speedValues[i];
-                can.sendMotorSpeed((byte) speed);
-            } else if (dist < speedValues[i] * 2) {
-                speed = 0;
-                can.sendMotorSpeed((byte) speed);
+            if (currentDistance < (currentSpeed * 3 + 10) && currentDistance > (currentSpeed * 3 - 10)) {
+                currentSpeed = speedValues[i];
+                can.sendMotorSpeed((byte) currentSpeed);
+            } else if (currentDistance < currentSpeed * 2) {
+                currentSpeed = 0;
+                can.sendMotorSpeed((byte) currentSpeed);
                 if (i > 0) {
                     i--;
                 }
-            } else if (dist > speedValues[i] * 2 && dist < speedValues[i] * 3) {
+            } else if (currentDistance > currentSpeed * 2 && currentDistance < currentSpeed * 3) {
                 if (i > 0) {
                     i--;
                 }
-                speed = speedValues[i];
-                can.sendMotorSpeed((byte) speed);
-            } else if (dist > speedValues[i] * 3) {
+                currentSpeed = speedValues[i];
+                can.sendMotorSpeed((byte) currentSpeed);
+            } else if (currentDistance > currentSpeed * 3) {
                 if (i < speedValues.length - 1) {
                     i++;
                 }
-                speed = speedValues[i];
-                can.sendMotorSpeed((byte) speed);
+                currentSpeed = speedValues[i];
+                can.sendMotorSpeed((byte) currentSpeed);
             }
         } catch(InterruptedException ie) {
             ie.printStackTrace();

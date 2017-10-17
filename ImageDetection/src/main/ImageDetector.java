@@ -21,6 +21,7 @@ public class ImageDetector extends JPanel {
 	private long startTime = System.currentTimeMillis();
 	
 	public ImageDetector(String fileName) {
+		startTime = System.currentTimeMillis();
 		loadImage(fileName);
 		System.out.println("It took: " + (System.currentTimeMillis() - ServerTest.messageRecived));
 		createArrayLists();
@@ -56,7 +57,8 @@ public class ImageDetector extends JPanel {
                     if (!wasPreviousCorrectColor) startOfInterval = x;
                     wasPreviousCorrectColor = true;
                 } else {
-                    if (wasPreviousCorrectColor) {
+                	//There seems to be problems if startOfInterval + 1 != x
+                    if (wasPreviousCorrectColor &&  startOfInterval + 1 != x) {
                         coleredLines.get(y).add(new Line(y, startOfInterval, x));
                     }
                     wasPreviousCorrectColor = false;
@@ -65,6 +67,7 @@ public class ImageDetector extends JPanel {
 
             if (wasPreviousCorrectColor) {
                 coleredLines.get(y).add(new Line(y, startOfInterval, image.getHeight() - 1));
+                wasPreviousCorrectColor = false;
             }
         }
 
@@ -164,8 +167,8 @@ public class ImageDetector extends JPanel {
 		int blue = clr & 0x000000ff;
 		
 //		return (red > 160 && green < 140 && blue < 140);
-//		return (red > 110 && green < 80 && blue < 80);
-		return (red > 160 && green < 150 && blue < 150) || (red > 110 && green < 80 && blue < 80);
+		return (red > 110 && green < 100 && blue < 100) || (red > 130 && green < 130 && blue < 130);
+		//return (red > 160 && green < 150 && blue < 150) || (red > 110 && green < 80 && blue < 80);
 
 	  //return (Math.abs(red - 240) + Math.abs(green - 240) + blue) < 260;
 	}
@@ -196,7 +199,6 @@ public class ImageDetector extends JPanel {
 	//Called by the draw method.
 	public void paint(Graphics g) {
         for (int i = 0; i < finalShapes.size(); i++) {
-
             if (finalShapes.get(i).isCircle(g)) {
                 g.setColor(Color.green);
             }
@@ -221,13 +223,12 @@ public class ImageDetector extends JPanel {
 	public String getResult() {
 		Shape finalShape = null;
 		for (int i = 0; i < finalShapes.size(); i++) {
-			if (finalShapes.get(i).isCircle(null) || finalShapes.get(i).isEllipse(null)) {
+			if (finalShapes.get(i).isCircle(null)) {
 				if (finalShape == null || finalShapes.get(i).getWidth() > finalShape.getWidth()) {
 					finalShape = finalShapes.get(i);
 				}
 			}	
 		}
-		
 		return finalShape == null ? "false" : "" + finalShape.distanceFromCenter(image.getWidth()) * 100;
 	}
 	
