@@ -39,16 +39,14 @@ public class MopedServer {
 	        t.close();
 	        if (!message.equals("false")) {
 	        	double steerValue = 0;
-	        	double lowPercentage = 0.3;
-	        	double highPercentage = 0.7;
+	        	double lowPercentage = 0.4;
+	        	double highPercentage = 0.8;
 	        	double offset = Double.parseDouble(message);
 	        	if (((offset >= 0 && prevOffset >= 0) || (offset < 0 && prevOffset < 0)) && Math.abs(offset - prevOffset) > 50) {
 	        		steerValue = offset * highPercentage;
 				} else if (((offset >= 0 && prevOffset < 0) || (offset < 0 && prevOffset >= 0)) && ((Math.abs(offset) + Math.abs(prevOffset)) > 50)) {
 	        		steerValue = offset * highPercentage;
-				} else if (offset < -10) {
-					steerValue = offset * lowPercentage;
-				} else if (offset > 10) {
+				} else {
 	        		steerValue = offset * lowPercentage;
 				}
 				int steerValueTmp = (int) Math.floor(steerValue);
@@ -59,21 +57,6 @@ public class MopedServer {
 	        		e.printStackTrace();
 				}
 			}
-			/*double hai = Double.parseDouble(message);
-				int deviation = (int) Math.floor(hai);
-				int steerValue = 0;
-				try {
-					while (deviation > 5 && deviation < -5) {
-						if (deviation < 0) {
-							steerValue = 10;
-						} else {
-							steerValue = -10;
-						}
-						CanReader.getInstance().sendSteering((byte) steerValue);
-					}
-				} catch(InterruptedException e){
-					e.printStackTrace();
-				}*/
 	    }
 	}
 
