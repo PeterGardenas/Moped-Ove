@@ -26,7 +26,7 @@ public class acc2 implements Runnable {
 
     int i = 0;
     //Bad values: 7 and 27
-    int[] speedValues = new int[]{0, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
+    int[] speedValues = new int[]{0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
     int speed;
 
     //En funktion som raknar ut ultimata distance, utbyte mot perfdist konstanten.
@@ -47,7 +47,7 @@ public class acc2 implements Runnable {
         while (true) {
             //try{
                 dist = (int) sensor.getDistance();
-                if (shouldBrake(dist, oldDist)) {
+                while (shouldBrake(dist, oldDist)) {
                     crucialBrake(dist, oldDist);
                 }
                 checkPlatoon(dist);
@@ -131,7 +131,7 @@ public class acc2 implements Runnable {
             brakeCase = 2;
             return true;
         } else if (dist < 15) {
-            brakeCase = 5;
+            brakeCase = 3;
             return true;
         }
         return false;
