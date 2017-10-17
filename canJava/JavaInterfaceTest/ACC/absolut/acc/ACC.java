@@ -27,7 +27,7 @@ public class ACC implements Runnable {
     int i = 0;
     //Bad values: 7 and 27
     //int[] speedValues = new int[]{0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
-    int[] speedValues = new int[]{0, 7, 11, 15 ,19};
+    int[] speedValues = new int[]{0, 9, 11, 13, 15, 17 ,19, 21, 23, 25};
     int speed;
 
     //En funktion som raknar ut ultimata distance, utbyte mot perfdist konstanten.
