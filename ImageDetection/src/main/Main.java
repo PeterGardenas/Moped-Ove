@@ -7,9 +7,8 @@ public class Main {
 	private static String standardFileName = "tempIMG/test0.jpg";
 
 	public static void main(String[] args) {
-		goThroughImages();
-		//new ImageDetector("red/test25Bug.jpg").draw();
-		//new ImageDetector("red2/test" + 7 + ".jpg").draw();
+		//goThroughImages();
+		new ImageDetector("red2/test" + 19 + ".jpg").draw();
 		//new ImageDetector("bilder/checkdraw.jpg").draw();
 		//new ImageDetector("img.jpg").draw();
 
@@ -18,7 +17,7 @@ public class Main {
 	
 	private static void goThroughImages() {
 		int count = 0;
-		for (int i = 0; i < 11; i++) {
+		for (int i = 0; i < 29; i++) {
 			int count2 = 0;
 			ImageDetector imageDetector = new ImageDetector("red2/test" + i + ".jpg");
 			List<Shape> shapes = imageDetector.getFinalShapes();

@@ -16,7 +16,7 @@ import com.sun.net.httpserver.HttpServer;
 
 public class ServerTest {
 	public static long messageRecived = System.currentTimeMillis();
-	public static int i = 0;
+	public static int i = 11;
 
 	
 	/* To kill the server on windows:
@@ -46,10 +46,11 @@ public class ServerTest {
 	    
 	    	String response = new ImageDetector("test.jpg").getResult();
 	    	t.sendResponseHeaders(200, response.length());
+	    	String adress = t.getLocalAddress().getAddress().getHostAddress().trim();
 		    t.close();
 			try {
-				System.out.println("Adress: " + t.getLocalAddress().getHostName());
-				sendAnswer("192.168.48.148", response);
+				System.out.println("Adress: " + adress);
+				sendAnswer(adress, response);
 				System.out.println(response);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
