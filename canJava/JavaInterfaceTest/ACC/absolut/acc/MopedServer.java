@@ -49,10 +49,15 @@ public class MopedServer {
 				} catch(InterruptedException e){
 					e.printStackTrace();
 				}*/
-	        	double hai = Double.parseDouble(message);
-	        	int temp = (int) Math.floor(hai);
+	        	double steerValueTmp = Double.parseDouble(message);
+	        	int steerValue = (int) Math.floor(steerValueTmp);
+	        	if (steerValue < 0) {
+					steerValue = 30;
+				} else if (steerValue > 0) {
+	        		steerValue = -30;
+				}
 	        	try {
-					CanReader.getInstance().sendSteering((byte) temp);
+					CanReader.getInstance().sendSteering((byte) steerValue);
 				} catch (Exception e) {
 	        		e.printStackTrace();
 				}
