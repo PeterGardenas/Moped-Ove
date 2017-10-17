@@ -12,7 +12,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 public class MopedServer {
-	public static void main(String[] args) throws Exception {
+	public static void init() {
 		//Copied from some stack overflow thread.
 	    try {
 	    	HttpServer server = HttpServer.create(new InetSocketAddress(9090), 0);
@@ -22,7 +22,7 @@ public class MopedServer {
 		    System.out.println("Server up");
 	    } catch (RuntimeException e) {
 	    	e.printStackTrace();
-	    }
+	    } catch (IOException e) {}
 	}
 	
 	//Receives a post request, handles it and sends a response. 
@@ -34,14 +34,36 @@ public class MopedServer {
 	        String message = getMessage(t.getRequestBody());
 	        t.close();
 	        if (!message.equals("false")) {
-	        	double hai = Double.parseDouble(message);
-	        	int temp = (int) Math.floor(hai);
+	        	double steerValue = 0;
+	        	double percentage = 0.3;
+	        	double offset = Double.parseDouble(message);
+	        	if (offset < -10) {
+					steerValue = offset * percentage;
+				} else if (offset > 10) {
+	        		steerValue = offset * percentage;
+				}
+				int steerValueTmp = (int) Math.floor(steerValue);
 	        	try {
-					CanReader.getInstance().sendSteering((byte) temp);
+					CanReader.getInstance().sendSteering((byte) steerValueTmp);
 				} catch (Exception e) {
 	        		e.printStackTrace();
 				}
 			}
+			/*double hai = Double.parseDouble(message);
+				int deviation = (int) Math.floor(hai);
+				int steerValue = 0;
+				try {
+					while (deviation > 5 && deviation < -5) {
+						if (deviation < 0) {
+							steerValue = 10;
+						} else {
+							steerValue = -10;
+						}
+						CanReader.getInstance().sendSteering((byte) steerValue);
+					}
+				} catch(InterruptedException e){
+					e.printStackTrace();
+				}*/
 	    }
 	}
 

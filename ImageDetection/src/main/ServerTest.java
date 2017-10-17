@@ -25,14 +25,14 @@ public class ServerTest {
 	 */
 	public static void main(String[] args) throws Exception {
 	    try {
-	    	/*
+
 	    	HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
 		    server.createContext("/processimage", new ImageHandler());
 		    server.setExecutor(null); // creates a default executor
 		    server.start();
-		    */
+
 	    	
-	    	sendAnswer("127.0.0.1",new ImageDetector("img.jpg").getResult());
+	    	//sendAnswer("127.0.0.1",new ImageDetector("img.jpg").getResult());
 	    } catch (RuntimeException e) {
 	    	e.printStackTrace();
 	    }
@@ -43,12 +43,15 @@ public class ServerTest {
 	    public void handle(HttpExchange t) throws IOException {
 	    	System.out.println("Message recived");
 	        loadImage(t.getRequestBody());
+	    
 	    	String response = new ImageDetector("test.jpg").getResult();
-	    	 t.sendResponseHeaders(200, response.length());
-		     t.close();
+	        //String response = "hej hej";
+	    	t.sendResponseHeaders(200, response.length());
+		    t.close();
 			try {
 				System.out.println("Adress: " + t.getLocalAddress().getHostName());
-				sendAnswer("192.168.137.228", response);
+				sendAnswer("192.168.48.148", response);
+				System.out.println(response);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
