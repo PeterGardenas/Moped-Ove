@@ -84,9 +84,8 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == DISCONNECT_INDEX) {
             SocketHandler.disconnect();
+            PostRequester.disconnect();
             menu.getItem(DISCONNECT_INDEX).setVisible(false); // Hide the disconnect option
-            //TODO uncomment
-            //view.invalidate(); // Repaint (to show "not connected" in the main view)
         }
         else if (item.getItemId() == CONFIG_INDEX) {
             Intent i = new Intent(ControlActivity.this, NetworkConnectorActivity.class);

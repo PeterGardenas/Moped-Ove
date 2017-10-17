@@ -47,7 +47,7 @@ public class NetworkConnectorActivity extends Activity {
                 new SocketConnector(NetworkConnectorActivity.this).execute(str_host, str_port);
 
                 //Connect to java server
-                JavaServerMessage.connect(str_host, "" + javaPort);
+                PostRequester.connect(str_host, "" + javaPort);
             }
         });
     }
