@@ -38,18 +38,7 @@ public class MopedServer {
 	}
 	
 	public static String getResult(InputStream is) {
-	    BufferedReader in = new BufferedReader(
-	            new InputStreamReader(is));
-	    String inputLine;
-	    StringBuffer response = new StringBuffer();
-	    try {
-	    	 while ((inputLine = in.readLine()) != null) {
-	 	        response.append(inputLine);
-	 	    }
-	 	    in.close();
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    }
+	    String response = streamToString(is);
 	    return response.substring(response.indexOf("startResponse"), response.indexOf("endResponse"));
 	}
 
