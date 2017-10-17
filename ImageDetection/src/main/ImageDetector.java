@@ -160,7 +160,6 @@ public class ImageDetector extends JPanel {
 		int red = (clr & 0x00ff0000) >> 16;
 		int green = (clr & 0x0000ff00) >> 8;
 		int blue = clr & 0x000000ff;
-		
 		return red > 100 && green < 75 && blue < 75;
 	  //return (Math.abs(red - 240) + Math.abs(green - 240) + blue) < 260;
 	}

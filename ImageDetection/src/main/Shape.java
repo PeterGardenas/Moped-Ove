@@ -20,10 +20,11 @@ public class Shape {
 	private static final double EXPECTED_FULL_CIRCLE = 0.95;
 	private static final double CHECK_POINTS = 100;
 	private static final double MAX_WEIGHT_IN_CIRCLE_DIFFERENCE = 0.05;
+    private static final double PERCENTAGE = 0.85;
+
 
 	
     private HashMap<Integer, List<Line>> lines = new HashMap<>();
-    private HashMap<String, Boolean> cordinates;
     private double startX;
     private double endX;
     private double startY;
@@ -97,13 +98,17 @@ public class Shape {
         double middleX = (endX + startX) / 2;
         double middleY = (endY + startY) / 2;
         int count = 0;
-        double percentage = 0.5;
         for (int i = 0; i < CHECK_POINTS; i++) {
             //if (true)break;
             int x = (int) (middleX + radius * Math.cos(2 * Math.PI / 100 * i));
             int y = (int) (middleY + radius * Math.sin(2 * Math.PI / 100 * i));
-            if (!cordinates.containsKey(x + ":" + y)) {
-                count++;
+            if (lines.get(y) != null) {
+            	for (int z = 0; z < lines.get(y).size(); z++) {
+            		if (lines.get(y).get(z).contains(x)) {
+                        count++;
+                        break;
+            		}
+            	}
             }
 
             if (g != null) {
@@ -111,7 +116,7 @@ public class Shape {
                 g.drawRect(x, y, 2, 2);
             }
         }
-        return (count/100) <= percentage;
+        return (count/100) >= PERCENTAGE;
     }
 
     public boolean isEllipse(Graphics g) {
@@ -128,18 +133,16 @@ public class Shape {
      * higher value but a hollow circle a smaller value.
      */
     private double weightInCircle() {
-        cordinates = new HashMap<>();
+        int count = 0;
         Iterator<Integer> iterator = lines.keySet().iterator();
         while (iterator.hasNext()) {
             int key = iterator.next();
             for (int i = 0; i < lines.get(key).size(); i++) {
                 Line line = lines.get(key).get(i);
-                for (int x = line.getXStartValue(); x <= line.getEndValue(); x++) {
-                    cordinates.put(x + ":" + line.getYValue(), true);
-                }
+                count += line.getSize();
             }
         }
-        return Math.abs(Math.PI * (startX - endX) / 2 * (startY - endY) / 2) / cordinates.size();
+        return Math.abs(Math.PI * (startX - endX) / 2 * (startY - endY) / 2) / count;
 
     }
     
