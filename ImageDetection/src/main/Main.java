@@ -7,27 +7,33 @@ public class Main {
 	private static String standardFileName = "tempIMG/test0.jpg";
 
 	public static void main(String[] args) {
-		//goThroughImages();
-		new ImageDetector("test.jpg").draw();
+goThroughImages();
+		//new ImageDetector("red/test25Bug.jpg").draw();
+		//new ImageDetector("red/test" + 58 + ".jpg").draw();
 		//new ImageDetector("bilder/checkdraw.jpg").draw();
+		//new ImageDetector("img.jpg").draw();
+
 
 	}
 	
 	private static void goThroughImages() {
-		for (int i = 0; i < 40; i++) {
-			ImageDetector imageDetector = new ImageDetector("bilder/test" + i + ".jpg");
+		int count = 0;
+		for (int i = 9; i < 100; i++) {
+			int count2 = 0;
+			ImageDetector imageDetector = new ImageDetector("red/test" + i + ".jpg");
 			List<Shape> shapes = imageDetector.getFinalShapes();
 			
-			int count = 0;
 			for (int y = 0; y < shapes.size(); y++) {
-				if (shapes.get(y).isCircle(null) || shapes.get(y).isEllipse(null)) count++;
+				if (shapes.get(y).isCircle(null)) count2++;
 			}
-			System.out.println("Picture: "  + i + " had " + count + " circles. It gave the result: " + imageDetector.getResult());
-			if (count == 0) {
+			System.out.println("Picture: "  + i + " had " + count2 + " circles. It gave the result: " + imageDetector.getResult());
+			if (count2 > 1) {
 				imageDetector.draw();
 				break;
 			}
+			count += count2;
 			
 		}
+		System.out.println("count " + count);
 	}
 }

@@ -43,12 +43,14 @@ public class ServerTest {
 	    public void handle(HttpExchange t) throws IOException {
 	    	System.out.println("Message recived");
 	        loadImage(t.getRequestBody());
-	    	String response = new ImageDetector("test.jpg").getResult();
+	    
+	    	//String response = new ImageDetector("test.jpg").getResult();
+	        String response = "hej hej";
 	    	t.sendResponseHeaders(200, response.length());
 		    t.close();
 			try {
 				System.out.println("Adress: " + t.getLocalAddress().getHostName());
-				sendAnswer("192.168.137.228", response);
+				//sendAnswer("192.168.137.228", response);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -85,7 +87,7 @@ public class ServerTest {
             }
             
             //Store a sample slice of 100 images for testing.
-            imgFile = new File("test.jpg");
+            imgFile = new File("red2/test" + i + ".jpg");
             if (i < 100) i++;
 
             fos = new FileOutputStream(imgFile);            
