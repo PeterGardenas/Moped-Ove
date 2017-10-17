@@ -33,6 +33,7 @@ public class MopedServer {
 	        t.sendResponseHeaders(200, response.length());
 	        String message = getMessage(t.getRequestBody());
 	        t.close();
+		System.out.println(message);
 	        if (!message.equals("false")) {
 				/*double hai = Double.parseDouble(message);
 				int deviation = (int) Math.floor(hai);
@@ -49,11 +50,14 @@ public class MopedServer {
 				} catch(InterruptedException e){
 					e.printStackTrace();
 				}*/
+			System.out.println("We should at least be herer");
 	        	double hai = Double.parseDouble(message);
 	        	int temp = (int) Math.floor(hai);
 	        	try {
-					CanReader.getInstance().sendSteering((byte) temp);
+				CanReader.getInstance().sendSteering((byte) temp);
+				System.out.println("In try");	
 				} catch (Exception e) {
+				System.out.println("In catch");
 	        		e.printStackTrace();
 				}
 			}

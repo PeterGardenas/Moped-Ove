@@ -45,6 +45,7 @@ def main():
                 # Get the start time, to be able to calculate response time
                 start = time.time()
                 response = postImage(session, server)
+               # response2 = postImage(session,'http://192.168.137.1:8080/processimage')
                 end = time.time()
                 print('Received [' + response + '] after ' + str(end - start) + ' s')
             except:
