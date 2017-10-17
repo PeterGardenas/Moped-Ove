@@ -42,9 +42,9 @@ public class MopedServer {
 	        	double lowPercentage = 0.3;
 	        	double highPercentage = 0.7;
 	        	double offset = Double.parseDouble(message);
-	        	if (((offset >= 0 && prevOffset >= 0) || (offset < 0 && prevOffset < 0)) && abs(offset - prevOffset) > 50) {
+	        	if (((offset >= 0 && prevOffset >= 0) || (offset < 0 && prevOffset < 0)) && Math.abs(offset - prevOffset) > 50) {
 	        		steerValue = offset * highPercentage;
-				} else if (((offset >= 0 && prevOffset < 0) || (offset < 0 && prevOffset >= 0)) && ((abs(offset) + abs(prevOffset)) > 50)) {
+				} else if (((offset >= 0 && prevOffset < 0) || (offset < 0 && prevOffset >= 0)) && ((Math.abs(offset) + Math.abs(prevOffset)) > 50)) {
 	        		steerValue = offset * highPercentage;
 				} else if (offset < -10) {
 					steerValue = offset * lowPercentage;
