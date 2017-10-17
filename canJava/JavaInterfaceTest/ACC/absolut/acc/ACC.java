@@ -27,7 +27,8 @@ public class ACC implements Runnable {
     int i = 0;
     //Bad values: 7 and 27
     //int[] speedValues = new int[]{0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
-    int[] speedValues = new int[]{0, 9, 11, 13, 15, 17 ,19, 21, 23, 25};
+    //int[] speedValues = new int[]{0, 9, 11, 13, 15, 17 ,19, 21};
+    int[] speedValues = new int[]{0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
     int speed;
 
     //En funktion som raknar ut ultimata distance, utbyte mot perfdist konstanten.
@@ -125,9 +126,9 @@ public class ACC implements Runnable {
             System.out.println("If Case 1");
             brakeCase = 1;
             return true;
-        } else if (dist < speedValues[i] && speed > 0 ) {
+        } else if (dist < speedValues[i] + 10 && speed > 0 ) {
             System.out.println("If Case 2");
-           brakeCase = 2;
+           brakeCase = 1;
             return true;
         } else if (dist < oldDist-dist + 10 && oldDist < 150 && speed > 20) {
             System.out.println("If Case 3");
