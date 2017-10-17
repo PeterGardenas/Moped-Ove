@@ -16,19 +16,19 @@ public class Shape {
 	//The circle is never exact. Settings is neccsary to find circles.
 	private static final double MAX_HIGHT_WIDTH_DIFFERENCE = 0.2;
 	private static final double MIN_RADIUS = 50;
-	private static final double MAX_RADIUS = 500;
+	private static final double MAX_RADIUS = 600;
 	private static final double EXPECTED_FULL_CIRCLE = 0.95;
 	private static final double CHECK_POINTS = 100;
-	private static final double MAX_WEIGHT_IN_CIRCLE_DIFFERENCE = 0.05;
+	private static final double MAX_WEIGHT_IN_CIRCLE_DIFFERENCE = 0.07;
     private static final double PERCENTAGE = 0.85;
 
 
 	
-    private HashMap<Integer, List<Line>> lines = new HashMap<>();
+    public HashMap<Integer, List<Line>> lines = new HashMap<>();
     private double startX;
     private double endX;
-    private double startY;
-    private double endY;
+    public double startY;
+    public double endY;
     private boolean match = false;
 
     public Shape(Line line) {
@@ -105,13 +105,7 @@ public class Shape {
     public boolean isCircle(Graphics g) {
         if ((endX - startX) < MIN_RADIUS || (endY - startY) < MIN_RADIUS) return false;
         if ((endX - startX) > MAX_RADIUS || (endY - startY) > MAX_RADIUS) return false;
-        drawBounds(g);
-
         if (Math.abs(weightInCircle() - 1) > MAX_WEIGHT_IN_CIRCLE_DIFFERENCE) return false;
-        
-
-        
-
         if (Math.abs(endX - startX) / (endY - startY) - 1 > MAX_HIGHT_WIDTH_DIFFERENCE) return false;
         double radius = Math.sqrt((startX - endX) / 2 * (startY - endY) / 2) * EXPECTED_FULL_CIRCLE;
         double middleX = (endX + startX) / 2;

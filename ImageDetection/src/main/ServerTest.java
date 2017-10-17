@@ -44,14 +44,13 @@ public class ServerTest {
 	    	System.out.println("Message recived");
 	        loadImage(t.getRequestBody());
 	    
-	    	//String response = new ImageDetector("test.jpg").getResult();
-	        String response = "hej hej";
+	    	String response = new ImageDetector("test.jpg").getResult();
 	    	t.sendResponseHeaders(200, response.length());
 		    t.close();
 			try {
 				System.out.println("Adress: " + t.getLocalAddress().getHostName());
-				sendAnswer("192.168.137.228", response);
-				System.out.println(response);
+				//sendAnswer("192.168.137.228", response);
+				//System.out.println(response);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
