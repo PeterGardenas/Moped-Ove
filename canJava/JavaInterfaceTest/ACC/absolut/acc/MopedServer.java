@@ -35,7 +35,7 @@ public class MopedServer {
 	        t.close();
 	        if (!message.equals("false")) {
 	        	int steerValue = 0;
-	        	double percentage = 0.5;
+	        	double percentage = 0.3;
 	        	double offset = Double.parseDouble(message);
 	        	if (offset < -10) {
 					steerValue = offset * percentage;

@@ -88,7 +88,7 @@ public class ServerTest {
             }
             
             //Store a sample slice of 100 images for testing.
-            imgFile = new File("red2/test" + i + ".jpg");
+            imgFile = new File("test.jpg");
             if (i < 100) i++;
 
             fos = new FileOutputStream(imgFile);            
