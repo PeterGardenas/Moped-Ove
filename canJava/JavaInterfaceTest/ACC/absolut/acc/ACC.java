@@ -18,7 +18,7 @@ public class ACC implements Runnable {
     int i = 0;
     //Vaules if the vehicle should travel faster
     //int[] speedValues = new int[]{0, 9, 11, 15, 19, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
-    int[] speedValues = new int[]{0, 9, 11, 15, 19}; //Safe values used right now
+    int[] speedValues = new int[]{0, 9, 9, 9, 11, 15, 19}; //Safe values used right now
     int currentSpeed;
     int brakeCase;
     private boolean accEnabled = true;
@@ -76,7 +76,16 @@ public class ACC implements Runnable {
     public void crucialBrake(int currentDistance, int lastDistance) {
         try {
             boolean brake = true;
-            switch (brakeCase) {
+            while (brake || currentDistance + 10 < lastDistance) {
+                System.out.println("ACTIVATE CRUCIAL BRAKE");
+                currentSpeed = -100;
+                can.sendMotorSpeed((byte) currentSpeed);
+                lastDistance = currentDistance;
+                currentDistance = (int) sensor.getDistance();
+                i = 0;
+                brake = false;
+            }
+            /*switch (brakeCase) {
                 case 1:
                     while (brake || currentDistance + 10 < lastDistance) {
                         System.out.println("ACTIVATE CRUCIAL BRAKE");
@@ -99,19 +108,9 @@ public class ACC implements Runnable {
                         brake = false;
                     }
                     break;
-                case 3:
-                    while (currentDistance < 15){
-                        System.out.println("Reverse!");
-                        currentSpeed = -10;
-                        can.sendMotorSpeed((byte) currentSpeed);
-                        currentDistance = (int) sensor.getDistance();
-                        i = 0;
-                        brake = false;
-                    }
-                    break;
                 default:
                     break;
-            }
+            }*/
 
             if (!brake) {
                 currentSpeed = 0;
@@ -133,16 +132,10 @@ public class ACC implements Runnable {
         int safetyDistance = 10;
         
         if (currentDistance < currentSpeed * 2 + safetyDistance && this.currentSpeed > 0) {
-            brakeCase = 1;
             return true;
-        } else if (currentDistance < lastDistance-currentDistance + safetyDistance * 2 && lastDistance < 150 && this.currentSpeed > 0) {
-            brakeCase = 1;
+        } else if (currentDistance < lastDistance-currentDistance + safetyDistance * 2 && lastDistance < 200 && this.currentSpeed > 0) {
             return true;
-        } else if ( lastDistance - currentDistance > 40 && lastDistance < 170) {
-            brakeCase = 1;
-            return true;
-        } else if (currentDistance < 5) {
-            brakeCase = 3;
+        } else if ( lastDistance - currentDistance > 30 && lastDistance < 170) {
             return true;
         }
         return false;
@@ -173,7 +166,6 @@ public class ACC implements Runnable {
                 if (currentDistance > 30) {
                     if (i < speedValues.length - 1) {
                         i++;
-                        Thread.sleep(100);
                     }
                 } else {
                     i = 0;
