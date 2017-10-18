@@ -53,6 +53,8 @@ public class ACC implements Runnable {
 
         System.out.println("doFunciton");
         lastDistance = (int) sensor.getDistance();
+        System.out.println(sensor.getDistance());
+        System.out.println("sdflkjsadfsdaf");
         try {
             can.sendSteering((byte) 0);
         } catch (InterruptedException e) {
