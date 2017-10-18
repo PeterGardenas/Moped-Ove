@@ -31,10 +31,9 @@ public class ACC implements Runnable {
      */
     @Override
     public void run() {
+        System.out.println("Starting ACC");
         init();
-//        if (accEnabled){
-            doFunction();
-//        }
+        doFunction();
     }
 
     /**
@@ -58,7 +57,9 @@ public class ACC implements Runnable {
             e.printStackTrace();
         }
         while (true){
+            System.out.println("loooop");
             if (accEnabled) {
+                System.out.println("inner looosp");
                 currentDistance = (int) sensor.getDistance();
                 if (shouldBrake(currentDistance, lastDistance)) {
                     crucialBrake(currentDistance, lastDistance);
