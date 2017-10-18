@@ -149,7 +149,7 @@ public class ACC implements Runnable {
     public void adaptSpeed(int currentDistance) {
         try {
             //if (currentDistance < (currentSpeed * 4 + 10) && currentDistance > (currentSpeed * 4 - 10)) {
-            if (currentDistance < 90 && currentDistance > 70) {
+            if (currentDistance < 90 && currentDistance > 80) {
                 currentSpeed = speedValues[i];
                 can.sendMotorSpeed((byte) currentSpeed);
             } //else if (currentDistance < currentSpeed * 3) {
@@ -160,7 +160,7 @@ public class ACC implements Runnable {
                     i--;
                 }
             } //else if (currentDistance > currentSpeed * 3 && currentDistance < currentSpeed * 4) {
-            else if (currentDistance > 60 && currentDistance < 70) {
+            else if (currentDistance > 60 && currentDistance < 80) {
                 if (i > 0) {
                     i--;
                 }
