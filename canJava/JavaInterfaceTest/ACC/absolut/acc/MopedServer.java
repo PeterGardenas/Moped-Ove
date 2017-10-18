@@ -17,6 +17,7 @@ import com.sun.net.httpserver.HttpServer;
 public class MopedServer {
 
     private static ACC acc;
+    private static boolean platoonEnabled = true;
 
 	public static void init(ACC acc) {
 	    MopedServer.acc = acc;
@@ -35,32 +36,33 @@ public class MopedServer {
 	
 	//Receives a post request, handles it and sends a response. 
 	static class ImageHandler implements HttpHandler {
-
 		//Saves the previous deviation of the red dot from image center
 		private double prevOffset;
 
 		//If a red dot is detected, the method steers the car
 		public void handle(HttpExchange t) throws IOException {
-	        t.sendResponseHeaders(200, 1);
-	        String message = getMessage(t.getRequestBody()); //Gets the message from the camera, false if no red circle was found, and a number ((-100) - 100) if red circle is found
-	        t.close();
-	        if (!message.equals("false")) {
-	        	double steerValue = 0;
-	        	double lowPercentage = 0.4; // Percentage used to steer the car in small turns
-	        	double highPercentage = 0.9; // Percentage used to steer the car in sharp turns
-	        	double offset = Double.parseDouble(message); //The deviation of the red dot from image center
-	        	if (isSharpTurn(offset)) {
-	        		steerValue = offset * highPercentage;
-				} else {
-	        		steerValue = offset * lowPercentage;
-				}
-				int steerValueTmp = (int) Math.floor(steerValue);
-	        	try {
-	        		prevOffset = offset;
-					CanReader.getInstance().sendSteering((byte) steerValueTmp); //Sends steer value to the can bus
-				} catch (Exception e) {
-	        		e.printStackTrace();
-				}
+		    if (MopedServer.getPlatoonEnabled()){
+                t.sendResponseHeaders(200, 1);
+                String message = getMessage(t.getRequestBody()); //Gets the message from the camera, false if no red circle was found, and a number ((-100) - 100) if red circle is found
+                t.close();
+                if (!message.equals("false")) {
+                    double steerValue = 0;
+                    double lowPercentage = 0.4; // Percentage used to steer the car in small turns
+                    double highPercentage = 0.9; // Percentage used to steer the car in sharp turns
+                    double offset = Double.parseDouble(message); //The deviation of the red dot from image center
+                    if (isSharpTurn(offset)) {
+                        steerValue = offset * highPercentage;
+                    } else {
+                        steerValue = offset * lowPercentage;
+                    }
+                    int steerValueTmp = (int) Math.floor(steerValue);
+                    try {
+                        prevOffset = offset;
+                        CanReader.getInstance().sendSteering((byte) steerValueTmp); //Sends steer value to the can bus
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 			}
 	    }
 
@@ -99,9 +101,7 @@ public class MopedServer {
         public void handle(HttpExchange t) throws IOException {
             String message = getMessage(t.getRequestBody());
             if (message.charAt(0) == 'P') {
-                System.out.println("Platoon " + (message.charAt(1) == 'T'));
-//				setPlatoon((message.charAt(1) == 'T'))
-
+				setPlatoonEnabled(message.charAt(1) == 'T');
             } else if (message.charAt(0) == 'A') {
 				acc.setAccEnabled((message.charAt(1) == 'T'));
             } else if (message.charAt(0) == 'S') {
@@ -128,4 +128,11 @@ public class MopedServer {
 		}
 
 	}
+
+    public static void setPlatoonEnabled(boolean platoonEnabled) {
+        MopedServer.platoonEnabled = platoonEnabled;
+    }
+    public static boolean getPlatoonEnabled(){
+	    return MopedServer.platoonEnabled;
+    }
 }
