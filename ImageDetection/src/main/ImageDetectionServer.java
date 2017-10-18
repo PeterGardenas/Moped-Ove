@@ -72,7 +72,7 @@ public class ImageDetectionServer {
 		try {
 			File imgFile;
 		    byte[] bytes;
-		    FileOutputStream fos = null;
+		    FileOutputStream fos;
 		    String temp = "";
 			
             bytes = read(is);
@@ -92,8 +92,8 @@ public class ImageDetectionServer {
             
             imgFile = new File(FILE_NAME);
             if (i < 100) i++; //Sometimes used to save several images for testing.
+        	fos = new FileOutputStream(imgFile);            
             try {
-            	fos = new FileOutputStream(imgFile);            
                 fos.write(bytes, removeBefore, bytes.length - (removeBefore + removeAfter));
             } catch (RuntimeException e) {
             	e.printStackTrace();
