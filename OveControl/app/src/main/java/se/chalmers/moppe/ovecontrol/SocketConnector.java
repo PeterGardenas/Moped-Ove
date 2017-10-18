@@ -13,7 +13,7 @@ import java.net.Socket;
      * (typically such tasks should not be done from the UI-thread, otherwise a
      * NetworkOnMainThreadException exception may be thrown by the Android runtime tools).
      */
-public class SocketConnector extends AsyncTask<String, Void, String> {
+class SocketConnector extends AsyncTask<String, Void, Void> {
     private final static int CONNECTION_TIMEOUT = 3000;
 
     private Socket socket = null;
@@ -27,21 +27,20 @@ public class SocketConnector extends AsyncTask<String, Void, String> {
     /*
      * Establish a socket connection in the background.
      */
-    protected String doInBackground(String... params) {
+    protected Void doInBackground(String... params) {
         try {
             msg = params[0] + ":" + params[1];
 
 				/* Close any previously used socket
 				 * (for example to prevent double-clicks leading to multiple connections) */
-            if (socket != null && !socket.isClosed())
+            if (socket != null && !socket.isClosed()){
                 socket.close();
+            }
 
             socket = new Socket();
             socket.connect(new InetSocketAddress(params[0],						// host ip
                             Integer.parseInt(params[1])), 	// port
                     CONNECTION_TIMEOUT);
-        } catch (NumberFormatException e) {
-            msg = "Invalid port value (" + params[1] + "), type an integer between 0 and 65535";
         } catch (IllegalArgumentException e) {
             msg = "Invalid port value (" + params[1] + "), type an integer between 0 and 65535";
         } catch (Exception e) {

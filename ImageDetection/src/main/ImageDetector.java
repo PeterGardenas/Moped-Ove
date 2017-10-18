@@ -21,6 +21,7 @@ public class ImageDetector extends JPanel {
 	private long startTime = System.currentTimeMillis();
 	
 	public ImageDetector(String fileName) {
+		startTime = System.currentTimeMillis();
 		loadImage(fileName);
 		System.out.println("It took: " + (System.currentTimeMillis() - ServerTest.messageRecived));
 		createArrayLists();
@@ -51,10 +52,13 @@ public class ImageDetector extends JPanel {
 
             for (int x = 0; x < image.getWidth(); x++) {
                 if (isCorrectColor(image.getRGB(x, y))) {
+                	//printColor(image.getRGB(x, y));
+                	
                     if (!wasPreviousCorrectColor) startOfInterval = x;
                     wasPreviousCorrectColor = true;
                 } else {
-                    if (wasPreviousCorrectColor) {
+                	//There seems to be problems if startOfInterval + 1 != x
+                    if (wasPreviousCorrectColor &&  startOfInterval + 1 != x) {
                         coleredLines.get(y).add(new Line(y, startOfInterval, x));
                     }
                     wasPreviousCorrectColor = false;
@@ -63,6 +67,7 @@ public class ImageDetector extends JPanel {
 
             if (wasPreviousCorrectColor) {
                 coleredLines.get(y).add(new Line(y, startOfInterval, image.getHeight() - 1));
+                wasPreviousCorrectColor = false;
             }
         }
 
@@ -160,8 +165,26 @@ public class ImageDetector extends JPanel {
 		int red = (clr & 0x00ff0000) >> 16;
 		int green = (clr & 0x0000ff00) >> 8;
 		int blue = clr & 0x000000ff;
-		return red > 100 && green < 75 && blue < 75;
+		
+//		return (red > 160 && green < 140 && blue < 140);
+//		return (red > 110 && green < 100 && blue < 100) || (red > 130 && green < 130 && blue < 130); //PG's choice
+		//return (red > 160 && green < 150 && blue < 150) || (red > 110 && green < 80 && blue < 80);
+//		return (red > 90 && green < 40 && blue < 50); //för vinröda bilder = bilder i mörker
+		return (red > 115 && green < 80 && blue < 80)  || (red > 130 && green < 100 && blue < 120) || (red > 70 && green < 45 && blue < 20); //PG's choice
+//		
+
 	  //return (Math.abs(red - 240) + Math.abs(green - 240) + blue) < 260;
+	}
+	
+	private void printColor(int clr) {
+		int red = (clr & 0x00ff0000) >> 16;
+		int green = (clr & 0x0000ff00) >> 8;
+		int blue = clr & 0x000000ff;
+		System.out.println("red:" + red);
+		System.out.println("green:" + green);
+		System.out.println("blue:" + blue);
+
+
 	}
 	
 	//A debugging tool, draws the shape.
@@ -179,13 +202,13 @@ public class ImageDetector extends JPanel {
 	//Called by the draw method.
 	public void paint(Graphics g) {
         for (int i = 0; i < finalShapes.size(); i++) {
-
-            if (finalShapes.get(i).isEllipse(g) || finalShapes.get(i).isCircle(g)) {
+            if (finalShapes.get(i).isCircle(g)) {
                 g.setColor(Color.green);
             }
             else {
-            	//g.setColor(new Color((float)Math.random() , (float) Math.random() * 1, (float) Math.random() * 1));
                 g.setColor(Color.RED);
+            	g.setColor(new Color((float)Math.random() , (float) Math.random() * 1, (float) Math.random() * 1));
+
             }
             finalShapes.get(i).paint(g);
         }
@@ -203,13 +226,12 @@ public class ImageDetector extends JPanel {
 	public String getResult() {
 		Shape finalShape = null;
 		for (int i = 0; i < finalShapes.size(); i++) {
-			if (finalShapes.get(i).isCircle(null) || finalShapes.get(i).isEllipse(null)) {
+			if (finalShapes.get(i).isCircle(null)) {
 				if (finalShape == null || finalShapes.get(i).getWidth() > finalShape.getWidth()) {
 					finalShape = finalShapes.get(i);
 				}
 			}	
 		}
-		
 		return finalShape == null ? "false" : "" + finalShape.distanceFromCenter(image.getWidth()) * 100;
 	}
 	

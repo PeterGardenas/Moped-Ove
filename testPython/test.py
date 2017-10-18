@@ -2,6 +2,7 @@ import requests
 import time
 import os
 import picamera
+import sys
 
 
 def postImage(session, url):
@@ -23,9 +24,12 @@ def postImage(session, url):
 
 def main():
     print("hai")
+    if (len(sys.argv) == 2):
+        server = 'http://' +  sys.argv[1] + ':8080/processimage'
+    else:
+        server = 'http://192.168.43.246:8080/processimage'
 
-    server = 'http://192.168.137.149:8080/processimage'
-
+    print(server)
     camera = picamera.PiCamera()
     resolution = 972
     camera.resolution = (resolution, resolution)
@@ -45,6 +49,7 @@ def main():
                 # Get the start time, to be able to calculate response time
                 start = time.time()
                 response = postImage(session, server)
+               # response2 = postImage(session,'http://192.168.137.1:8080/processimage')
                 end = time.time()
                 print('Received [' + response + '] after ' + str(end - start) + ' s')
             except:

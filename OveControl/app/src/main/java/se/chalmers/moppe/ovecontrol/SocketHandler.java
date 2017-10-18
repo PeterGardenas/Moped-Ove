@@ -6,18 +6,17 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.List;
 
 /**
  * Created by Erik on 2017-09-24.
  */
 
-public abstract class SocketHandler{
+abstract class SocketHandler{
 
     private static PrintWriter out = null;
-    public static Socket socket = null;
-    private static ArrayList<ObserverStatic> observerList = new ArrayList();
+    private static Socket socket = null;
+    private static List<ObserverStatic> observerList = new ArrayList();
 
 
     /*
@@ -69,7 +68,6 @@ public abstract class SocketHandler{
 
     private static void notifyObservers(){
         for (ObserverStatic observer : observerList){
-            System.out.println("Updateing" + isConnected());
             observer.update(isConnected());
         }
     }

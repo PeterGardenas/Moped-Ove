@@ -14,9 +14,6 @@ import android.widget.VerticalSeekBar;
 public class ControlActivity extends AppCompatActivity implements ObserverStatic{
     private Menu menu = null;
 
-    private SeekBar steerSeekBar;
-    private VerticalSeekBar speedSeekBar;
-    //private ImageSwitcher connectedImage;
     private ImageView connectedImage;
     private TextView connectedText;
 
@@ -30,8 +27,8 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
 
         setContentView(R.layout.activity_control);
 
-        steerSeekBar = (SeekBar) findViewById(R.id.steerSeekBar);
-        speedSeekBar = (VerticalSeekBar) findViewById(R.id.speedSeekBar);
+        SeekBar steerSeekBar = (SeekBar) findViewById(R.id.steerSeekBar);
+        VerticalSeekBar speedSeekBar = (VerticalSeekBar) findViewById(R.id.speedSeekBar);
         connectedImage = (ImageView) findViewById(R.id.connectedImage);
         connectedText = (TextView) findViewById(R.id.connectedText);
         ToggleButton toggleButtonPlatoon = (ToggleButton) findViewById(R.id.toggleButtonPlatoon);
@@ -43,8 +40,8 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
         toggleButtonPlatoon.setOnCheckedChangeListener(new ToggleOnChangeListener("P"));
         toggleButtonAcc.setOnCheckedChangeListener(new ToggleOnChangeListener("A"));
 
-        steerSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(false));
-        speedSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(true));
+        steerSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(false, toggleButtonPlatoon));
+        speedSeekBar.setOnSeekBarChangeListener(new ControlSeekBarListener(true, toggleButtonPlatoon));
         steerSeekBar.setMax(200);
         speedSeekBar.setMax(200);
         steerSeekBar.setProgress(100);
@@ -67,7 +64,6 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        System.out.println("Creating menu");
 
 		/* Add menu bars */
         menu.add(0, DISCONNECT_INDEX, DISCONNECT_INDEX, R.string.disconnect);
@@ -85,9 +81,8 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == DISCONNECT_INDEX) {
             SocketHandler.disconnect();
+            PostRequester.disconnect();
             menu.getItem(DISCONNECT_INDEX).setVisible(false); // Hide the disconnect option
-            //TODO uncomment
-            //view.invalidate(); // Repaint (to show "not connected" in the main view)
         }
         else if (item.getItemId() == CONFIG_INDEX) {
             Intent i = new Intent(ControlActivity.this, NetworkConnectorActivity.class);
@@ -103,14 +98,16 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
 	 */
     private void updateMenuVisibility() {
         if (menu != null) {
-            if (SocketHandler.isConnected())
+            if (SocketHandler.isConnected()){
                 menu.getItem(DISCONNECT_INDEX).setVisible(true);
-            else
+            }
+            else{
                menu.getItem(DISCONNECT_INDEX).setVisible(false);
+            }
         }
     }
 
-    public void updateConnectedImage(Boolean arg){
+    private void updateConnectedImage(Boolean arg){
         if (arg){
             connectedImage.setImageResource(R.drawable.if_circle_green_10280);
             connectedText.setText("Connected");

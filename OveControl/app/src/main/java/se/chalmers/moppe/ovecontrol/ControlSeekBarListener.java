@@ -1,19 +1,18 @@
 package se.chalmers.moppe.ovecontrol;
 
 import android.widget.SeekBar;
+import android.widget.ToggleButton;
 
-/**
- * Created by Erik on 2017-09-24.
- */
+class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
 
-public class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
-
-    private boolean vertical;
+    private final boolean vertical;
+    private ToggleButton platoonToggleButton;
     private static int v = 0;
     private static int h = 0;
 
-    ControlSeekBarListener(boolean vertical){
+    ControlSeekBarListener(boolean vertical, ToggleButton platoonToggleButton){
         this.vertical = vertical;
+        this.platoonToggleButton = platoonToggleButton;
     }
     ControlSeekBarListener(){
         this.vertical = false;
@@ -42,7 +41,10 @@ public class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
         } else {
             h = i - 100;
         }
-        SocketHandler.send(getMessage());
+        //Don't send if platooning is on
+        if (!platoonToggleButton.isChecked()){
+            SocketHandler.send(getMessage());
+        }
     }
 
     private String getMessage() {
