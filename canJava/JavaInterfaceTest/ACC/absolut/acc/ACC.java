@@ -76,7 +76,16 @@ public class ACC implements Runnable {
     public void crucialBrake(int currentDistance, int lastDistance) {
         try {
             boolean brake = true;
-            switch (brakeCase) {
+            while (brake || currentDistance + 10 < lastDistance) {
+                System.out.println("ACTIVATE CRUCIAL BRAKE");
+                currentSpeed = -100;
+                can.sendMotorSpeed((byte) currentSpeed);
+                lastDistance = currentDistance;
+                currentDistance = (int) sensor.getDistance();
+                i = 0;
+                brake = false;
+            }
+            /*switch (brakeCase) {
                 case 1:
                     while (brake || currentDistance + 10 < lastDistance) {
                         System.out.println("ACTIVATE CRUCIAL BRAKE");
@@ -99,19 +108,9 @@ public class ACC implements Runnable {
                         brake = false;
                     }
                     break;
-                case 3:
-                    while (currentDistance < 15){
-                        System.out.println("Reverse!");
-                        currentSpeed = -10;
-                        can.sendMotorSpeed((byte) currentSpeed);
-                        currentDistance = (int) sensor.getDistance();
-                        i = 0;
-                        brake = false;
-                    }
-                    break;
                 default:
                     break;
-            }
+            }*/
 
             if (!brake) {
                 currentSpeed = 0;
@@ -132,17 +131,12 @@ public class ACC implements Runnable {
     public boolean shouldBrake(int currentDistance, int lastDistance){
         int safetyDistance = 10;
         
-        if (currentDistance < currentSpeed * 2 + safetyDistance && this.currentSpeed > 0) {
-            brakeCase = 1;
+        //if (currentDistance < currentSpeed * 2 + safetyDistance && this.currentSpeed > 0) {
+        if (currentDistance < 50 && currentSpeed > 0){
             return true;
-        } else if (currentDistance < lastDistance-currentDistance + safetyDistance * 2 && lastDistance < 150 && this.currentSpeed > 0) {
-            brakeCase = 1;
+        } else if (currentDistance < lastDistance-currentDistance + safetyDistance * 2 && lastDistance < 200 && this.currentSpeed > 0) {
             return true;
-        } else if ( lastDistance - currentDistance > 40 && lastDistance < 170) {
-            brakeCase = 1;
-            return true;
-        } else if (currentDistance < 5) {
-            brakeCase = 3;
+        } else if ( lastDistance - currentDistance > 30 && lastDistance < 170 && currentSpeed > 0) {
             return true;
         }
         return false;
@@ -154,22 +148,26 @@ public class ACC implements Runnable {
      */
     public void adaptSpeed(int currentDistance) {
         try {
-            if (currentDistance < (currentSpeed * 4 + 10) && currentDistance > (currentSpeed * 4 - 10)) {
+            //if (currentDistance < (currentSpeed * 4 + 10) && currentDistance > (currentSpeed * 4 - 10)) {
+            if (currentDistance < 90 && currentDistance > 70) {
                 currentSpeed = speedValues[i];
                 can.sendMotorSpeed((byte) currentSpeed);
-            } else if (currentDistance < currentSpeed * 3) {
+            } //else if (currentDistance < currentSpeed * 3) {
+            else if (currentDistance < 60) {
                 currentSpeed = 0;
                 can.sendMotorSpeed((byte) currentSpeed);
                 if (i > 0) {
                     i--;
                 }
-            } else if (currentDistance > currentSpeed * 3 && currentDistance < currentSpeed * 4) {
+            } //else if (currentDistance > currentSpeed * 3 && currentDistance < currentSpeed * 4) {
+            else if (currentDistance > 60 && currentDistance < 70) {
                 if (i > 0) {
                     i--;
                 }
                 currentSpeed = speedValues[i];
                 can.sendMotorSpeed((byte) currentSpeed);
-            } else if (currentDistance > currentSpeed * 4 ) {
+            } //else if (currentDistance > currentSpeed * 4 ) {
+            else if (currentDistance > 90) {
                 if (currentDistance > 30) {
                     if (i < speedValues.length - 1) {
                         i++;
