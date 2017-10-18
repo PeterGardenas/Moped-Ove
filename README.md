@@ -12,6 +12,7 @@ Använder MOPEDens kamera för att leta efter cirklar av en viss färg. Används
 För att styra avståndet till föremålet framför har ACC.java i canJava använts. Det är alltså inte samma ACC som den Absolut-gruppen använt, utan en egen. Även andra filer i canJava har ändrats på.
 
 ## Dokumentation
+D-uppgifter från kursen och möten från sprintarna finns här. I kort: Det som inte är kod finns här. 
 
 ## Gruppens deltagare
 
