@@ -29,9 +29,10 @@ public class  Sensor{
         int[] iData;
         String[] sData = data.split(" ");
         iData = new int[sData.length-2];
-        if (!data.contains("x")){
+        if (!data.contains("x") && data!=""){
             for (int i = 2; i < sData.length; i++) {
-                iData[i-2] = Integer.parseInt(sData[i]);
+                if(sData[i]!="")
+                 iData[i-2] = Integer.parseInt(sData[i]);
             }
         }
 
