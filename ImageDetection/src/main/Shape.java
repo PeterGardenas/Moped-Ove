@@ -1,6 +1,7 @@
 package main;
 
 import java.util.List;
+import java.util.Map;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.HashMap;
@@ -179,10 +180,9 @@ public class Shape {
 	//Draws the Shapes
     public void paint(Graphics g) {
         Iterator<Integer> iterator = lines.keySet().iterator();
-        while (iterator.hasNext()) {
-            int key = iterator.next();
-            for (int y = 0; y < lines.get(key).size(); y++) {
-                Line line = lines.get(key).get(y);
+        for (Map.Entry<Integer, List<Line>> entry : lines.entrySet()) {
+        	for (int y = 0; y < entry.getValue().size(); y++) {
+                Line line = lines.get(entry.getKey()).get(y);
                 //g.drawLine(line.getXStartValue(), line.getYValue(), line.getEndValue(), line.getYValue());
                 g.drawLine(line.getXStartValue(), line.getYValue(), line.getEndValue(), line.getYValue());
 
