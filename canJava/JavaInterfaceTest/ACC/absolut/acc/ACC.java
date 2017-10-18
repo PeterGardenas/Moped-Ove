@@ -135,7 +135,7 @@ public class ACC implements Runnable {
         if (currentDistance < currentSpeed * 2 + safetyDistance && this.currentSpeed > 0) {
             brakeCase = 1;
             return true;
-        } else if (currentDistance < lastDistance-currentDistance + safetyDistance * 2 && lastDistance < 150 && this.currentSpeed > 20) {
+        } else if (currentDistance < lastDistance-currentDistance + safetyDistance * 2 && lastDistance < 150 && this.currentSpeed > 0) {
             brakeCase = 1;
             return true;
         } else if ( lastDistance - currentDistance > 40 && lastDistance < 170) {
