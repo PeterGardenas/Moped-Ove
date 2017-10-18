@@ -14,8 +14,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-/*
- * Loads an image and locates circles of a given color.
+/* Author: Miranda Bånnsgård, Peter Gärdenäs, Madeleine Lexén, Elina Olsson
+ * Description: Loads an image and locates circles of a given color.
  * Gives the offset of the largest found circle.
  */
 

@@ -2,8 +2,8 @@ package main;
 
 import java.util.List;
 
-/* 
- * Rarely used class, mostly useful for debugging.
+/* Author: Peter Gärdenäs 
+ * Description: Rarely used class, mostly useful for debugging.
  */
 
 public class Main {

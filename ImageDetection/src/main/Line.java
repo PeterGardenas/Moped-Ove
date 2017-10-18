@@ -1,7 +1,8 @@
 package main;
 
-/*
- * A vertical line of a specified color.
+/* 
+ * Author: Peter Gärdenäs
+ * Description: A vertical line of a specified color.
  */
 
 public class Line {
