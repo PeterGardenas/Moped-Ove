@@ -16,7 +16,7 @@ D-uppgifter från kursen och möten från sprintarna finns här. I kort: Det som
 
 ## Gruppens deltagare
 
-| Namn               |  Github            |
+| Namn               |  Github     http://i.imgur.com/0o48UoR.png     |
 |--------------------|--------------------|
 | Miranda Brannsgård |  mirban            |
 | Hanna Carlsson     |  hannacarlssoon    |
