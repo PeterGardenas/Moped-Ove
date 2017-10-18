@@ -153,7 +153,7 @@ public class Shape {
 
 	//Negative values if circle is to the left of image center, positive if circle is to the right
     public double distanceFromCenter(int imageWidth) {
-        double centerX = imageWidth / 2;
+        double centerX = (double) imageWidth / 2.0;
         double distance = getCirclePosX() - centerX;
         System.out.println("Distance from center: " + distance);
         return 2 * distance / imageWidth;

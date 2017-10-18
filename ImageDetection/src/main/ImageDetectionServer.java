@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -21,9 +22,9 @@ import com.sun.net.httpserver.HttpServer;
  */
 
 public class ImageDetectionServer {
-	public static long messageRecived = System.currentTimeMillis();
+	static long messageRecived = System.currentTimeMillis();
 	private static final String FILE_NAME = "img.jpg";
-	public static int i = 11;
+	private static int i = 11;
 	
 	//Start the server.
 	public static void main(String[] args) throws Exception {
@@ -143,7 +144,7 @@ public class ImageDetectionServer {
 	    // Send post request
 	    con.setDoOutput(true);
 	    DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-	    wr.write(message.getBytes());
+	    wr.write(message.getBytes(Charset.forName("UTF-8")));
 	    wr.flush();
 	    wr.close();
 	    System.out.println("sent");
