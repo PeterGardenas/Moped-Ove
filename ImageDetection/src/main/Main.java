@@ -2,7 +2,7 @@ package main;
 
 import java.util.List;
 
-/* Author: Peter Gärdenäs 
+/* Author: Peter Gï¿½rdenï¿½s 
  * Description: Rarely used class, mostly useful for debugging.
  */
 
@@ -22,7 +22,7 @@ public class Main {
 	 * Goes through a group images and stops if no circle is found, 
 	 * draws the result of the first image without a circle.
 	 */
-	private static void goThroughImages() {
+	/*private static void goThroughImages() {
 		int count = 0;
 		for (int i = 0; i < 29; i++) {
 			int count2 = 0;
@@ -39,8 +39,8 @@ public class Main {
 				break;
 			}
 			count += count2;
-			
+			System.out.println();
 		}
 		System.out.println("count " + count);
-	}
+	}*/
 }
