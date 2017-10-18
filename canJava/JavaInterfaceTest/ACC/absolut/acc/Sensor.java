@@ -29,12 +29,20 @@ public class  Sensor{
         int[] iData;
         String[] sData = data.split(" ");
         iData = new int[sData.length-2];
-        if (!data.contains("x")){
+       /* if (!data.contains("x")){
+            for (int i = 2; i < sData.length; i++) {
+                if(sData[i]!= "" && sData[i].)
+                 iData[i-2] = Integer.parseInt(sData[i]);
+            }
+        }*/
+
+        try {
             for (int i = 2; i < sData.length; i++) {
                 iData[i-2] = Integer.parseInt(sData[i]);
             }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
-
         return iData;
     }
 }
