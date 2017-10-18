@@ -40,6 +40,8 @@ class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
     }
 
     private void newPos(int i) {
+        //Bad practice to change static variable from a dynamic context, but they can only be changed from one place so it was deemed safe
+        //as there's only one vertical and one horizontal seekbar.
         if (vertical){
             v = i - 100;
         } else {

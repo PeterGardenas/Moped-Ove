@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ abstract class SocketHandler{
         SocketHandler.socket = socket;
         try {
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
-                    socket.getOutputStream())), true);
+                    socket.getOutputStream(), Charset.forName("UTF-8"))), true);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 /**
  * @author Erik Magnusson
@@ -45,7 +46,7 @@ class PostRequester extends AsyncTask <String, Void, Void>{
                     con.setDoOutput(true);
                     DataOutputStream wr = new DataOutputStream(con.getOutputStream());
                     String message = "startM" + strings[0] + "endM";
-                    wr.write(message.getBytes());
+                    wr.write(message.getBytes(Charset.forName("UTF-8")));
                     wr.flush();
                     wr.close();
                     //Potential efficiency boost
