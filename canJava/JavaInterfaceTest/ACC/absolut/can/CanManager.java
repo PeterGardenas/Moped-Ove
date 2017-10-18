@@ -97,7 +97,7 @@ public class CanManager implements Runnable {
                                 for(int k=0;k<keySize;k++) {
                                     keyBytes[k] = data[index++];
                                 }
-                                String keyStr = new String(keyBytes);
+                                //String keyStr = new String(keyBytes);
                                 /* Key - STOP */
 
                                 /* Data - START */

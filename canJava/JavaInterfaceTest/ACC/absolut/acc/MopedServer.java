@@ -4,6 +4,8 @@ import absolut.can.CanReader;
 import java.io.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.charset.Charset;
+
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -24,7 +26,9 @@ public class MopedServer {
 		    System.out.println("Server up");
 	    } catch (RuntimeException e) {
 	    	e.printStackTrace();
-	    } catch (IOException e) {}
+	    } catch (IOException e) {
+	    	e.printStackTrace();
+		}
 	}
 	
 	//Receives a post request, handles it and sends a response. 
@@ -71,7 +75,7 @@ public class MopedServer {
 	//Receives an input stream, detects the message from the input stream and returns it
 	public static String getMessage(InputStream is) {
 		BufferedReader in = new BufferedReader(
-				new InputStreamReader(is));
+				new InputStreamReader(is, Charset.forName("UTF-8")));
 		String inputLine;
 		StringBuffer response = new StringBuffer();
 		try {
