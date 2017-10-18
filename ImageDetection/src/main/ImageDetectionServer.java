@@ -53,7 +53,7 @@ public class ImageDetectionServer {
 	    	String adress = t.getRemoteAddress().getAddress().getHostAddress().trim();
 		    t.close();
 			try {
-				sendAnswer(adress, response);
+				//sendAnswer(adress, response);
 				System.out.println("Respone:" + response);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -73,7 +73,7 @@ public class ImageDetectionServer {
 			File imgFile;
 		    byte[] bytes;
 		    FileOutputStream fos;
-		    String temp = "";
+		    StringBuffer temp = new StringBuffer();
 			
             bytes = read(is);
             
@@ -83,11 +83,11 @@ public class ImageDetectionServer {
             int removeAfter = 40;
             
             for(int j = 0; j < removeBefore; j++) {
-                temp += (char) bytes[j];
+                temp.append((char) bytes[j]);
             }
             
             for (int j = 0; j < removeAfter; j++) {
-            	temp += (char) bytes[bytes.length - 1 - j];
+            	temp.append((char) bytes[bytes.length - 1 - j]);
             }
             
             imgFile = new File(FILE_NAME);
