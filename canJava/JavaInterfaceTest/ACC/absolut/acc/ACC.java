@@ -31,10 +31,9 @@ public class ACC implements Runnable {
      */
     @Override
     public void run() {
+        System.out.println("Starting ACC");
         init();
-        if (accEnabled){
-            doFunction();
-        }
+        doFunction();
     }
 
     /**
@@ -42,6 +41,7 @@ public class ACC implements Runnable {
      */
     private void init() {
         can = CanReader.getInstance();
+        System.out.println("init");
     }
 
 
@@ -51,19 +51,33 @@ public class ACC implements Runnable {
     public void doFunction(){
         int lastDistance,  currentDistance;
 
+        System.out.println("doFunciton");
         lastDistance = (int) sensor.getDistance();
+        System.out.println(sensor.getDistance());
+        System.out.println("sdflkjsadfsdaf");
         try {
             can.sendSteering((byte) 0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        while (accEnabled) {
+        System.out.println("preshils");
+        while (true){
+            System.out.println("loooop");
+            if (accEnabled) {
+                System.out.println("inner looosp");
                 currentDistance = (int) sensor.getDistance();
                 if (shouldBrake(currentDistance, lastDistance)) {
                     crucialBrake(currentDistance, lastDistance);
                 }
                 adaptSpeed(currentDistance);
                 lastDistance = currentDistance;
+            } else {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
     }
@@ -157,9 +171,5 @@ public class ACC implements Runnable {
     }
     public void setAccEnabled(boolean accEnabled){
         this.accEnabled = accEnabled;
-        //If ACC gets turned on from the app start the function
-        if (accEnabled){
-            doFunction();
-        }
     }
 }
