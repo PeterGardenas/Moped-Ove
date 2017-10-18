@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -13,7 +12,7 @@ import java.net.Socket;
      * (typically such tasks should not be done from the UI-thread, otherwise a
      * NetworkOnMainThreadException exception may be thrown by the Android runtime tools).
      */
-class SocketConnector extends AsyncTask<String, Void, Void> {
+class SocketConnector extends AsyncTask<String, Void, String> {
     private final static int CONNECTION_TIMEOUT = 3000;
 
     private Socket socket = null;
@@ -27,7 +26,8 @@ class SocketConnector extends AsyncTask<String, Void, Void> {
     /*
      * Establish a socket connection in the background.
      */
-    protected Void doInBackground(String... params) {
+    protected String doInBackground(String... params) {
+        System.out.println("init connect");
         try {
             msg = params[0] + ":" + params[1];
 
@@ -38,7 +38,7 @@ class SocketConnector extends AsyncTask<String, Void, Void> {
             }
 
             socket = new Socket();
-            socket.connect(new InetSocketAddress(params[0],						// host ip
+            socket.connect(new InetSocketAddress(params[0], // host ip
                             Integer.parseInt(params[1])), 	// port
                     CONNECTION_TIMEOUT);
         } catch (IllegalArgumentException e) {
@@ -54,6 +54,7 @@ class SocketConnector extends AsyncTask<String, Void, Void> {
      * Once the background operation is finished, pass the socket reference to the
      * Main class and exit from this view. If something went wrong, notify the user.
      */
+    @Override
     protected void onPostExecute(String result) {
         if (socket != null && socket.isConnected()) {
             SocketHandler.init(socket);
