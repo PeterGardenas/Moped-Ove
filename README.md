@@ -3,14 +3,14 @@
 
 ## Lånad kod
 Mycket av koden i projektet är importerad och lånad. 
-- Mappen 'moped' är tagen från kursen. 
-- canJava används till att ansluta direkt till MOPEDens can-buss, för enklare kommunikation. Har tagits från en annan grupp i kursen (Grupp Absolut), som gjort vissa förändringar från kod som Arndt Jonasson (skaparen av MOPED-projektet) skrivit.
+- Mappen **moped** är tagen från kursen. 
+- **canJava** används till att ansluta direkt till MOPEDens can-buss, för enklare kommunikation. Har tagits från en annan grupp i kursen (Grupp Absolut), som gjort vissa förändringar från kod som Arndt Jonasson (skaparen av MOPED-projektet) skrivit.
 
 
 ## Egen kod
 ### ImageDetection
 - Letar med hjälp av MOPEDens kamera efter cirklar av en viss färg. Används för att styra i vilken riktning MOPEDen åker. 
-- PiCamera, där kamerafunktionaliteten finns, består av modifierade metoder tagna från Optipos-mappen i MOPED-projektet.
+- **PiCamera**, där kamerafunktionaliteten finns, består av modifierade metoder tagna från Optipos-mappen i MOPED-projektet.
 - Har en egen server för bildöverföring. 
 - Se ImageDetections README för mer detaljer. 
 
@@ -26,7 +26,7 @@ Att använda gitinspector för vår grupp kommer bli ganska missvisande på grun
 
 ## Gruppens deltagare
 
-| Namn               |  Github            |
+| Namn               |  Github-nick       |
 |--------------------|--------------------|
 | Miranda Brannsgård |  mirban            |
 | Hanna Carlsson     |  hannacarlssoon    |
