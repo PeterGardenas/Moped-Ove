@@ -7,6 +7,7 @@ public class ACC implements Runnable {
 
     private CanReader can;
     private Sensor sensor;
+    private boolean accEnabled = true;
 
     public ACC() {
         sensor = new Sensor();
@@ -15,7 +16,9 @@ public class ACC implements Runnable {
     @Override
     public void run() {
         init();
-        doFunction();
+        if (accEnabled){
+            doFunction();
+        }
     }
 
     private void init() {
@@ -44,7 +47,7 @@ public class ACC implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        while (true) {
+        while (accEnabled) {
             //try{
                 currentDistance = (int) sensor.getDistance();
                 if (shouldBrake(currentDistance, lastDistance)) {
@@ -181,6 +184,13 @@ public class ACC implements Runnable {
         } catch(InterruptedException ie) {
             ie.printStackTrace();
 
+        }
+    }
+    public void setAccEnabled(boolean accEnabled){
+        this.accEnabled = accEnabled;
+        //If ACC gets turned on start the function
+        if (accEnabled){
+            doFunction();
         }
     }
 }
