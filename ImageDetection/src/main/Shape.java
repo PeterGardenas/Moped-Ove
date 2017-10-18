@@ -123,14 +123,13 @@ public class Shape {
      */
     private double weightInCircle() {
         int count = 0;
-        Iterator<Integer> iterator = lines.keySet().iterator();
-        while (iterator.hasNext()) {
-            int key = iterator.next();
-            for (int i = 0; i < lines.get(key).size(); i++) {
-                Line line = lines.get(key).get(i);
+        for (Map.Entry<Integer, List<Line>> entry : lines.entrySet()) {
+            for (int i = 0; i < entry.getValue().size(); i++) {
+                Line line = lines.get(entry.getKey()).get(i);
                 count += line.getSize();
             }
         }
+        
         return Math.abs(Math.PI * (startX - endX) / 2 * (startY - endY) / 2) / count;
 
     }
@@ -138,11 +137,10 @@ public class Shape {
     //Calculates the size of the Shape by checking the size of each line.
     public int calculateSize() {
         int count = 0;
-        Iterator<Integer> iterator = lines.keySet().iterator();
-        while (iterator.hasNext()) {
-            int key = iterator.next();
-            for (int i = 0; i < lines.get(key).size(); i++) {
-                count += lines.get(key).get(i).getSize();
+        
+        for (Map.Entry<Integer, List<Line>> entry : lines.entrySet()) {
+        	for (int i = 0; i < entry.getValue().size(); i++) {
+                count += lines.get(entry.getKey()).get(i).getSize();
             }
         }
         return count;
@@ -179,13 +177,10 @@ public class Shape {
 	
 	//Draws the Shapes
     public void paint(Graphics g) {
-        Iterator<Integer> iterator = lines.keySet().iterator();
         for (Map.Entry<Integer, List<Line>> entry : lines.entrySet()) {
         	for (int y = 0; y < entry.getValue().size(); y++) {
                 Line line = lines.get(entry.getKey()).get(y);
-                //g.drawLine(line.getXStartValue(), line.getYValue(), line.getEndValue(), line.getYValue());
                 g.drawLine(line.getXStartValue(), line.getYValue(), line.getEndValue(), line.getYValue());
-
             }
         }
     }
