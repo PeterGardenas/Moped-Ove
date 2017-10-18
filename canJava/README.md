@@ -1,11 +1,7 @@
-# Group Absolut
-Project in Chalmers course DAT255 - Software Engineering Project
+# Kod lånad från Grupp Absolut
 
-## Social Contract
-* Inform if you are running late as soon as possible.
-* Respect everyone else.
-* Don't be afraid to ask for help.
-* Don't use the team chat for irrelevant things.
-* Try to meet 2 or more times a week, plan meetings for the coming week.
-* To have a scrum meeting in the beginning of each work session.
-* Our sprint length is 1 week.
+### Lånad kod
+canJava används till att ansluta direkt till MOPEDens can-buss, för enklare kommunikation. Har tagits från en annan grupp i kursen (Grupp Absolut), som gjort vissa förändringar från kod som Arndt Jonasson (skaparen av MOPED-projektet) skrivit.
+
+### Egenskriven kod - ACC.java
+För att styra avståndet till föremålet framför har ACC.java i canJava använts. Det är alltså inte samma ACC som den Absolut-gruppen använt, utan en egen. Även mainfilen i canJava är i stor del vår.
