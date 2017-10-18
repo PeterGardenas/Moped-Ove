@@ -19,6 +19,7 @@ public class NetworkConnectorActivity extends Activity {
         ed_host = (EditText) findViewById(R.id.ed_host);
         ed_port = (EditText) findViewById(R.id.ed_port);
         Button btn_connect = (Button) findViewById(R.id.btn_connect);
+        Button btnClose = (Button) findViewById(R.id.btn_close);
 
 		/* Fetch earlier defined host ip and port numbers and write them as default
 		 * (to avoid retyping this, typically standard, info) */
@@ -49,6 +50,13 @@ public class NetworkConnectorActivity extends Activity {
 
 				/* Create socket connection in a background task */
                 new SocketConnector(NetworkConnectorActivity.this).execute(str_host, str_port);
+            }
+        });
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
