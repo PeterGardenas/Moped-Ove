@@ -32,9 +32,9 @@ public class ACC implements Runnable {
     @Override
     public void run() {
         init();
-        if (accEnabled){
+//        if (accEnabled){
             doFunction();
-        }
+//        }
     }
 
     /**
@@ -57,13 +57,21 @@ public class ACC implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        while (accEnabled) {
+        while (true){
+            if (accEnabled) {
                 currentDistance = (int) sensor.getDistance();
                 if (shouldBrake(currentDistance, lastDistance)) {
                     crucialBrake(currentDistance, lastDistance);
                 }
                 adaptSpeed(currentDistance);
                 lastDistance = currentDistance;
+            } else {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
     }
@@ -157,9 +165,5 @@ public class ACC implements Runnable {
     }
     public void setAccEnabled(boolean accEnabled){
         this.accEnabled = accEnabled;
-        //If ACC gets turned on from the app start the function
-        if (accEnabled){
-            doFunction();
-        }
     }
 }
