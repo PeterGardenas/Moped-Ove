@@ -20,6 +20,10 @@ För att styra avståndet till föremålet framför har ACC.java i canJava anvä
 ## Dokumentation
 D-uppgifter från kursen och möten från sprintarna finns här. I kort: Det som inte är kod finns här. 
 
+## Gitinspector
+Att använda gitinspector för vår grupp kommer bli ganska missvisande på grund av flera anledningar. Vi har t.ex. parprogrammerat mycket och pushat till git från den enas dator, vi har också skrivit mycket kod som sedan inte använts, t.ex. i python. Vi har också lagt ner mycket tid på att fixa hårdvaran och många har haft andra uppgifter i projektet som inte är kodrelaterade. Därför kommer dokumentet om team evaluation ge en mer rättvis bild.
+
+
 ## Gruppens deltagare
 
 | Namn               |  Github            |

@@ -99,12 +99,30 @@ public class MopedServer {
 
             } else if (message.charAt(0) == 'A') {
                 System.out.println("ACC " + (message.charAt(1) == 'T'));
-
-                acc.setAccEnabled((message.charAt(1) == 'T'));
-            }
+				acc.setAccEnabled((message.charAt(1) == 'T'));
+//				setACC((message.charAt(1) == 'T'));
+            } else if (message.charAt(0) == 'S') {
+				runMoped();
+			}
             //Has to send a response, otherwise the app prints an error
             t.sendResponseHeaders(200, 1);
             t.close();
         }
     }
+
+    private static void runMoped() {
+		System.out.println("Huumm");
+		ProcessBuilder pb = new ProcessBuilder("../run.sh", "192.168.137.1");
+		System.out.println(pb.directory().exists());
+		System.out.println(pb.directory().getAbsolutePath());
+		if (true) return;
+		try {
+			Process p = pb.start();
+			Thread.sleep(5000l);
+			p.destroy();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 }
