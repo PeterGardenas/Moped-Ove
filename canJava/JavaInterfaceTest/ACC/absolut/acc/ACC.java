@@ -139,7 +139,7 @@ public class ACC implements Runnable {
             brakeCase = 1;
             return true;
         } else if ( lastDistance - currentDistance > 40 && lastDistance < 170) {
-            brakeCase = 2;
+            brakeCase = 1;
             return true;
         } else if (currentDistance < 5) {
             brakeCase = 3;
