@@ -93,11 +93,11 @@ public class CanManager implements Runnable {
                                 for(int i=0;i<4;i++) {
                                     buffer[i] = data[index++];
                                 }
-                                /*int keySize = byteArrayToInt(buffer);
+                                int keySize = byteArrayToInt(buffer);
                                 byte[] keyBytes = new byte[keySize];
                                 for(int k=0;k<keySize;k++) {
                                     keyBytes[k] = data[index++];
-                                }*/
+                                }
                                 //String keyStr = new String(keyBytes);
                                 /* Key - STOP */
 
