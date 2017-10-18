@@ -1,18 +1,19 @@
 package absolut.acc;
 
 import absolut.can.CanReader;
-
 import java.io.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 public class MopedServer {
 
-	public static void init() {
+    private static ACC acc;
+
+	public static void init(ACC acc) {
+	    MopedServer.acc = acc;
 		//Copied from some stack overflow thread.
 	    try {
 	    	HttpServer server = HttpServer.create(new InetSocketAddress(9090), 0);
@@ -98,7 +99,8 @@ public class MopedServer {
 
             } else if (message.charAt(0) == 'A') {
                 System.out.println("ACC " + (message.charAt(1) == 'T'));
-//				setACC((message.charAt(1) == 'T'));
+
+                acc.setAccEnabled((message.charAt(1) == 'T'));
             }
             //Has to send a response, otherwise the app prints an error
             t.sendResponseHeaders(200, 1);

@@ -14,6 +14,12 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
+/*
+ * Author: Peter Gärdenäs
+ * Description: A server which receives images, gets the analysed response and sends it back.
+ * 
+ */
+
 public class ImageDetectionServer {
 	public static long messageRecived = System.currentTimeMillis();
 	private static final String FILE_NAME = "img.jpg";

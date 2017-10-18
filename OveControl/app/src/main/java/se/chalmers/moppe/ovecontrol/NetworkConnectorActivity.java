@@ -44,11 +44,11 @@ public class NetworkConnectorActivity extends Activity {
                 mSharedPreferences.edit().putString("host",str_host).apply();
                 mSharedPreferences.edit().putString("port",str_port).apply();
 
-				/* Create socket connection in a background task */
-                new SocketConnector(NetworkConnectorActivity.this).execute(str_host, str_port);
-
                 //Connect to java server
                 PostRequester.connect(str_host, "" + javaPort);
+
+				/* Create socket connection in a background task */
+                new SocketConnector(NetworkConnectorActivity.this).execute(str_host, str_port);
             }
         });
     }

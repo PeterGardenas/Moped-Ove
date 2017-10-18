@@ -1,7 +1,11 @@
 # Image detection
+The detection consists of three components, a Java server on an external device which analyse the images and sends the response, 
+a python script which captures images and sends them to the external java server and a Java server on the MOPED which receives and handles the response.
+The process can be graphically displayed as: 
+![alt text](https://github.com/PeterGardenas/Moped-Ove/blob/master/ImageDetection/imageDetectionFlowChart.png "Logo Title Text 1")
 
-## Starting the server ##
-1. On the moped, start the java server by running run.sh in can_utils/java/absoulte/run.sh
-2. Change the adress variable in sendAnswer to the Rasberys IP-adress in ServerTest.java in Moped-Ove/ImageDetection.
-3. Start the java server on a computer by running ServerTest.java in Moped-Ove/ImageDetection.
-4. On the moped start sending images by running test.py in Moped-Ove/testpython. Make sure that server variable matches the computers IP adress.
+
+## Running image detection ##
+1. Start the java server on a computer by running ImageDetectionServer.java in Moped-Ove/ImageDetection.
+2. Start sending images by running python3 runCamera.py on the MOPED. The scripts needs the ip- address of the java server, either change the server variable in the script or add the ip as an argument to python3 runCamera.py, eg. python3 runCamera.py 192.168.1.1
+3. Start the ACC and image detection by running run.sh on the MOPED.

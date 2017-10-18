@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-/* 
- * A shape is a group of pixels of the same colour with direct or indirect connection to each other.
+/* Author: Miranda Bånnsgård, Hanna Carlsson, Peter Gärdenäs, Madeleine Lexén, Elina Olsson
+ * Description: A shape is a group of pixels of the same colour with direct or indirect connection to each other.
  * The pixels are grouped together as lines.
  */
 
