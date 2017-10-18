@@ -173,6 +173,7 @@ public class ACC implements Runnable {
                 if (currentDistance > 30) {
                     if (i < speedValues.length - 1) {
                         i++;
+                        Thread.sleep(100);
                     }
                 } else {
                     i = 0;
