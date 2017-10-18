@@ -147,13 +147,13 @@ public class ACC implements Runnable {
                 can.sendMotorSpeed((byte) currentSpeed);
             } //else if (currentDistance > currentSpeed * 4 ) {
             else if (currentDistance > 90) {
-                //if (currentDistance > 30) {
+                if (currentDistance > 30) {
                     if (i < speedValues.length - 1) {
                         i++;
                     }
-                //} else {
+                } else {
                     i = 0;
-                //}
+                }
                     currentSpeed = speedValues[i];
                     can.sendMotorSpeed((byte) currentSpeed);
             }
