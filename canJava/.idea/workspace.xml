@@ -55,12 +55,17 @@
         <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/acc2.java">
           <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <state relative-caret-position="1695">
               <caret line="117" column="13" lean-forward="true" selection-start-line="117" selection-start-column="13" selection-end-line="117" selection-end-column="13" />
 =======
             <state relative-caret-position="408">
               <caret line="133" column="25" selection-start-line="133" selection-start-column="25" selection-end-line="133" selection-end-column="25" />
 >>>>>>> aada67c3e40c3189b03f0195fbeffab4cd654d4c
+=======
+            <state relative-caret-position="306">
+              <caret line="130" column="74" selection-start-line="130" selection-start-column="74" selection-end-line="130" selection-end-column="74" />
+>>>>>>> ff8e973b70b787306e07de9b614f66a699ff67b6
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -922,8 +927,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/JavaInterfaceTest/ACC/absolut/acc/acc2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="133" column="25" selection-start-line="133" selection-start-column="25" selection-end-line="133" selection-end-column="25" />
+        <state relative-caret-position="306">
+          <caret line="130" column="74" selection-start-line="130" selection-start-column="74" selection-end-line="130" selection-end-column="74" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
