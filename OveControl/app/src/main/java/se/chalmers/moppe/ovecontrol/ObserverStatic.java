@@ -1,7 +1,7 @@
 package se.chalmers.moppe.ovecontrol;
 
 /**
- * Created by madeleine on 2017-09-26.
+ * @author Madeleine Lexen
  */
 
 interface ObserverStatic {
