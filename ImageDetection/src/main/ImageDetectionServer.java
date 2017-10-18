@@ -53,7 +53,7 @@ public class ImageDetectionServer {
 	    	String adress = t.getRemoteAddress().getAddress().getHostAddress().trim();
 		    t.close();
 			try {
-				//sendAnswer(adress, response);
+				sendAnswer(adress, response);
 				System.out.println("Respone:" + response);
 			} catch (Exception e) {
 				e.printStackTrace();
