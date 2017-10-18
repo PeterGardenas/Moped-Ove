@@ -4,7 +4,7 @@ import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
 /**
- * Created by Erik on 2017-09-29.
+ * @author Erik Magnusson
  */
 
 class ToggleOnChangeListener implements ToggleButton.OnCheckedChangeListener {

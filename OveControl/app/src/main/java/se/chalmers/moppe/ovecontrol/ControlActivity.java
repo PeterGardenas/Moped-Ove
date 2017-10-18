@@ -11,6 +11,10 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.widget.VerticalSeekBar;
 
+/**
+    @author: Erik Magnusson, Madeleine Lexen
+    Draws main activity with all controls
+ */
 public class ControlActivity extends AppCompatActivity implements ObserverStatic{
     private Menu menu = null;
 

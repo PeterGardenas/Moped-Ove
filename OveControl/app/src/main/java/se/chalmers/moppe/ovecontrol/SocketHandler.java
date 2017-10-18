@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Erik on 2017-09-24.
+ * A lot of code is from original WirelessIno app
+ * @author Erik Magnusson
  */
 
 abstract class SocketHandler{
