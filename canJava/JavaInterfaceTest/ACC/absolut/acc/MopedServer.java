@@ -28,12 +28,10 @@ public class MopedServer {
 		    server.setExecutor(null); // creates a default executor
 		    server.start();
 		    System.out.println("Server up");
-	    } catch (RuntimeException e) {
+	    } catch (RuntimeException | IOException e) {
 	    	e.printStackTrace();
-	    } catch (IOException e) {
-	    	e.printStackTrace();
-		}
-	}
+	    }
+    }
 	
 	//Receives a post request, handles it and sends a response. 
 	static class ImageHandler implements HttpHandler {
@@ -95,6 +93,7 @@ public class MopedServer {
 	}
 
     //Receives post request from app and handles it
+    //@author Erik Magnusson
     private static class AppHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange t) throws IOException {
@@ -108,7 +107,6 @@ public class MopedServer {
             } else if (message.charAt(0) == 'A') {
                 System.out.println("ACC " + (message.charAt(1) == 'T'));
 				acc.setAccEnabled((message.charAt(1) == 'T'));
-//				setACC((message.charAt(1) == 'T'));
             } else if (message.charAt(0) == 'S') {
 				runMoped();
 			}
