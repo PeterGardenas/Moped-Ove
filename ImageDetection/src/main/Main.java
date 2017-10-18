@@ -10,7 +10,7 @@ public class Main {
 	private static String standardFileName = "tempIMG/test0.jpg";
 
 	public static void main(String[] args) {
-		goThroughImages();
+		//goThroughImages();
 		//new ImageDetector("red2/test" + 19 + ".jpg").draw();
 		//new ImageDetector("bilder/checkdraw.jpg").draw();
 		//new ImageDetector("img.jpg").draw();
