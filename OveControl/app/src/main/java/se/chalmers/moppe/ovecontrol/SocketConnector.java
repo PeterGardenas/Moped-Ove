@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -57,7 +56,6 @@ class SocketConnector extends AsyncTask<String, Void, String> {
      */
     @Override
     protected void onPostExecute(String result) {
-        System.out.println("POAT EXEC");
         if (socket != null && socket.isConnected()) {
             SocketHandler.init(socket);
             activity.finish();
