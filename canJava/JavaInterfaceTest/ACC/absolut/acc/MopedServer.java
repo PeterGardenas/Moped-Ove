@@ -40,7 +40,7 @@ public class MopedServer {
 	        if (!message.equals("false")) {
 	        	double steerValue = 0;
 	        	double lowPercentage = 0.4; // Percentage used to steer the car in small turns
-	        	double highPercentage = 0.8; // Percentage used to steer the car in sharp turns
+	        	double highPercentage = 0.9; // Percentage used to steer the car in sharp turns
 	        	double offset = Double.parseDouble(message); //The deviation of the red dot from image center
 	        	if (isSharpTurn(offset)) {
 	        		steerValue = offset * highPercentage;
