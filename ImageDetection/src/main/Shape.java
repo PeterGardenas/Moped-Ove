@@ -17,14 +17,14 @@ public class Shape {
 	//The circle is never exact. Settings is neccsary to find circles.
 	private static final double MAX_HIGHT_WIDTH_DIFFERENCE = 0.2; //Highest allowed difference between height and width.
 	/* Highest allowed difference between a shapes amount of pixels and an eclipse area with the same width and height */
-	private static final double MAX_WEIGHT_IN_CIRCLE_DIFFERENCE = 0.09;
+	private static final double MAX_WEIGHT_IN_CIRCLE_DIFFERENCE = 0.08;
 	private static final double MIN_RADIUS = 25;
 	private static final double MAX_RADIUS = 600;
 	
 	/* These values are used to check if the shape contains pixels at the end of its radius */ 
-	private static final double EXPECTED_FULL_CIRCLE = 0.95; //EXPECTED_FULL_CIRCLE * radius = test radius.
+	private static final double EXPECTED_FULL_CIRCLE = 0.9; //EXPECTED_FULL_CIRCLE * radius = test radius.
 	private static final double CHECK_POINTS = 100; //Amount of points checked
-    private static final double MATCH_PERCENTAGE = 0.85; //Minimum match percentage
+    private static final double MATCH_PERCENTAGE = 0.75; //Minimum match percentage
 
 
 	
@@ -87,7 +87,7 @@ public class Shape {
         if (Math.abs(endX - startX) / (endY - startY) - 1 > MAX_HIGHT_WIDTH_DIFFERENCE) return false;
         
         //Seems to give us more trouble than help, temporarily disabled. 
-        /*
+        
         double radius = Math.sqrt((startX - endX) / 2 * (startY - endY) / 2) * EXPECTED_FULL_CIRCLE;
         double middleX = (endX + startX) / 2;
         double middleY = (endY + startY) / 2;
@@ -111,9 +111,9 @@ public class Shape {
                 g.drawRect(x, y, 2, 2);
             }
         }
-        return (count/100) >= PERCENTAGE;
-        */
-        return true;
+        return (count/100.0) >= MATCH_PERCENTAGE;
+        
+        //return true;
     }
 
     /* 

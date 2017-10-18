@@ -2,10 +2,12 @@ package tests;
 
 import main.ImageDetector;
 import main.Shape;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+
+import org.junit.Test;
 
 /**
  * @author Peter Gärdenäs, Hanna Carlsson, Miranda Bånnsgård
