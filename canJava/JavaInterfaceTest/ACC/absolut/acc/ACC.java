@@ -20,7 +20,6 @@ public class ACC implements Runnable {
     //int[] speedValues = new int[]{0, 9, 11, 15, 19, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
     int[] speedValues = new int[]{0, 9, 11, 15, 19}; //Safe values used right now
     int currentSpeed;
-    int brakeCase;
     private boolean accEnabled = true;
 
     public ACC() {
