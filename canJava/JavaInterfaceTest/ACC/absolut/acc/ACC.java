@@ -2,17 +2,34 @@ package absolut.acc;
 
 import absolut.can.CanReader;
 
+/**
+ * @author Sara Kitzing
+ * @author Julio Ortheden
+ * @author Johan Wennerbeck
+ *
+ * This class handles the distance to an object infront of the sensor. Increase the speed to come closer and decrease
+ * the speed to increase the distance.
+ */
 
 public class ACC implements Runnable {
 
     private CanReader can;
     private Sensor sensor;
+    int i = 0;
+    //Vaules if the vehicle should travel faster
+    //int[] speedValues = new int[]{0, 9, 11, 15, 19, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
+    int[] speedValues = new int[]{0, 9, 11, 15, 19}; //Safe values used right now
+    int currentSpeed;
+    int brakeCase;
     private boolean accEnabled = true;
 
     public ACC() {
         sensor = new Sensor();
     }
 
+    /**
+     * Runs the necessary methods to initialize and run the class
+     */
     @Override
     public void run() {
         init();
@@ -21,25 +38,19 @@ public class ACC implements Runnable {
         }
     }
 
+    /**
+     * Initialize CanReader
+     */
     private void init() {
         can = CanReader.getInstance();
     }
 
 
-    int i = 0;
-    //Bad values: 7 and 27
-    //int[] speedValues = new int[]{0, 7, 11, 15, 19, 23, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
-    int[] speedValues = new int[]{0, 9, 11, 15, 19};
-    //int[] speedValues = new int[]{0,9,10,11,12,13,14,15,16,17,18,19,20};
-    int currentSpeed;
-
-    //En funktion som raknar ut ultimata distance, utbyte mot perfdist konstanten.
+    /**
+     * Checks the sensor value and calls an appropriate method
+     */
     public void doFunction(){
         int lastDistance,  currentDistance;
-        //int minPerfDist, perfDist;
-        //int [] speedValues = new int[]{0, 1, 3, 5, 7, 10, 12, 17, 21, 23, 25};
-        //perfDist = 100;
-        //minPerfDist = 70;
 
         lastDistance = (int) sensor.getDistance();
         try {
@@ -48,27 +59,20 @@ public class ACC implements Runnable {
             e.printStackTrace();
         }
         while (accEnabled) {
-            //try{
                 currentDistance = (int) sensor.getDistance();
                 if (shouldBrake(currentDistance, lastDistance)) {
                     crucialBrake(currentDistance, lastDistance);
                 }
                 adaptSpeed(currentDistance);
                 lastDistance = currentDistance;
-                //Thread.sleep(25);
-
-            //} catch(InterruptedException ie){
-              //  ie.printStackTrace();
-            //}
         }
 
     }
     /**
-     * Checks if the MOPED is approaching the MOPED/Object in front too fast and then brakes if necessary
-     * @param dist is the current distance from the MOPED/Object to the MOPED in front
-     * @param oldDist is the previous distance from the MOPED/Object to the MOPED in front
+     * Checks if the vehicle is approaching the object in front too fast and then brakes if necessary
+     * @param currentDistance is the current distance from the vehicle to the object in front
+     * @param lastDistance is the previous distance from the vehicle to the object in front
      */
-    int brakeCase;
     public void crucialBrake(int currentDistance, int lastDistance) {
         try {
             boolean brake = true;
@@ -78,7 +82,6 @@ public class ACC implements Runnable {
                         System.out.println("ACTIVATE CRUCIAL BRAKE");
                         currentSpeed = -100;
                         can.sendMotorSpeed((byte) currentSpeed);
-                        //Thread.sleep(5);
                         lastDistance = currentDistance;
                         currentDistance = (int) sensor.getDistance();
                         i = 0;
@@ -90,7 +93,6 @@ public class ACC implements Runnable {
                         System.out.println("ACTIVATE semi-CRUCIAL BRAKE");
                         currentSpeed = -40;
                         can.sendMotorSpeed((byte) currentSpeed);
-                        //Thread.sleep(5);
                         lastDistance = currentDistance;
                         currentDistance = (int) sensor.getDistance();
                         i = 0;
@@ -102,7 +104,6 @@ public class ACC implements Runnable {
                         System.out.println("Reverse!");
                         currentSpeed = -10;
                         can.sendMotorSpeed((byte) currentSpeed);
-                        //Thread.sleep(5);
                         currentDistance = (int) sensor.getDistance();
                         i = 0;
                         brake = false;
@@ -122,27 +123,25 @@ public class ACC implements Runnable {
         }
     }
 
-    public boolean shouldBrake(int dist, int oldDist){
+    /**
+     * Decides if and how the vehicle should brake based on speed right now and the values from the sensor
+     * @param currentDistance is the current distance from the vehicle to the object in front
+     * @param lastDistance is the previous distance from the vehicle to the object in front
+     * @return true if the vehicle should brake and false if not
+     */
+    public boolean shouldBrake(int currentDistance, int lastDistance){
         int safetyDistance = 10;
-
-        if (dist < currentSpeed * 2 + safetyDistance * 2 && this.currentSpeed > 20) {
-            System.out.println("If Case 1");
+        
+        if (currentDistance < currentSpeed * 2 + safetyDistance && this.currentSpeed > 0) {
             brakeCase = 1;
             return true;
-        } else if (dist < currentSpeed * 2 + safetyDistance && this.currentSpeed > 0 ) {
-            System.out.println("If Case 2");
-           brakeCase = 1;
-            return true;
-        } else if (dist < oldDist-dist + safetyDistance * 2 && oldDist < 150 && this.currentSpeed > 20) {
-            System.out.println("If Case 3");
+        } else if (currentDistance < lastDistance-currentDistance + safetyDistance * 2 && lastDistance < 150 && this.currentSpeed > 0) {
             brakeCase = 1;
             return true;
-        } else if ( oldDist - dist > 40 && oldDist < 170) {
-            System.out.println("If Case 4");
-            brakeCase = 2;
+        } else if ( lastDistance - currentDistance > 40 && lastDistance < 170) {
+            brakeCase = 1;
             return true;
-        } else if (dist < 15) {
-            System.out.println("If Case 5");
+        } else if (currentDistance < 5) {
             brakeCase = 3;
             return true;
         }
@@ -150,8 +149,8 @@ public class ACC implements Runnable {
     }
 
     /**
-     * Adjusts the distance to the MOPED in front by accelerating or decelerating
-     * @param currentDistance is the current distance from the MOPED/Object to the MOPED in front
+     * Adjusts the distance to the object in front by accelerating or decelerating
+     * @param currentDistance is the current distance from the vehicle to the object in front
      */
     public void adaptSpeed(int currentDistance) {
         try {
