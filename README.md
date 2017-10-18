@@ -9,7 +9,10 @@ Mycket av koden i projektet är importerad och lånad.
 
 ## Egen kod
 ### ImageDetection
-Använder MOPEDens kamera för att leta efter cirklar av en viss färg. Används för att styra i vilken riktning MOPEDen åker. 
+- Använder MOPEDens kamera för att leta efter cirklar av en viss färg. 
+- Används för att styra i vilken riktning MOPEDen åker. 
+- Har en egen server för bildöverföring. 
+- Se ImageDetections README för mer detaljer. 
 
 ### ACC i canJava
 För att styra avståndet till föremålet framför har ACC.java i canJava använts. Det är alltså inte samma ACC som den Absolut-gruppen använt, utan en egen. Även andra filer i canJava har ändrats på.
