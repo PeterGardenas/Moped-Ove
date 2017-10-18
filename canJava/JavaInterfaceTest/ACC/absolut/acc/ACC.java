@@ -31,7 +31,6 @@ public class ACC implements Runnable {
      */
     @Override
     public void run() {
-        System.out.println("Starting ACC");
         init();
         doFunction();
     }
@@ -41,7 +40,6 @@ public class ACC implements Runnable {
      */
     private void init() {
         can = CanReader.getInstance();
-        System.out.println("init");
     }
 
 
@@ -51,20 +49,15 @@ public class ACC implements Runnable {
     public void doFunction(){
         int lastDistance,  currentDistance;
 
-        System.out.println("doFunciton");
         lastDistance = (int) sensor.getDistance();
         System.out.println(sensor.getDistance());
-        System.out.println("sdflkjsadfsdaf");
         try {
             can.sendSteering((byte) 0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("preshils");
         while (true){
-            System.out.println("loooop");
             if (accEnabled) {
-                System.out.println("inner looosp");
                 currentDistance = (int) sensor.getDistance();
                 if (shouldBrake(currentDistance, lastDistance)) {
                     crucialBrake(currentDistance, lastDistance);
