@@ -10,7 +10,7 @@ public class CanReader {
     private byte steerdata = 0;
     private byte motordata = 0;
 
-    public static CanReader getInstance() {
+    public static synchronized CanReader getInstance() {
         if (instance == null) {
             instance = new CanReader();
         }

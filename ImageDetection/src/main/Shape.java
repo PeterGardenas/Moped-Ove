@@ -1,6 +1,7 @@
 package main;
 
 import java.util.List;
+import java.util.Map;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.HashMap;
@@ -122,14 +123,13 @@ public class Shape {
      */
     private double weightInCircle() {
         int count = 0;
-        Iterator<Integer> iterator = lines.keySet().iterator();
-        while (iterator.hasNext()) {
-            int key = iterator.next();
-            for (int i = 0; i < lines.get(key).size(); i++) {
-                Line line = lines.get(key).get(i);
+        for (Map.Entry<Integer, List<Line>> entry : lines.entrySet()) {
+            for (int i = 0; i < entry.getValue().size(); i++) {
+                Line line = lines.get(entry.getKey()).get(i);
                 count += line.getSize();
             }
         }
+        
         return Math.abs(Math.PI * (startX - endX) / 2 * (startY - endY) / 2) / count;
 
     }
@@ -137,11 +137,10 @@ public class Shape {
     //Calculates the size of the Shape by checking the size of each line.
     public int calculateSize() {
         int count = 0;
-        Iterator<Integer> iterator = lines.keySet().iterator();
-        while (iterator.hasNext()) {
-            int key = iterator.next();
-            for (int i = 0; i < lines.get(key).size(); i++) {
-                count += lines.get(key).get(i).getSize();
+        
+        for (Map.Entry<Integer, List<Line>> entry : lines.entrySet()) {
+        	for (int i = 0; i < entry.getValue().size(); i++) {
+                count += lines.get(entry.getKey()).get(i).getSize();
             }
         }
         return count;
@@ -154,7 +153,7 @@ public class Shape {
 
 	//Negative values if circle is to the left of image center, positive if circle is to the right
     public double distanceFromCenter(int imageWidth) {
-        double centerX = imageWidth / 2;
+        double centerX = (double) imageWidth / 2.0;
         double distance = getCirclePosX() - centerX;
         System.out.println("Distance from center: " + distance);
         return 2 * distance / imageWidth;
@@ -178,14 +177,10 @@ public class Shape {
 	
 	//Draws the Shapes
     public void paint(Graphics g) {
-        Iterator<Integer> iterator = lines.keySet().iterator();
-        while (iterator.hasNext()) {
-            int key = iterator.next();
-            for (int y = 0; y < lines.get(key).size(); y++) {
-                Line line = lines.get(key).get(y);
-                //g.drawLine(line.getXStartValue(), line.getYValue(), line.getEndValue(), line.getYValue());
+        for (Map.Entry<Integer, List<Line>> entry : lines.entrySet()) {
+        	for (int y = 0; y < entry.getValue().size(); y++) {
+                Line line = lines.get(entry.getKey()).get(y);
                 g.drawLine(line.getXStartValue(), line.getYValue(), line.getEndValue(), line.getYValue());
-
             }
         }
     }

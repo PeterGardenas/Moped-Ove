@@ -1,8 +1,14 @@
 package absolut.acc;
 
+
 import absolut.can.CanReader;
 import java.io.IOException;
 import org.omg.SendingContext.RunTime;
+
+/**
+ * This code is borrowed from group Absolut
+ */
+
 
 public class Main {
 

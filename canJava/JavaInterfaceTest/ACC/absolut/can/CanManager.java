@@ -3,6 +3,7 @@ package absolut.can;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -92,12 +93,12 @@ public class CanManager implements Runnable {
                                 for(int i=0;i<4;i++) {
                                     buffer[i] = data[index++];
                                 }
-                                int keySize = byteArrayToInt(buffer);
+                                /*int keySize = byteArrayToInt(buffer);
                                 byte[] keyBytes = new byte[keySize];
                                 for(int k=0;k<keySize;k++) {
                                     keyBytes[k] = data[index++];
-                                }
-                                String keyStr = new String(keyBytes);
+                                }*/
+                                //String keyStr = new String(keyBytes);
                                 /* Key - STOP */
 
                                 /* Data - START */
@@ -115,7 +116,7 @@ public class CanManager implements Runnable {
                                 for(int v=0;v<valueSize;v++) {
                                     valueBytes[v] = data[index++];
                                 }
-                                String valueStr = new String(valueBytes);
+                                String valueStr = new String(valueBytes, Charset.forName("UTF-8"));
                                 /* Data - END */
 
 				//System.out.println(keyStr + ":" + valueStr);

@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -21,9 +22,9 @@ import com.sun.net.httpserver.HttpServer;
  */
 
 public class ImageDetectionServer {
-	public static long messageRecived = System.currentTimeMillis();
+	static long messageRecived = System.currentTimeMillis();
 	private static final String FILE_NAME = "img.jpg";
-	public static int i = 11;
+	private static int i = 11;
 	
 	//Start the server.
 	public static void main(String[] args) throws Exception {
@@ -72,7 +73,7 @@ public class ImageDetectionServer {
 			File imgFile;
 		    byte[] bytes;
 		    FileOutputStream fos;
-		    String temp = "";
+		    StringBuffer temp = new StringBuffer();
 			
             bytes = read(is);
             
@@ -82,19 +83,23 @@ public class ImageDetectionServer {
             int removeAfter = 40;
             
             for(int j = 0; j < removeBefore; j++) {
-                temp += (char) bytes[j];
+                temp.append((char) bytes[j]);
             }
             
             for (int j = 0; j < removeAfter; j++) {
-            	temp += (char) bytes[bytes.length - 1 - j];
+            	temp.append((char) bytes[bytes.length - 1 - j]);
             }
             
             imgFile = new File(FILE_NAME);
             if (i < 100) i++; //Sometimes used to save several images for testing.
-
-            fos = new FileOutputStream(imgFile);            
-            fos.write(bytes, removeBefore, bytes.length - (removeBefore + removeAfter));
-            fos.close();
+        	fos = new FileOutputStream(imgFile);            
+            try {
+                fos.write(bytes, removeBefore, bytes.length - (removeBefore + removeAfter));
+            } catch (RuntimeException e) {
+            	e.printStackTrace();
+            } finally {
+            	fos.close();
+            }
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -143,7 +148,7 @@ public class ImageDetectionServer {
 	    // Send post request
 	    con.setDoOutput(true);
 	    DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-	    wr.write(message.getBytes());
+	    wr.write(message.getBytes(Charset.forName("UTF-8")));
 	    wr.flush();
 	    wr.close();
 	    System.out.println("sent");
