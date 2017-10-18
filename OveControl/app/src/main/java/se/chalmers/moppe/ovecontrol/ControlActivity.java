@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -37,6 +39,7 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
         connectedText = (TextView) findViewById(R.id.connectedText);
         ToggleButton toggleButtonPlatoon = (ToggleButton) findViewById(R.id.toggleButtonPlatoon);
         ToggleButton toggleButtonAcc = (ToggleButton) findViewById(R.id.toggleButtonAcc);
+        Button startButton = (Button) findViewById(R.id.buttonStart);
 
 
         connectedImage.setImageResource(R.drawable.if_circle_orange_10281);
@@ -51,6 +54,13 @@ public class ControlActivity extends AppCompatActivity implements ObserverStatic
         steerSeekBar.setProgress(100);
         speedSeekBar.setProgress(100);
         SocketHandler.addObserver(this);
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new PostRequester().execute("S");
+            }
+        });
     }
 
     /*

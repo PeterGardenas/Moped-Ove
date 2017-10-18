@@ -105,7 +105,7 @@ public class MopedServer {
             } else if (message.charAt(0) == 'A') {
 				acc.setAccEnabled((message.charAt(1) == 'T'));
             } else if (message.charAt(0) == 'S') {
-				runMoped();
+//				runMoped();
 			}
             //Has to send a response, otherwise the app prints an error
             t.sendResponseHeaders(200, 1);
