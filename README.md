@@ -19,7 +19,7 @@ Mycket av koden i projektet är importerad och lånad, för att snabbare kunna t
 För att styra avståndet till föremålet framför har [ACC.java i canJava](https://github.com/PeterGardenas/Moped-Ove/tree/master/canJava/JavaInterfaceTest/ACC/absolut/acc) använts. Det är alltså inte samma ACC som den Absolut-gruppen använt, utan en egen. Även mainfilen i canJava är i stor del vår.
 
 ### OveControl 
-Här finns appen för att styra vår MOPED. Vi använder mycket kod från WirelessIno.
+Här finns appen för att styra vår MOPED. Vi använder mycket kod från WirelessIno för nätverkskommunikationen med Mopeden. Nytt är seekbars från android istället för hårdkodade för att underlätta utbyggnad av UI. Och möjlighet att stänga av och sätta på Platooning och ACC från appen.
 
 ### Ove_Tests
 ?????
