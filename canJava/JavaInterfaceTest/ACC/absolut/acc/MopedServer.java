@@ -10,6 +10,10 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
+/**
+ * This code is borrowed from group Absolut.
+ */
+
 public class MopedServer {
 
     private static ACC acc;

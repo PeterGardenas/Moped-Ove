@@ -4,7 +4,7 @@ import absolut.can.CanReader;
 
 /**
  * @author Sara Kitzing
- * @author Julio Ortheden
+ * @author Julia Ortheden
  * @author Johan Wennerbeck
  *
  * This class handles the distance to an object infront of the sensor. Increase the speed to come closer and decrease
@@ -16,7 +16,7 @@ public class ACC implements Runnable {
     private CanReader can;
     private Sensor sensor;
     int i = 0;
-    //Vaules if the vehicle should travel faster
+    //Values if the vehicle should travel faster
     //int[] speedValues = new int[]{0, 9, 11, 15, 19, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
     int[] speedValues = new int[]{0, 9, 11, 15, 19}; //Safe values used right now
     int currentSpeed;
@@ -85,33 +85,6 @@ public class ACC implements Runnable {
                 i = 0;
                 brake = false;
             }
-            /*switch (brakeCase) {
-                case 1:
-                    while (brake || currentDistance + 10 < lastDistance) {
-                        System.out.println("ACTIVATE CRUCIAL BRAKE");
-                        currentSpeed = -100;
-                        can.sendMotorSpeed((byte) currentSpeed);
-                        lastDistance = currentDistance;
-                        currentDistance = (int) sensor.getDistance();
-                        i = 0;
-                        brake = false;
-                    }
-                    break;
-                case 2:
-                    while ( brake || currentDistance + 5 < lastDistance) {
-                        System.out.println("ACTIVATE semi-CRUCIAL BRAKE");
-                        currentSpeed = -40;
-                        can.sendMotorSpeed((byte) currentSpeed);
-                        lastDistance = currentDistance;
-                        currentDistance = (int) sensor.getDistance();
-                        i = 0;
-                        brake = false;
-                    }
-                    break;
-                default:
-                    break;
-            }*/
-
             if (!brake) {
                 currentSpeed = 0;
                 can.sendMotorSpeed((byte) currentSpeed);
@@ -185,7 +158,7 @@ public class ACC implements Runnable {
     }
     public void setAccEnabled(boolean accEnabled){
         this.accEnabled = accEnabled;
-        //If ACC gets turned on start the function
+        //If ACC gets turned on from the app start the function
         if (accEnabled){
             doFunction();
         }

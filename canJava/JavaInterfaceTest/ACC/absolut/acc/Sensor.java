@@ -3,6 +3,10 @@ package absolut.acc;
 import absolut.can.CanReader;
 import java.util.Arrays;
 
+/**
+ * This code is borrowed from group Absolut, but slightly modified by Julia Ortheden and Johan Wennerbeck.
+ */
+
 public class  Sensor{
 
     public Sensor(){}
@@ -29,13 +33,6 @@ public class  Sensor{
         int[] iData;
         String[] sData = data.split(" ");
         iData = new int[sData.length-2];
-       /* if (!data.contains("x")){
-            for (int i = 2; i < sData.length; i++) {
-                if(sData[i]!= "" && sData[i].)
-                 iData[i-2] = Integer.parseInt(sData[i]);
-            }
-        }*/
-
         try {
             for (int i = 2; i < sData.length; i++) {
                 iData[i-2] = Integer.parseInt(sData[i]);
