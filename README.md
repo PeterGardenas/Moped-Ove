@@ -3,7 +3,7 @@ Här står en översikt över vilken funktionalitet som finns var, och kort vad 
 
 ## Lånad kod
 Mycket av koden i projektet är importerad och lånad, för att snabbare kunna ta sig framåt i projektet och kunna nå våra mål. 
-- Mappen **moped** är tagen från kursen. 
+- Mappen **moped** är tagen från kursen. Används inte så mycket. 
 - **canJava** används till att ansluta direkt till MOPEDens can-buss, för enklare kommunikation. Har tagits från en annan grupp i kursen (Grupp Absolut), som gjort vissa förändringar från kod som Arndt Jonasson (skaparen av MOPED-projektet) skrivit.
 
 
@@ -17,7 +17,7 @@ Mycket av koden i projektet är importerad och lånad, för att snabbare kunna t
 ### ACC i canJava
 För att styra avståndet till föremålet framför har [ACC.java i canJava](https://github.com/PeterGardenas/Moped-Ove/tree/master/canJava/JavaInterfaceTest/ACC/absolut/acc) använts. Det är alltså inte samma ACC som den Absolut-gruppen använt, utan en egen. Även mainfilen i canJava är i stor del vår.
 
-### OveControl
+### OveControl och OveTest
 ?????
 
 ## Dokumentation
