@@ -2,7 +2,10 @@ package main;
 
 import java.util.List;
 
-//https://stackoverflow.com/questions/22391353/get-color-of-each-pixel-of-an-image-using-bufferedimages
+/* 
+ * Rarely used class, mostly useful for debugging.
+ */
+
 public class Main {
 	private static String standardFileName = "tempIMG/test0.jpg";
 
@@ -15,6 +18,10 @@ public class Main {
 
 	}
 	
+	/*
+	 * Goes through a group images and stops if no circle is found, 
+	 * draws the result of the first image without a circle.
+	 */
 	private static void goThroughImages() {
 		int count = 0;
 		for (int i = 0; i < 29; i++) {

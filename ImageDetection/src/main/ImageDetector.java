@@ -14,6 +14,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/*
+ * Loads an image and locates circles of a given color.
+ * Gives the offset of the largest found circle.
+ */
+
 public class ImageDetector extends JPanel {
 	private BufferedImage image = null;
 	private Map<Integer, List<Line>> coleredLines = new HashMap<>();
@@ -23,19 +28,10 @@ public class ImageDetector extends JPanel {
 	public ImageDetector(String fileName) {
 		startTime = System.currentTimeMillis();
 		loadImage(fileName);
-		System.out.println("It took: " + (System.currentTimeMillis() - ServerTest.messageRecived));
+		System.out.println("It took: " + (System.currentTimeMillis() - ImageDetectionServer.messageRecived));
 		createArrayLists();
 		createColorLines();
 		mergeLinesToShapes();
-		/*
-        for (int i = 0; i < finalShapes.size(); i++) {
-			Long circleTime = System.currentTimeMillis();
-			finalShapes.get(i).isCircle(null);
-			//fSystem.out.println("is Circle done in: " + (System.currentTimeMillis() - circleTime) + " ms.");
-		}
-		System.out.println("Logic done in: " + (System.currentTimeMillis() - startTime) + " ms.");
-		*/
-		//draw();
 	}
 	
 	private void createArrayLists() {
@@ -44,7 +40,7 @@ public class ImageDetector extends JPanel {
         }
     }
 
-	
+	//Creates horizontal lines of a specified color which are later merge to shape.
     private void createColorLines() {
         for (int y = 0; y < image.getHeight(); y++) {
             boolean wasPreviousCorrectColor = false;
@@ -57,7 +53,9 @@ public class ImageDetector extends JPanel {
                     if (!wasPreviousCorrectColor) startOfInterval = x;
                     wasPreviousCorrectColor = true;
                 } else {
-                	//There seems to be problems if startOfInterval + 1 != x
+                	/*There seems to be problems if startOfInterval + 1 != x
+                	 * Lines of size 1 can't create a circle, might as well ignore them and improve performance.
+                	 */
                     if (wasPreviousCorrectColor &&  startOfInterval + 1 != x) {
                         coleredLines.get(y).add(new Line(y, startOfInterval, x));
                     }
@@ -82,7 +80,6 @@ public class ImageDetector extends JPanel {
      * 		c) Several matches, merge the matching shapes and line.
      * 3. Push all shapes with no new connections to finishedShapes.
      * 4. Repeat to step 2 until all rows are done.
-     * 
      */
 	private void mergeLinesToShapes() {
         List<Shape> activeShapes = new LinkedList<>();
@@ -161,6 +158,7 @@ public class ImageDetector extends JPanel {
 		}
 	}
 	
+	//Tells if a pixel is of a specified color.
 	private boolean isCorrectColor(int clr) {
 		int red = (clr & 0x00ff0000) >> 16;
 		int green = (clr & 0x0000ff00) >> 8;
@@ -176,18 +174,26 @@ public class ImageDetector extends JPanel {
 	  //return (Math.abs(red - 240) + Math.abs(green - 240) + blue) < 260;
 	}
 	
-	private void printColor(int clr) {
-		int red = (clr & 0x00ff0000) >> 16;
-		int green = (clr & 0x0000ff00) >> 8;
-		int blue = clr & 0x000000ff;
-		System.out.println("red:" + red);
-		System.out.println("green:" + green);
-		System.out.println("blue:" + blue);
-
-
+	//Gives the offset in a value between -100 to 100 of the largest detected circle. Gives false if no circle is detected.
+	public String getResult() {
+		Shape finalShape = null;
+		for (int i = 0; i < finalShapes.size(); i++) {
+			if (finalShapes.get(i).isCircle(null)) {
+				if (finalShape == null || finalShapes.get(i).getWidth() > finalShape.getWidth()) {
+					finalShape = finalShapes.get(i);
+				}
+			}	
+		}
+		return finalShape == null ? "false" : "" + finalShape.distanceFromCenter(image.getWidth()) * 100;
 	}
 	
-	//A debugging tool, draws the shape.
+	public List<Shape> getFinalShapes() {
+		return finalShapes;
+	}
+	
+	/*  Debugging tools */
+	
+	//Draws the shape.
 	public void draw() {
         JFrame frame = new JFrame("Test");
         int width = image.getWidth();
@@ -223,19 +229,16 @@ public class ImageDetector extends JPanel {
         }
     }
 	
-	public String getResult() {
-		Shape finalShape = null;
-		for (int i = 0; i < finalShapes.size(); i++) {
-			if (finalShapes.get(i).isCircle(null)) {
-				if (finalShape == null || finalShapes.get(i).getWidth() > finalShape.getWidth()) {
-					finalShape = finalShapes.get(i);
-				}
-			}	
-		}
-		return finalShape == null ? "false" : "" + finalShape.distanceFromCenter(image.getWidth()) * 100;
+	//Prints the value of a pixel, useful for debugging the color range.
+	private void printColor(int clr) {
+		int red = (clr & 0x00ff0000) >> 16;
+		int green = (clr & 0x0000ff00) >> 8;
+		int blue = clr & 0x000000ff;
+		System.out.println("red:" + red);
+		System.out.println("green:" + green);
+		System.out.println("blue:" + blue);
+
+
 	}
 	
-	public List<Shape> getFinalShapes() {
-		return finalShapes;
-	}
 }

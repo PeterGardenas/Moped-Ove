@@ -1,5 +1,9 @@
 package main;
 
+/*
+ * A vertical line of a specified color.
+ */
+
 public class Line {
 	private final int yValue;
 	private int xStartValue;
