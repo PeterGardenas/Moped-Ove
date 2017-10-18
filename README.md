@@ -19,19 +19,17 @@ D-uppgifter från kursen och möten från sprintarna finns här. I kort: Det som
 
 ## Gruppens deltagare
 
-| Namn               |
-|--------------------|
-| Miranda Brannsgård |
-| Hanna Carlsson     |
-| Ludvig Ekman       |
-| Jonathan Gildevall |
-| Peter Gärdenäs     |
-| Sara Kitzing       |
-| Madeleine Lexén    |
-| Tobias Lindgren    |
-| Erik Magnusson     |
-| Elina Olsson       |
-| Julia Ortheden     |
-| Johan Wennerbeck   |
-
-
+| Namn               |  Github            |
+|--------------------|--------------------|
+| Miranda Brannsgård |  mirban            |
+| Hanna Carlsson     |  hannacarlssoon    |
+| Ludvig Ekman       |  luddevig          |
+| Jonathan Gildevall |  Schurickan        |
+| Peter Gärdenäs     |  PeterGardenas     |
+| Sara Kitzing       |  Kitzing           |
+| Madeleine Lexén    |  MadeleineLexen    |
+| Tobias Lindgren    |  Tuubaas           |
+| Erik Magnusson     |  Yeetii            |
+| Elina Olsson       |  olssonelina       |
+| Julia Ortheden     |  Hjortheden        |
+| Johan Wennerbeck   |  JohanWennerbeck   |

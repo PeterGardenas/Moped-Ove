@@ -17,6 +17,7 @@ public class MopedServer {
 	    try {
 	    	HttpServer server = HttpServer.create(new InetSocketAddress(9090), 0);
 		    server.createContext("/response", new ImageHandler());
+            server.createContext("/app", new AppHandler());
 		    server.setExecutor(null); // creates a default executor
 		    server.start();
 		    System.out.println("Server up");
@@ -83,4 +84,25 @@ public class MopedServer {
 		String temp = response.toString();
 		return temp.substring(temp.indexOf("startM") + "startM".length(), temp.indexOf("endM"));
 	}
+
+    //Receives post request from app and handles it
+    private static class AppHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange t) throws IOException {
+            String message = getMessage(t.getRequestBody());
+
+            System.out.println("Message received: " + message);
+            if (message.charAt(0) == 'P') {
+                System.out.println("Platoon " + (message.charAt(1) == 'T'));
+//				setPlatoon((message.charAt(1) == 'T'))
+
+            } else if (message.charAt(0) == 'A') {
+                System.out.println("ACC " + (message.charAt(1) == 'T'));
+//				setACC((message.charAt(1) == 'T'));
+            }
+            //Has to send a response, otherwise the app prints an error
+            t.sendResponseHeaders(200, 1);
+            t.close();
+        }
+    }
 }

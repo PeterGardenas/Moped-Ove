@@ -14,15 +14,12 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
-public class ServerTest {
+public class ImageDetectionServer {
 	public static long messageRecived = System.currentTimeMillis();
+	private static final String FILE_NAME = "img.jpg";
 	public static int i = 11;
-
 	
-	/* To kill the server on windows:
-	 * 1. netstat -ano | findstr :8080
-	 * 2. taskkill /PID typeyourPIDhere /F
-	 */
+	//Start the server.
 	public static void main(String[] args) throws Exception {
 	    try {
 
@@ -43,22 +40,26 @@ public class ServerTest {
 	    public void handle(HttpExchange t) throws IOException {
 	    	System.out.println("Message recived");
 	        loadImage(t.getRequestBody());
-	    	String response = new ImageDetector("test.jpg").getResult();
+	    	String response = new ImageDetector(FILE_NAME).getResult();
 	    	t.sendResponseHeaders(200, response.length());
+	    	//Get the ip adress of the sender.
 	    	String adress = t.getRemoteAddress().getAddress().getHostAddress().trim();
 		    t.close();
 			try {
-				System.out.println("Adress: " + adress);
 				sendAnswer(adress, response);
-				System.out.println(response);
+				System.out.println("Respone:" + response);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	    }
 	}
 	
-	//Modification of: https://stackoverflow.com/questions/35423531/java-writing-a-string-to-a-jpg-file
+	
+	/*
+     * The input stream contains irrelevant information which shouldn't be loaded to the image,
+     * since it destroys the image's format. These method extracts the message and converts it to an image.
+	 * Modification of: https://stackoverflow.com/questions/35423531/java-writing-a-string-to-a-jpg-file
+	 */
 	private static void loadImage(InputStream is) {
 		messageRecived = System.currentTimeMillis();
 		try {
@@ -67,14 +68,10 @@ public class ServerTest {
 		    FileOutputStream fos;
 		    String temp = "";
 			
-			// 'read' method can be found below
             bytes = read(is);
             
             
-            /*
-             * The input stream contains irrelevant information which shouldn't be loaded to the image,
-             * since it destroys the image's format.
-             */
+             //Remove irrelevant information.
             int removeBefore = 83;
             int removeAfter = 40;
             
@@ -86,9 +83,8 @@ public class ServerTest {
             	temp += (char) bytes[bytes.length - 1 - j];
             }
             
-            //Store a sample slice of 100 images for testing.
-            imgFile = new File("test.jpg");
-            if (i < 100) i++;
+            imgFile = new File(FILE_NAME);
+            if (i < 100) i++; //Sometimes used to save several images for testing.
 
             fos = new FileOutputStream(imgFile);            
             fos.write(bytes, removeBefore, bytes.length - (removeBefore + removeAfter));
@@ -100,7 +96,7 @@ public class ServerTest {
 	}
 	
 	//Copied from https://stackoverflow.com/questions/35423531/java-writing-a-string-to-a-jpg-file
-	public static byte[] read(InputStream ios) throws IOException {
+	private static byte[] read(InputStream ios) throws IOException {
 	    ByteArrayOutputStream ous = null;
 	    try {
 	        byte[] buffer = new byte[4096];
@@ -126,12 +122,17 @@ public class ServerTest {
 	    return ous.toByteArray();
 	}
 	
+	/* We want the answer in Java, therefore a new post request is sent instead of
+	 * just adding it to the response of the received post request.
+	 * Sends the post request to the MOPED.
+	 */
 	private static void sendAnswer(String adress, String message) throws Exception{
 	    String url = "http://" + adress + ":9090/response";
 	    URL obj = new URL(url);
 	    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 	    
 	    con.setRequestMethod("POST");
+	    //Make the message easy to locate in the inputstream.
 		message = "startM" + message + "endM";
 	    // Send post request
 	    con.setDoOutput(true);
