@@ -110,7 +110,7 @@ public class ACC implements Runnable {
     public boolean shouldBrake(int currentDistance, int lastDistance){
         int safetyDistance = 10;
         
-        if (currentDistance < currentSpeed * 2 + safetyDistance && this.currentSpeed > 0) {
+        if (currentDistance < currentSpeed * 1.5 && this.currentSpeed > 0) {
         //if (currentDistance < 50 && currentSpeed > 0){
             return true;
         } else if (currentDistance < lastDistance-currentDistance + safetyDistance * 2 && lastDistance < 200 && this.currentSpeed > 0) {
