@@ -168,7 +168,8 @@ public class ImageDetector extends JPanel {
 //		return (red > 110 && green < 100 && blue < 100) || (red > 130 && green < 130 && blue < 130); //PG's choice
 		//return (red > 160 && green < 150 && blue < 150) || (red > 110 && green < 80 && blue < 80);
 //		return (red > 90 && green < 40 && blue < 50); //för vinröda bilder = bilder i mörker
-		return (red > 115 && green < 80 && blue < 80)  || (red > 130 && green < 100 && blue < 120) || (red > 70 && green < 45 && blue < 20); //PG's choice
+		return (red > 40 && green < 35 && blue < 30) || (red > 60 && green < 45 && blue < 40);
+		//return (red > 115 && green < 80 && blue < 80)  || (red > 130 && green < 100 && blue < 120) || (red > 70 && green < 45 && blue < 20); //PG's choice
 //		
 
 	  //return (Math.abs(red - 240) + Math.abs(green - 240) + blue) < 260;
