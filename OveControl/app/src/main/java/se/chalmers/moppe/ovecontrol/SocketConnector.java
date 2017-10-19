@@ -8,6 +8,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 /*
+    *  Credit goes to original WirelessIno app, all code from there with minor changes
      * This asynchronous task is responsible for creating a socket connection
      * (typically such tasks should not be done from the UI-thread, otherwise a
      * NetworkOnMainThreadException exception may be thrown by the Android runtime tools).

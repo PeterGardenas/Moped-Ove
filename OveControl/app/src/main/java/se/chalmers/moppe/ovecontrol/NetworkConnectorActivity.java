@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * @author Erik Magnusson
+ * Most code reuused from original WirelessIno app, some new additions
+ */
+
 public class NetworkConnectorActivity extends Activity {
 
     private EditText ed_host = null;

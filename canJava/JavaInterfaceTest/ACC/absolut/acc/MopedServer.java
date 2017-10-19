@@ -98,17 +98,14 @@ public class MopedServer {
         @Override
         public void handle(HttpExchange t) throws IOException {
             String message = getMessage(t.getRequestBody());
-
-            System.out.println("Message received: " + message);
             if (message.charAt(0) == 'P') {
                 System.out.println("Platoon " + (message.charAt(1) == 'T'));
 //				setPlatoon((message.charAt(1) == 'T'))
 
             } else if (message.charAt(0) == 'A') {
-                System.out.println("ACC " + (message.charAt(1) == 'T'));
 				acc.setAccEnabled((message.charAt(1) == 'T'));
             } else if (message.charAt(0) == 'S') {
-				runMoped();
+//				runMoped();
 			}
             //Has to send a response, otherwise the app prints an error
             t.sendResponseHeaders(200, 1);

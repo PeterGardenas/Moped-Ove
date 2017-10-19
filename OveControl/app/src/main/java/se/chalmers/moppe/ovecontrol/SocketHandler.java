@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Erik on 2017-09-24.
+ * A lot of code is from original WirelessIno app
+ * @author Erik Magnusson
  */
 
 abstract class SocketHandler{
@@ -26,7 +28,7 @@ abstract class SocketHandler{
         SocketHandler.socket = socket;
         try {
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
-                    socket.getOutputStream())), true);
+                    socket.getOutputStream(), Charset.forName("UTF-8"))), true);
         } catch (IOException e) {
             e.printStackTrace();
         }

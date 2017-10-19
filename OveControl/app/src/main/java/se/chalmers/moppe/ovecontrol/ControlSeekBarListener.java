@@ -3,6 +3,10 @@ package se.chalmers.moppe.ovecontrol;
 import android.widget.SeekBar;
 import android.widget.ToggleButton;
 
+/**
+ *  @author Erik Magnusson
+ */
+
 class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
 
     private final boolean vertical;
@@ -36,6 +40,8 @@ class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
     }
 
     private void newPos(int i) {
+        //Bad practice to change static variable from a dynamic context, but they can only be changed from one place so it was deemed safe
+        //as there's only one vertical and one horizontal seekbar.
         if (vertical){
             v = i - 100;
         } else {
@@ -52,7 +58,7 @@ class ControlSeekBarListener implements SeekBar.OnSeekBarChangeListener {
     }
 
 
-    //Makes all numbers 3 characters long
+    //Makes all numbers 3 characters long, credit to original MOPED project
     private String intToString(int x) {
         String padding = "0";
         if (x < 0) {
