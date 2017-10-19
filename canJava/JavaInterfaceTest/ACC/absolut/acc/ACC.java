@@ -110,8 +110,8 @@ public class ACC implements Runnable {
     public boolean shouldBrake(int currentDistance, int lastDistance){
         int safetyDistance = 10;
         
-        //if (currentDistance < currentSpeed * 2 + safetyDistance && this.currentSpeed > 0) {
-        if (currentDistance < 50 && currentSpeed > 0){
+        if (currentDistance < currentSpeed * 1.5 && this.currentSpeed > 0) {
+        //if (currentDistance < 50 && currentSpeed > 0){
             return true;
         } else if (currentDistance < lastDistance-currentDistance + safetyDistance * 2 && lastDistance < 200 && this.currentSpeed > 0) {
             return true;
@@ -127,26 +127,26 @@ public class ACC implements Runnable {
      */
     public void adaptSpeed(int currentDistance) {
         try {
-            //if (currentDistance < (currentSpeed * 4 + 10) && currentDistance > (currentSpeed * 4 - 10)) {
-            if (currentDistance < 90 && currentDistance > 80) {
+            if (currentDistance < (currentSpeed * 3 + currentSpeed * 0.5) && currentDistance > (currentSpeed * 3 - currentSpeed * 0.5)) {
+            //if (currentDistance < 90 && currentDistance > 80) {
                 currentSpeed = speedValues[i];
                 can.sendMotorSpeed((byte) currentSpeed);
-            } //else if (currentDistance < currentSpeed * 3) {
-            else if (currentDistance < 60) {
+            } else if (currentDistance < currentSpeed * 1.5) {
+            //else if (currentDistance < 60) {
                 currentSpeed = 0;
                 can.sendMotorSpeed((byte) currentSpeed);
                 if (i > 0) {
                     i--;
                 }
-            } //else if (currentDistance > currentSpeed * 3 && currentDistance < currentSpeed * 4) {
-            else if (currentDistance > 60 && currentDistance < 80) {
+            } else if (currentDistance > currentSpeed * 1.5 && currentDistance < currentSpeed * 3) {
+            //else if (currentDistance > 60 && currentDistance < 80) {
                 if (i > 0) {
                     i--;
                 }
                 currentSpeed = speedValues[i];
                 can.sendMotorSpeed((byte) currentSpeed);
-            } //else if (currentDistance > currentSpeed * 4 ) {
-            else if (currentDistance > 90) {
+            } else if (currentDistance > currentSpeed * 3 ) {
+            //else if (  > 90) {
                 if (currentDistance > 30) {
                     if (i < speedValues.length - 1) {
                         i++;

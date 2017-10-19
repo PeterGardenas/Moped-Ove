@@ -10,8 +10,8 @@ public class Main {
 	private static String standardFileName = "tempIMG/test0.jpg";
 
 	public static void main(String[] args) {
-		//goThroughImages();
-		//new ImageDetector("red2/test" + 19 + ".jpg").draw();
+		goThroughImages();
+		//new ImageDetector("temp/hej11.jpg").draw();
 		//new ImageDetector("bilder/checkdraw.jpg").draw();
 		//new ImageDetector("img.jpg").draw();
 
@@ -22,11 +22,11 @@ public class Main {
 	 * Goes through a group images and stops if no circle is found, 
 	 * draws the result of the first image without a circle.
 	 */
-	/*private static void goThroughImages() {
+	private static void goThroughImages() {
 		int count = 0;
-		for (int i = 0; i < 29; i++) {
+		for (int i = 11; i < 40; i++) {
 			int count2 = 0;
-			ImageDetector imageDetector = new ImageDetector("red2/test" + i + ".jpg");
+			ImageDetector imageDetector = new ImageDetector("temp/hej" + i + ".jpg");
 			List<Shape> shapes = imageDetector.getFinalShapes();
 			
 			for (int y = 0; y < shapes.size(); y++) {
@@ -42,5 +42,5 @@ public class Main {
 			System.out.println();
 		}
 		System.out.println("count " + count);
-	}*/
+	}
 }
