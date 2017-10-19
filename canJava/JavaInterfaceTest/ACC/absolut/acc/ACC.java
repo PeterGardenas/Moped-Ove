@@ -60,7 +60,7 @@ public class ACC implements Runnable {
             if (accEnabled) {
                 currentDistance = (int) sensor.getDistance();
                 if (shouldBrake(currentDistance, lastDistance)) {
-                    crucialBrake(currentDistance, lastDistance);
+                    crucialBrake();
                 }
                 adaptSpeed(currentDistance);
                 lastDistance = currentDistance;
@@ -76,26 +76,17 @@ public class ACC implements Runnable {
     }
     /**
      * Checks if the vehicle is approaching the object in front too fast and then brakes if necessary
-     * @param currentDistance is the current distance from the vehicle to the object in front
-     * @param lastDistance is the previous distance from the vehicle to the object in front
      */
-    public void crucialBrake(int currentDistance, int lastDistance) {
+    public void crucialBrake() {
         try {
-            boolean brake = true;
-            while (brake || currentDistance + 10 < lastDistance) {
                 System.out.println("ACTIVATE CRUCIAL BRAKE");
                 currentSpeed = -100;
                 can.sendMotorSpeed((byte) currentSpeed);
-                lastDistance = currentDistance;
-                currentDistance = (int) sensor.getDistance();
                 i = 0;
-                brake = false;
-            }
-            if (!brake) {
                 currentSpeed = 0;
                 can.sendMotorSpeed((byte) currentSpeed);
                 Thread.sleep(100);
-            }
+
         } catch (InterruptedException ie) {
             ie.printStackTrace();
         }
@@ -110,10 +101,10 @@ public class ACC implements Runnable {
     public boolean shouldBrake(int currentDistance, int lastDistance){
         int safetyDistance = 10;
         
-        if (currentDistance < currentSpeed * 1.5 && this.currentSpeed > 0) {
+        if (currentDistance < currentSpeed * 1.5 && currentSpeed > 0) {
         //if (currentDistance < 50 && currentSpeed > 0){
             return true;
-        } else if (currentDistance < lastDistance-currentDistance + safetyDistance * 2 && lastDistance < 200 && this.currentSpeed > 0) {
+        } else if (currentDistance < lastDistance-currentDistance + safetyDistance * 2 && lastDistance < 200 && currentSpeed > 0) {
             return true;
         } else if ( lastDistance - currentDistance > 30 && lastDistance < 170 && currentSpeed > 0) {
             return true;
