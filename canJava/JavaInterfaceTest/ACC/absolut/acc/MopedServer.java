@@ -41,27 +41,25 @@ public class MopedServer {
 
 		//If a red dot is detected, the method steers the car
 		public void handle(HttpExchange t) throws IOException {
-		    if (MopedServer.getPlatoonEnabled()){
-                t.sendResponseHeaders(200, 1);
-                String message = getMessage(t.getRequestBody()); //Gets the message from the camera, false if no red circle was found, and a number ((-100) - 100) if red circle is found
-                t.close();
-                if (!message.equals("false")) {
-                    double steerValue = 0;
-                    double lowPercentage = 0.4; // Percentage used to steer the car in small turns
-                    double highPercentage = 0.9; // Percentage used to steer the car in sharp turns
-                    double offset = Double.parseDouble(message); //The deviation of the red dot from image center
-                    if (isSharpTurn(offset)) {
-                        steerValue = offset * highPercentage;
-                    } else {
-                        steerValue = offset * lowPercentage;
-                    }
-                    int steerValueTmp = (int) Math.floor(steerValue);
-                    try {
-                        prevOffset = offset;
-                        CanReader.getInstance().sendSteering((byte) steerValueTmp); //Sends steer value to the can bus
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            t.sendResponseHeaders(200, 1);
+            String message = getMessage(t.getRequestBody()); //Gets the message from the camera, false if no red circle was found, and a number ((-100) - 100) if red circle is found
+            t.close();
+		    if (MopedServer.getPlatoonEnabled() && !message.equals("false")){
+                double steerValue = 0;
+                double lowPercentage = 0.4; // Percentage used to steer the car in small turns
+                double highPercentage = 0.9; // Percentage used to steer the car in sharp turns
+                double offset = Double.parseDouble(message); //The deviation of the red dot from image center
+                if (isSharpTurn(offset)) {
+                    steerValue = offset * highPercentage;
+                } else {
+                    steerValue = offset * lowPercentage;
+                }
+                int steerValueTmp = (int) Math.floor(steerValue);
+                try {
+                    prevOffset = offset;
+                    CanReader.getInstance().sendSteering((byte) steerValueTmp); //Sends steer value to the can bus
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 			}
 	    }
