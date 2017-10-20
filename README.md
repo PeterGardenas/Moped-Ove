@@ -23,9 +23,6 @@ App som baseras på WirelessIno, som används för att styra och via nätverk ko
 - Seekbars från android, istället för hårdkodade. Underlättar utbyggnad av UI. 
 - Möjlighet att stänga av och sätta på Platooning och ACC från appen.
 
-### Ove_Tests
-?????
-
 ## Dokumentation
 D-uppgifter från kursen och möten från sprintarna finns här. I kort: Det som inte är kod finns här. 
 
