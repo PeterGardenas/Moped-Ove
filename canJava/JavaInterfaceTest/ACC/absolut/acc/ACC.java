@@ -16,9 +16,7 @@ public class ACC implements Runnable {
     private CanReader can;
     private Sensor sensor;
     int i = 0;
-    //Values if the vehicle should travel faster
-    //int[] speedValues = new int[]{0, 9, 11, 15, 19, 27, 37, 41, 45, 49, 53, 57, 73, 77, 85, 89, 93, 97, 100};
-    int[] speedValues = new int[]{0, 9, 11, 15, 19}; //Safe values used right now
+    int[] speedValues = new int[]{0, 9, 11, 15, 19}; //Safe values
     int currentSpeed;
     private boolean accEnabled = true;
 
@@ -102,7 +100,6 @@ public class ACC implements Runnable {
         int safetyDistance = 10;
         
         if (currentDistance < currentSpeed * 1.5 && currentSpeed > 0) {
-        //if (currentDistance < 50 && currentSpeed > 0){
             return true;
         } else if (currentDistance < lastDistance-currentDistance + safetyDistance * 2 && lastDistance < 200 && currentSpeed > 0) {
             return true;
@@ -119,25 +116,21 @@ public class ACC implements Runnable {
     public void adaptSpeed(int currentDistance) {
         try {
             if (currentDistance < (currentSpeed * 3 + currentSpeed * 0.5) && currentDistance > (currentSpeed * 3 - currentSpeed * 0.5)) {
-            //if (currentDistance < 90 && currentDistance > 80) {
                 currentSpeed = speedValues[i];
                 can.sendMotorSpeed((byte) currentSpeed);
             } else if (currentDistance < currentSpeed * 1.5) {
-            //else if (currentDistance < 60) {
                 currentSpeed = 0;
                 can.sendMotorSpeed((byte) currentSpeed);
                 if (i > 0) {
                     i--;
                 }
             } else if (currentDistance > currentSpeed * 1.5 && currentDistance < currentSpeed * 3) {
-            //else if (currentDistance > 60 && currentDistance < 80) {
                 if (i > 0) {
                     i--;
                 }
                 currentSpeed = speedValues[i];
                 can.sendMotorSpeed((byte) currentSpeed);
             } else if (currentDistance > currentSpeed * 3 ) {
-            //else if (  > 90) {
                 if (currentDistance > 30) {
                     if (i < speedValues.length - 1) {
                         i++;
