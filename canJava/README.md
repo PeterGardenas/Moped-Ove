@@ -7,4 +7,4 @@ canJava används till att ansluta direkt till MOPEDens can-buss, för enklare ko
 För att styra avståndet till föremålet framför har ACC.java i canJava använts. Det är alltså inte samma ACC som den Absolut-gruppen använt, utan en egen. Även mainfilen i canJava är i stor del vår.
 
 ### Egenskriven kod - MopedServer
-Lägg till här
+Creates a server which revices data from the image detection and instructions from the app.
