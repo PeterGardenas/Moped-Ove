@@ -11,7 +11,9 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 /**
- * This code is borrowed from group Absolut.
+ * Author: Hanna Carlsson, Peter Gärdenäs, Erik Magnusson, Elina Olsson.
+ * Creates a server which revices data from the image detection and instructions from
+ * the app.
  */
 
 public class MopedServer {
@@ -32,8 +34,8 @@ public class MopedServer {
 	    	e.printStackTrace();
 	    }
     }
-	
-	//Receives a post request, handles it and sends a response. 
+
+	//Receives a post request, handles it and sends a response.
 	static class ImageHandler implements HttpHandler {
 
 		//Saves the previous deviation of the red dot from image center
@@ -112,7 +114,7 @@ public class MopedServer {
             t.close();
         }
     }
-
+    //Work in progress..
     private static void runMoped() {
 		System.out.println("Huumm");
 		ProcessBuilder pb = new ProcessBuilder("../run.sh", "192.168.137.1");
