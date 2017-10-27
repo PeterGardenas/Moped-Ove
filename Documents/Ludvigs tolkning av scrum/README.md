@@ -1,5 +1,5 @@
 # Scrum
-
+Syftet med denna text var att sammanställa mina anteckningar om scrum på ett mer lättillgängligt format än slack-chatt. Det har inte särsklt mycket relevans för eventuella examinatorer, men desto mer för nån som ska läsa kursen i framtiden, eller för någon i vår grupp som vill kolla tillbaka på tips för scrum. 
 
 ## Ordlista
 - PO/Product owner, har ansvaret för hur produkten ska se ut och fungera. Prioritera user stories. 
@@ -68,15 +68,15 @@ Under varje möte bör man fråga sig "Vad är syftet med denna sprint?". Svaret
 
 ### Exempel på sprint planning meeting från boken
 Sprint planning meeting: 13:00-17:00 (10-minute break each hour)
-• 13:00-13:30 – Product owner goes through sprint goal and summarizes
+- 13:00-13:30 – Product owner goes through sprint goal and summarizes
 product backlog. Demo place, date, and time is set.
-• 13:30-15:00 – Team time-estimates, and breaks down items as
+- 13:30-15:00 – Team time-estimates, and breaks down items as
 necessary. Product owner updates importance ratings as necessary.
 Items are clarified. “How to demo” is filled in for all high-importance
 items.
-• 15:00-16:00 – Team selects stories to be included in sprint. Do velocity
+- 15:00-16:00 – Team selects stories to be included in sprint. Do velocity
 calculations as a reality check.
-• 16:00-17:00 – Select time and place for daily scrum (if different from
+- 16:00-17:00 – Select time and place for daily scrum (if different from
 last sprint). Further breakdown of stories into tasks.
 
 ### Att prioritera user stories som inte är user stories
