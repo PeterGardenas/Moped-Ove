@@ -1,0 +1,521 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>FindBugs Report</title>
+<style type="text/css">
+		.tablerow0 {
+			background: #EEEEEE;
+		}
+
+		.tablerow1 {
+			background: white;
+		}
+
+		.detailrow0 {
+			background: #EEEEEE;
+		}
+
+		.detailrow1 {
+			background: white;
+		}
+
+		.tableheader {
+			background: #b9b9fe;
+			font-size: larger;
+		}
+		</style>
+</head>
+<body>
+<h1>FindBugs Report</h1>
+<p>Produced using <a href="http://findbugs.sourceforge.net">FindBugs</a>3.0.1.</p>
+<p>Project: 
+			OveControl[app]</p>
+<h2>Metrics</h2>
+<p>3417 lines of code analyzed,
+	in 50 classes, 
+	in 11 packages.</p>
+<table width="500" cellpadding="5" cellspacing="2">
+<tr class="tableheader">
+<th align="left">Metric</th>
+<th align="right">Total</th>
+<th align="right">Density*</th>
+</tr>
+<tr class="tablerow0">
+<td>High Priority Warnings</td>
+<td align="right"/>
+<td align="right">NaN</td>
+</tr>
+<tr class="tablerow1">
+<td>Medium Priority Warnings</td>
+<td align="right">27</td>
+<td align="right">7.90</td>
+</tr>
+<tr class="$totalClass">
+<td>
+<b>Total Warnings</b>
+</td>
+<td align="right">
+<b>27</b>
+</td>
+<td align="right">
+<b>7.90</b>
+</td>
+</tr>
+</table>
+<p>
+<i>(* Defects per Thousand lines of non-commenting source statements)</i>
+</p>
+<p>
+<br/>
+<br/>
+</p>
+<h2>Summary</h2>
+<table width="500" cellpadding="5" cellspacing="2">
+<tr class="tableheader">
+<th align="left">Warning Type</th>
+<th align="right">Number</th>
+</tr>
+<tr class="tablerow0">
+<td>
+<a href="#Warnings_BAD_PRACTICE">Bad practice Warnings</a>
+</td>
+<td align="right">25</td>
+</tr>
+<tr class="tablerow1">
+<td>
+<a href="#Warnings_STYLE">Dodgy code Warnings</a>
+</td>
+<td align="right">2</td>
+</tr>
+<tr class="tablerow0">
+<td>
+<b>Total</b>
+</td>
+<td align="right">
+<b>27</b>
+</td>
+</tr>
+</table>
+<p>
+<br/>
+<br/>
+</p>
+<h1>Warnings</h1>
+<p>Click on each warning link to see a full description of the issue, and
+	    details of how to resolve it.</p>
+<h2>
+<a name="Warnings_BAD_PRACTICE">Bad practice Warnings</a>
+</h2>
+<table class="warningtable" width="100%" cellspacing="2" cellpadding="5">
+<tr class="tableheader">
+<th align="left">Warning</th>
+<th align="left">Priority</th>
+<th align="left">Details</th>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name android.support.v7.appcompat.R$anim doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 10<br/>In class android.support.v7.appcompat.R$anim<br/>At R.java:[line 10]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name android.support.v7.appcompat.R$attr doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 22<br/>In class android.support.v7.appcompat.R$attr<br/>At R.java:[line 22]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name android.support.v7.appcompat.R$bool doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 252<br/>In class android.support.v7.appcompat.R$bool<br/>At R.java:[line 252]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name android.support.v7.appcompat.R$color doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 259<br/>In class android.support.v7.appcompat.R$color<br/>At R.java:[line 259]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name android.support.v7.appcompat.R$dimen doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 343<br/>In class android.support.v7.appcompat.R$dimen<br/>At R.java:[line 343]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name android.support.v7.appcompat.R$drawable doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 443<br/>In class android.support.v7.appcompat.R$drawable<br/>At R.java:[line 443]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name android.support.v7.appcompat.R$id doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 540<br/>In class android.support.v7.appcompat.R$id<br/>At R.java:[line 540]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name android.support.v7.appcompat.R$integer doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 651<br/>In class android.support.v7.appcompat.R$integer<br/>At R.java:[line 651]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name android.support.v7.appcompat.R$layout doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 657<br/>In class android.support.v7.appcompat.R$layout<br/>At R.java:[line 657]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name android.support.v7.appcompat.R$string doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 705<br/>In class android.support.v7.appcompat.R$string<br/>At R.java:[line 705]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name android.support.v7.appcompat.R$style doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 740<br/>In class android.support.v7.appcompat.R$style<br/>At R.java:[line 740]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name android.support.v7.appcompat.R$styleable doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						lines 1093
+						    to 1448<br/>In class android.support.v7.appcompat.R$styleable<br/>At R.java:[lines 1093-1448]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name se.chalmers.moppe.ovecontrol.R$anim doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 11<br/>In class se.chalmers.moppe.ovecontrol.R$anim<br/>At R.java:[line 11]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name se.chalmers.moppe.ovecontrol.R$attr doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 23<br/>In class se.chalmers.moppe.ovecontrol.R$attr<br/>At R.java:[line 23]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name se.chalmers.moppe.ovecontrol.R$bool doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 1556<br/>In class se.chalmers.moppe.ovecontrol.R$bool<br/>At R.java:[line 1556]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name se.chalmers.moppe.ovecontrol.R$color doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 1563<br/>In class se.chalmers.moppe.ovecontrol.R$color<br/>At R.java:[line 1563]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name se.chalmers.moppe.ovecontrol.R$dimen doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 1651<br/>In class se.chalmers.moppe.ovecontrol.R$dimen<br/>At R.java:[line 1651]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name se.chalmers.moppe.ovecontrol.R$drawable doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 1751<br/>In class se.chalmers.moppe.ovecontrol.R$drawable<br/>At R.java:[line 1751]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name se.chalmers.moppe.ovecontrol.R$id doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 1851<br/>In class se.chalmers.moppe.ovecontrol.R$id<br/>At R.java:[line 1851]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name se.chalmers.moppe.ovecontrol.R$integer doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 1973<br/>In class se.chalmers.moppe.ovecontrol.R$integer<br/>At R.java:[line 1973]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name se.chalmers.moppe.ovecontrol.R$layout doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 1979<br/>In class se.chalmers.moppe.ovecontrol.R$layout<br/>At R.java:[line 1979]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name se.chalmers.moppe.ovecontrol.R$mipmap doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 2029<br/>In class se.chalmers.moppe.ovecontrol.R$mipmap<br/>At R.java:[line 2029]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name se.chalmers.moppe.ovecontrol.R$string doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 2033<br/>In class se.chalmers.moppe.ovecontrol.R$string<br/>At R.java:[line 2033]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name se.chalmers.moppe.ovecontrol.R$style doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						line 2081<br/>In class se.chalmers.moppe.ovecontrol.R$style<br/>At R.java:[line 2081]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>The class name se.chalmers.moppe.ovecontrol.R$styleable doesn't start with an upper case letter<br/>
+<br/>
+<br/>In file R.java,
+					
+						lines 2437
+						    to 7155<br/>In class se.chalmers.moppe.ovecontrol.R$styleable<br/>At R.java:[lines 2437-7155]</p>
+</td>
+</tr>
+</table>
+<p>
+<br/>
+<br/>
+</p>
+<h2>
+<a name="Warnings_STYLE">Dodgy code Warnings</a>
+</h2>
+<table class="warningtable" width="100%" cellspacing="2" cellpadding="5">
+<tr class="tableheader">
+<th align="left">Warning</th>
+<th align="left">Priority</th>
+<th align="left">Details</th>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD">Write to static field from instance method</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>Write to static field se.chalmers.moppe.ovecontrol.ControlSeekBarListener.h from instance method se.chalmers.moppe.ovecontrol.ControlSeekBarListener.newPos(int)<br/>
+<br/>
+<br/>In file ControlSeekBarListener.java,
+					
+						line 48<br/>In class se.chalmers.moppe.ovecontrol.ControlSeekBarListener<br/>In method se.chalmers.moppe.ovecontrol.ControlSeekBarListener.newPos(int)<br/>Field se.chalmers.moppe.ovecontrol.ControlSeekBarListener.h<br/>At ControlSeekBarListener.java:[line 48]<br/>At ControlSeekBarListener.java:[line 48]</p>
+</td>
+</tr>
+<tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD">Write to static field from instance method</a>
+</td>
+<td width="10%" valign="top">Medium</td>
+<td width="70%">
+<p>Write to static field se.chalmers.moppe.ovecontrol.ControlSeekBarListener.v from instance method se.chalmers.moppe.ovecontrol.ControlSeekBarListener.newPos(int)<br/>
+<br/>
+<br/>In file ControlSeekBarListener.java,
+					
+						line 46<br/>In class se.chalmers.moppe.ovecontrol.ControlSeekBarListener<br/>In method se.chalmers.moppe.ovecontrol.ControlSeekBarListener.newPos(int)<br/>Field se.chalmers.moppe.ovecontrol.ControlSeekBarListener.v<br/>At ControlSeekBarListener.java:[line 46]<br/>At ControlSeekBarListener.java:[line 46]</p>
+</td>
+</tr>
+</table>
+<p>
+<br/>
+<br/>
+</p>
+<p>
+<br/>
+<br/>
+</p>
+<h1>
+<a name="Details">Warning Types</a>
+</h1>
+<h2>
+<a name="NM_CLASS_NAMING_CONVENTION">Class names should start with an upper case letter</a>
+</h2>
+
+  <p> Class names should be nouns, in mixed case with the first letter of each internal word capitalized. Try to keep your class names simple and descriptive. Use whole words-avoid acronyms and abbreviations (unless the abbreviation is much more widely used than the long form, such as URL or HTML).
+</p>
+
+    
+<p>
+<br/>
+<br/>
+</p>
+<h2>
+<a name="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD">Write to static field from instance method</a>
+</h2>
+
+  <p> This instance method writes to a static field. This is tricky to get
+correct if multiple instances are being manipulated,
+and generally bad practice.
+</p>
+
+    
+<p>
+<br/>
+<br/>
+</p>
+</body>
+</html>
