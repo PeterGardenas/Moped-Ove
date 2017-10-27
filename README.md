@@ -29,6 +29,17 @@ D-uppgifter från kursen och möten från sprintarna finns här. I kort: Det som
 ## Gitinspector
 Att använda gitinspector för vår grupp kommer bli ganska missvisande på grund av flera anledningar. Vi har t.ex. parprogrammerat mycket och pushat till git från den enas dator, vi har också skrivit mycket kod som sedan inte använts, t.ex. i python. Vi har också lagt ner mycket tid på att fixa hårdvaran och många har haft andra uppgifter i projektet som inte är kodrelaterade. Därför kommer dokumentet om team evaluation ge en mer rättvis bild.
 
+Author                     Commits    Insertions      Deletions    % of changes
+Elina Olsson                     2           168              0            0.02
+Johan Wennerbeck                46          1129           1562            0.30
+Julia Ortheden                   6          1753             21            0.20
+Kitzing                          1           181            181            0.04
+Luddevig                         1            22              0            0.00
+MadeleineLexen                   3            62            149            0.02
+Peter Gärdenäs                  39        882024           1939           98.85
+Yeetii                          43          1242            374            0.18
+hannacarlssoon                  29          1797           1617            0.38
+
 
 ## Gruppens deltagare
 
