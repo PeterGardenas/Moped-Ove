@@ -15,9 +15,6 @@ Mjukvaruutveckling möjliggör nya arbetsmetoder, det är enkelt att prova och t
 I scrum ligger focus på att man alltid ska ha något att göra, och att detta kommer att bidra till produkten på ett konkret sätt som alla i gruppen förstår. Att alltid förstå syftet och arbeta mot ett nära mål underlättar motivationen hos gruppmedlemmarna, och arbetet blir förhoppningsvis mer effektivt. 
 
 
-
-
-
 ## Intro II - Kursens begränsningar
 Ha i åtanke att kursen går utt på att lära sig arbetsmetoden scrum. Att faktiskt skapa en lyckad produkt är inte prio. Och tur är det, för förutsättningarna är inte de bästa.
 
@@ -40,7 +37,7 @@ Innan jag börjar kompendiet vill jag tillägga att mina erfarenheter av scrum i
 
 Resultatet är förhoppningsvis en ännu kortare text än kursboken som innehåller de mest för kursen relevanta delarna av scrum. 
 
-## Text
+## Själva texten
 
 ### En grupp som har samma mål
 Rugbyjämförelsen finns där för att kärnan i scrum är att ha ett tydligt mål som alla rör sig mot. Alla måste inte ha full koll på allting. Det viktigaste är att stuff blir gjort.
@@ -78,6 +75,7 @@ items.
 calculations as a reality check.
 - 16:00-17:00 – Select time and place for daily scrum (if different from
 last sprint). Further breakdown of stories into tasks.
+Ett planeringsmöte behöver inte vara fyra timmar. Det är dock viktigt att avvara ordentligt med tid för att definera user stories / uppgifterna innan man går in på vilka av dem man ska arbeta med. 
 
 ### Att prioritera user stories som inte är user stories
 Tech stories kallas de uppgifter som inte har direkt värde för produktägaren, men som är essentiella för att kunna genomföra projektet. Typ att bygga server eller göra nått meta, typ göra en plan för hur designen bör se ut rent generellt, så att andra kan förhålla sig till det. Tech stories kan finnas i en egen backlog - eftersom de inte ska nedprioriteras av produktägaren - och så säger man att man lägger ner 15% av gruppens tid/resurser på den backloggen. I vårt fall, där produktägaren inte finns, och inte ensam sätter prioriteringen, spelar allt detta dock mindre roll. Vi kan behandla tech stories som en vanlig user story, och prioritera inom gruppen. 
